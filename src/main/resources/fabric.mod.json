@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "ferret",
+  "version": "${version}",
+
+  "name": "Ferret",
+  "description": "",
+  "authors": [
+    "cattyn"
+  ],
+
+  "entrypoints": {
+    "main": [
+      "wtf.cattyn.ferret.core.FabricEntryPoint"
+    ]
+  },
+  "mixins": [
+    "modid.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.18.x",
+    "java": ">=17"
+  }
+}
