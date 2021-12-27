@@ -18,10 +18,10 @@ public class Ferret {
     private CommandManager commands;
 
     public Ferret() {
-        init();
+
     }
 
-    private void init() {
+    public void init() {
         commands = new CommandManager().load();
         (moduleManager = new ModuleManager()).load();
         configManager = new ConfigManager();

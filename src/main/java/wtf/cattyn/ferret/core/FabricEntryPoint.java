@@ -7,6 +7,6 @@ import org.apache.logging.log4j.Logger;
 public class FabricEntryPoint implements ModInitializer {
 
 	@Override public void onInitialize() {
-		Ferret.getDefault();
+		Ferret.getDefault().init();
 	}
 }
