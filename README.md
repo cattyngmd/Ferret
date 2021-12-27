@@ -1,2 +1,2 @@
-# Ferret
-ferret
+# Ferret mod
+credits: Cattyn (main dev), Vaimok (emotional support) 
