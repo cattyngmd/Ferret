@@ -1,6 +1,8 @@
 package wtf.cattyn.ferret.api.manager;
 
-public interface Manager<T> {
+import wtf.cattyn.ferret.common.Globals;
+
+public interface Manager<T> extends Globals {
 
     T load();
 

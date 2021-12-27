@@ -22,4 +22,8 @@ public final class ModuleManager extends ArrayList<Module> implements Manager<Mo
         return this;
     }
 
+    public Module get(String name) {
+        return stream().filter(m -> m.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
+    }
+
 }

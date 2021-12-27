@@ -3,6 +3,7 @@ package wtf.cattyn.ferret.core;
 import com.google.common.eventbus.EventBus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import wtf.cattyn.ferret.api.manager.impl.CommandManager;
 import wtf.cattyn.ferret.api.manager.impl.ConfigManager;
 import wtf.cattyn.ferret.api.manager.impl.ModuleManager;
 
@@ -14,15 +15,18 @@ public class Ferret {
 
     private ModuleManager moduleManager;
     private ConfigManager configManager;
+    private CommandManager commands;
 
     public Ferret() {
         init();
     }
 
     private void init() {
+        commands = new CommandManager().load();
         (moduleManager = new ModuleManager()).load();
         configManager = new ConfigManager();
         configManager.load();
+        EVENT_BUS.register(new EventHandler());
     }
 
     public static Ferret getDefault() {

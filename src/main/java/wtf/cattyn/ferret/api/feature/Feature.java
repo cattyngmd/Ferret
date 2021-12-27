@@ -38,7 +38,7 @@ public class Feature implements Nameable, Globals {
     }
 
     @Override public String toString() {
-        return "SimpleFeature[" +
+        return "Feature[" +
                 "name=" + name + ", " +
                 "desc=" + desc + ']';
     }
