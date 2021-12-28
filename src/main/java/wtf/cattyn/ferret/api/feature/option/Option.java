@@ -1,5 +1,6 @@
 package wtf.cattyn.ferret.api.feature.option;
 
+import com.google.gson.JsonObject;
 import wtf.cattyn.ferret.api.feature.Feature;
 import wtf.cattyn.ferret.common.impl.trait.Json;
 
@@ -52,6 +53,10 @@ public abstract class Option<T> extends Feature.SerializableFeature implements J
     public static List<Option<?>> getForTarget(Feature target) {
         return getOptions().stream().filter(o -> o.getFeature().equals(target)).collect(Collectors.toList());
     }
+
+    @Deprecated @Override abstract public JsonObject toJson();
+
+    @Deprecated @Override abstract public Option<T> fromJson(JsonObject object);
 
     protected abstract static class OptionBuilder<B, T, O> {
         protected String name = null, description = "";

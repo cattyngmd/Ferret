@@ -49,7 +49,7 @@ public class Module extends Feature implements Toggleable, Json<Module> {
     public void onDisable() { }
     public void onToggle() { }
 
-    @Override public JsonObject toJson() {
+    @Deprecated @Override public JsonObject toJson() {
         JsonObject object = JsonParser.parseString(gson.toJson(this)).getAsJsonObject();
         JsonObject options = new JsonObject();
         Option.getForTarget(this).forEach(o -> options.add(o.getName(), o.toJson()));
@@ -57,7 +57,7 @@ public class Module extends Feature implements Toggleable, Json<Module> {
         return object;
     }
 
-    @Override public Module fromJson(JsonObject object) {
+    @Deprecated @Override public Module fromJson(JsonObject object) {
         setToggled(object.get("toggled").getAsBoolean());
         Option.getForTarget(this).forEach(o -> {
             o.fromJson(object.get("options").getAsJsonObject().get(o.getName()).getAsJsonObject());
