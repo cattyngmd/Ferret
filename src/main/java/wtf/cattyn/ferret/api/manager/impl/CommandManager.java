@@ -6,9 +6,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientCommandSource;
 import net.minecraft.command.CommandSource;
 import wtf.cattyn.ferret.api.feature.command.Command;
-import wtf.cattyn.ferret.api.feature.command.args.ModuleArgumentType;
 import wtf.cattyn.ferret.api.manager.Manager;
-import wtf.cattyn.ferret.core.Ferret;
+import wtf.cattyn.ferret.impl.features.commands.LuaCommand;
 import wtf.cattyn.ferret.impl.features.commands.ModuleCommand;
 import wtf.cattyn.ferret.impl.features.commands.ToggleCommand;
 
@@ -25,7 +24,8 @@ public final class CommandManager extends ArrayList<Command> implements Manager<
     @Override public CommandManager load() {
         addAll(List.of(
                 new ToggleCommand(),
-                new ModuleCommand()
+                new ModuleCommand(),
+                new LuaCommand()
         ));
         return this;
     }
