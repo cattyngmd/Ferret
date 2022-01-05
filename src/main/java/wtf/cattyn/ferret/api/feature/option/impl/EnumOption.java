@@ -17,6 +17,12 @@ public class EnumOption extends Option<Enum> {
         this.value = value;
     }
 
+    @Override public void setStringValue(String value) {
+        for (Enum e : this.value.getClass().getEnumConstants()) {
+            if(e.name().equalsIgnoreCase(value)) this.value = e;
+        }
+    }
+
     @Override public Enum getValue() {
         return value;
     }

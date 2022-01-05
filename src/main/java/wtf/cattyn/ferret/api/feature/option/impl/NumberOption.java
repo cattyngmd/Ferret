@@ -21,6 +21,10 @@ public class NumberOption extends Option<Number> {
         this.value = value;
     }
 
+    @Override public void setStringValue(String value) {
+        setValue(Double.parseDouble(value));
+    }
+
     @Override public Number getValue() {
         return value;
     }
@@ -54,9 +58,10 @@ public class NumberOption extends Option<Number> {
             super(value);
         }
 
-        public void setBounds(double min, double max) {
+        public Builder setBounds(double min, double max) {
             this.max = max;
             this.min = min;
+            return this;
         }
 
         @Override public NumberOption build(Feature feature) {

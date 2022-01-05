@@ -1,14 +1,18 @@
 package wtf.cattyn.ferret.api.feature.command;
 
 import com.mojang.brigadier.arguments.ArgumentType;
+import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.command.CommandSource;
 import wtf.cattyn.ferret.api.feature.Feature;
 import wtf.cattyn.ferret.common.Globals;
 
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.concurrent.CompletableFuture;
 
 public abstract class Command extends Feature implements Globals {
 
@@ -28,6 +32,17 @@ public abstract class Command extends Feature implements Globals {
 
     protected static <T> RequiredArgumentBuilder<CommandSource, T> argument(final String name, final ArgumentType<T> type) {
         return RequiredArgumentBuilder.argument(name, type);
+    }
+
+    protected static LiteralArgumentBuilder<CommandSource> literal(final String name) {
+        return LiteralArgumentBuilder.literal(name);
+    }
+
+    private static CompletableFuture<Suggestions> suggest(SuggestionsBuilder suggestionsBuilder, String[] suggestions) {
+        for(String s : suggestions) {
+            suggestionsBuilder.suggest(s);
+        }
+        return suggestionsBuilder.buildFuture();
     }
 
 }

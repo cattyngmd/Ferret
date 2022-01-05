@@ -17,6 +17,10 @@ public class BooleanOption extends Option<Boolean> {
         this.value = value;
     }
 
+    @Override public void setStringValue(String value) {
+        this.value = Boolean.parseBoolean(value);
+    }
+
     @Override public Boolean getValue() {
         return value;
     }

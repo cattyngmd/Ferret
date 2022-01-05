@@ -26,6 +26,8 @@ public abstract class Option<T> extends Feature.SerializableFeature implements J
 
     public abstract void setValue(T value);
 
+    public abstract void setStringValue(String value);
+
     public Predicate<T> getVisibility() {
         return visibility;
     }
