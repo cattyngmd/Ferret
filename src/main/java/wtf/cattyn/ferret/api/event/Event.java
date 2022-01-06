@@ -1,6 +1,8 @@
 package wtf.cattyn.ferret.api.event;
 
-public class Event {
+import wtf.cattyn.ferret.common.impl.trait.Nameable;
+
+public abstract class Event implements Nameable {
 
     public boolean cancelled;
 
@@ -14,6 +16,10 @@ public class Event {
 
     public void cancel() {
         cancelled = true;
+    }
+
+    @Override public String toString() {
+        return getName();
     }
 
 }

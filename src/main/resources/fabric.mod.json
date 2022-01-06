@@ -15,7 +15,7 @@
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "ferret.mixins.json"
   ],
 
   "depends": {

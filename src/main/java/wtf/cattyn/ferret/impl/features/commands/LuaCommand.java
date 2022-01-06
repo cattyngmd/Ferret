@@ -1,18 +1,24 @@
 package wtf.cattyn.ferret.impl.features.commands;
 
+import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.command.CommandSource;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.lib.jse.JsePlatform;
 import wtf.cattyn.ferret.api.feature.command.Command;
+import wtf.cattyn.ferret.api.feature.command.args.ScriptArgumentType;
+import wtf.cattyn.ferret.api.feature.script.Script;
 import wtf.cattyn.ferret.common.impl.util.ChatUtil;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.File;
+import java.util.concurrent.CompletableFuture;
 
 public class LuaCommand extends Command {
 
@@ -30,20 +36,20 @@ public class LuaCommand extends Command {
                             return 1;
                         })
         ).then(
-                literal("file")
+                literal("load")
                         .then(
                                 argument("filepath", StringArgumentType.greedyString())
                                         .executes(context -> {
-                                            ScriptEngineManager factory = new ScriptEngineManager();
-                                            ScriptEngine engine = factory.getEngineByName("lua");
-                                            try {
-                                                String lua = Files.readString(Path.of(StringArgumentType.getString(context, "filepath")));
-                                                engine.eval(lua);
-                                                engine.put("mc", MinecraftClient.getInstance());
-                                                ChatUtil.sendMessage(engine.eval("return main()").toString());
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
+                                            File file = new File(StringArgumentType.getString(context, "filepath"));
+                                            System.out.println(file.getName());
+                                            for(Script script : ferret().getScripts()) {
+                                                if (script.getName().equalsIgnoreCase(file.getName())) {
+                                                    script.invoke("command");
+                                                    return 1;
+                                                }
                                             }
+                                            ferret().getScripts().add(new Script(file.getName(), "", file.toPath()));
+
                                             return 1;
                                         })
                         )
@@ -61,13 +67,51 @@ public class LuaCommand extends Command {
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                             }
-//                                            LuaValue luaValue = globals.load(StringArgumentType.getString(context, "script")).call();
-//
-//                                            System.out.println(luaValue.get("main").invoke().toString());
-
                                             return 1;
                                         })
                         )
-        ).executes(context -> 0);
+        ).then(
+                    literal("get")
+                            .then(
+                                    argument("script", ScriptArgumentType.script())
+                                            .then(
+                                                    literal("statement")
+                                                            .then(
+                                                                    argument("state", BoolArgumentType.bool())
+                                                                        .executes(context -> {
+                                                                            Script script = ScriptArgumentType.getScript(context, "script");
+                                                                            script.setToggled(BoolArgumentType.getBool(context, "state"));
+                                                                            if(script.isToggled()) {
+                                                                                ChatUtil.sendMessage(script.getName() + " enabled");
+                                                                            } else {
+                                                                                ChatUtil.sendMessage(script.getName() + " disabled");
+                                                                            }
+                                                                            return 1;
+                                                                        })
+                                                            )
+                                            ).then(
+                                                    literal("action")
+                                                            .then(
+                                                                    argument("action",  StringArgumentType.string()).suggests(this::actions)
+                                                                            .executes(context -> {
+                                                                                Script script = ScriptArgumentType.getScript(context, "script");
+                                                                                switch (StringArgumentType.getString(context, "action")) {
+                                                                                    case "unload" -> script.unload(true);
+                                                                                    case "reload" -> script.reload();
+                                                                                }
+                                                                                return 1;
+                                                                            })
+                                                            )
+                                            )
+                            )
+                )
+                .executes(context -> 0);
     }
+
+    private CompletableFuture<Suggestions> actions(CommandContext context, SuggestionsBuilder builder) {
+        builder.suggest("unload");
+        builder.suggest("reload");
+        return builder.buildFuture();
+    }
+
 }

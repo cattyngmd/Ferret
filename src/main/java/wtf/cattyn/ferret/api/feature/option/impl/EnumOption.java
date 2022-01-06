@@ -2,6 +2,8 @@ package wtf.cattyn.ferret.api.feature.option.impl;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.lib.OneArgFunction;
 import wtf.cattyn.ferret.api.feature.Feature;
 import wtf.cattyn.ferret.api.feature.option.Option;
 
@@ -78,5 +80,15 @@ public class EnumOption extends Option<Enum> {
         }
 
     }
+
+    //TODO make luabuilder for enums (hard for me)
+//    public static final class LuaBuilder extends OneArgFunction {
+//
+//
+//        @Override public LuaValue call(LuaValue arg) {
+//            return userdataOf(new BooleanOption.Builder());
+//        }
+//
+//    }
 
 }

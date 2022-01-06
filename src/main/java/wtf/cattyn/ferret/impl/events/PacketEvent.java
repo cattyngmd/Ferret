@@ -15,6 +15,10 @@ public class PacketEvent extends Event {
         return packet;
     }
 
+    @Override public String getName() {
+        return getClass().getSimpleName();
+    }
+
     public static class Receive extends PacketEvent {
         public Receive(Packet<?> packet) {
             super(packet);

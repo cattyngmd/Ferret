@@ -7,8 +7,13 @@ import wtf.cattyn.ferret.api.feature.command.Command;
 import wtf.cattyn.ferret.api.manager.impl.CommandManager;
 import wtf.cattyn.ferret.common.Globals;
 import wtf.cattyn.ferret.impl.events.PacketEvent;
+import wtf.cattyn.ferret.impl.events.TickEvent;
 
 public final class EventHandler implements Globals {
+
+    @Subscribe public void onTick(TickEvent event) {
+        ferret().getScripts().runCallback("tick");
+    }
 
     @Subscribe public void onPacketSend(PacketEvent.Send event) {
         if(event.getPacket() instanceof ChatMessageC2SPacket) {
