@@ -18,6 +18,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
+//TODO add script support
 public class OptionArgumentType implements ArgumentType<String>, Globals {
 
     public static OptionArgumentType option() {

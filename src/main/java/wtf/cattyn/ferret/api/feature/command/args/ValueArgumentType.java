@@ -17,6 +17,7 @@ import wtf.cattyn.ferret.common.Globals;
 
 import java.util.concurrent.CompletableFuture;
 
+//TODO add script support
 public class ValueArgumentType implements ArgumentType<String>, Globals {
 
     private final String optionArg;
