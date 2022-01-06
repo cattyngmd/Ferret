@@ -7,10 +7,7 @@ import net.minecraft.client.network.ClientCommandSource;
 import net.minecraft.command.CommandSource;
 import wtf.cattyn.ferret.api.feature.command.Command;
 import wtf.cattyn.ferret.api.manager.Manager;
-import wtf.cattyn.ferret.impl.features.commands.ListCommand;
-import wtf.cattyn.ferret.impl.features.commands.LuaCommand;
-import wtf.cattyn.ferret.impl.features.commands.ModuleCommand;
-import wtf.cattyn.ferret.impl.features.commands.ToggleCommand;
+import wtf.cattyn.ferret.impl.features.commands.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,7 +24,8 @@ public final class CommandManager extends ArrayList<Command> implements Manager<
                 new ToggleCommand(),
                 new ModuleCommand(),
                 new LuaCommand(),
-                new ListCommand()
+                new ListCommand(),
+                new SetPrefixCommand()
         ));
         return this;
     }

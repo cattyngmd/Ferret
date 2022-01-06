@@ -9,9 +9,9 @@ import wtf.cattyn.ferret.core.Ferret;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public final class ConfigManager extends Thread implements Manager<ConfigManager>, Globals {
 
@@ -27,6 +27,7 @@ public final class ConfigManager extends Thread implements Manager<ConfigManager
         }
         JsonObject json = JsonParser.parseString(raw).getAsJsonObject();
         loadModules(json.get("modules").getAsJsonObject());
+        loadPrefix();
         return this;
     }
 
@@ -38,6 +39,7 @@ public final class ConfigManager extends Thread implements Manager<ConfigManager
     @Override public void run() {
         if (!MAIN_FOLDER.exists() && !MAIN_FOLDER.mkdirs()) System.out.println("Failed to create config folder");
         saveModules();
+        savePrefix();
     }
 
     void loadModules(JsonObject json) {
@@ -52,6 +54,24 @@ public final class ConfigManager extends Thread implements Manager<ConfigManager
         }
     }
 
+    void loadPrefix() {
+        Path path = Paths.get(MAIN_FOLDER.getPath()).resolve("prefix.txt");
+
+        if (path.toFile().exists()) {
+            try {
+                CommandManager.setPrefix(Files.readString(path));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                Files.write(Path.of(MAIN_FOLDER.getAbsolutePath(), "prefix.txt"), CommandManager.getPrefix().getBytes());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     void saveModules() {
         JsonObject object = new JsonObject();
         JsonObject modules = new JsonObject();
@@ -61,6 +81,14 @@ public final class ConfigManager extends Thread implements Manager<ConfigManager
         object.add("modules", modules);
         try {
             Files.write(Path.of(MAIN_FOLDER.getAbsolutePath(), "config.json"), gson.toJson(object).getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    void savePrefix() {
+        try {
+            Files.write(Path.of(MAIN_FOLDER.getAbsolutePath(), "prefix.txt"), CommandManager.getPrefix().getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
