@@ -1,2 +1,2 @@
 # Ferret mod
-credits: Cattyn (main dev), Vaimok (emotional support) 
+credits: Cattyn (main dev), Vaimok (emotional support), ZimnyCat (cool)
