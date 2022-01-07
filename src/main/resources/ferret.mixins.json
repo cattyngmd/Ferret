@@ -10,7 +10,8 @@
     "MixinClientPlayerEntity",
     "MixinClientConnection",
     "MixinCommandSuggestor",
-    "MixinInGameHud"
+    "MixinInGameHud",
+    "MixinKeyboard"
   ],
   "injectors": {
     "defaultRequire": 1

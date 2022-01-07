@@ -25,7 +25,8 @@ public final class CommandManager extends ArrayList<Command> implements Manager<
                 new ModuleCommand(),
                 new LuaCommand(),
                 new ListCommand(),
-                new SetPrefixCommand()
+                new SetPrefixCommand(),
+                new BindCommand()
         ));
         return this;
     }
