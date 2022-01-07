@@ -13,7 +13,7 @@ public class Module extends Feature implements Toggleable, Json<Module> {
 
     @Expose private boolean toggled;
     private transient final Category category;
-    @Expose private static int key = -1481058891;
+    @Expose private int key = -1481058891;
 
     public Module(String name, Category category) {
         this(name, "No Description provided!", category);
@@ -33,7 +33,7 @@ public class Module extends Feature implements Toggleable, Json<Module> {
     }
 
     public void setKey(int key) {
-        Module.key = key;
+        this.key = key;
     }
 
     @Override public boolean isToggled() {
