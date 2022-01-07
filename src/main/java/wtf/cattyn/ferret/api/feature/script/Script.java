@@ -1,18 +1,16 @@
 package wtf.cattyn.ferret.api.feature.script;
 
-import net.minecraft.client.MinecraftClient;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.annotations.Expose;
 import org.luaj.vm2.LuaFunction;
 import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.ast.Str;
 import wtf.cattyn.ferret.api.feature.Feature;
 import wtf.cattyn.ferret.api.feature.option.Option;
-import wtf.cattyn.ferret.api.feature.option.impl.BooleanOption;
-import wtf.cattyn.ferret.api.feature.option.impl.NumberOption;
 import wtf.cattyn.ferret.api.feature.script.lua.LuaApi;
 import wtf.cattyn.ferret.api.feature.script.lua.LuaCallback;
-import wtf.cattyn.ferret.api.feature.script.lua.functions.ColorFunction;
-import wtf.cattyn.ferret.api.feature.script.lua.functions.TextOfFunction;
-import wtf.cattyn.ferret.api.feature.script.lua.functions.Vec2dFunction;
-import wtf.cattyn.ferret.api.feature.script.lua.functions.Vec3dFunction;
+import wtf.cattyn.ferret.common.impl.trait.Json;
 import wtf.cattyn.ferret.common.impl.trait.Toggleable;
 import wtf.cattyn.ferret.common.impl.util.ChatUtil;
 
@@ -30,22 +28,27 @@ import java.util.List;
  * @since 06/1/22
  */
 
-public class Script extends Feature implements Toggleable {
+public class Script extends Feature implements Toggleable, Json<Script> {
 
-    private boolean active = true;
-    private final Path path;
-    private String script;
-    private final List<LuaCallback> callbacks = new ArrayList<>();
+    @Expose private boolean active = true;
+    @Expose private final Path path;
+    private transient String script;
+    private transient final List<LuaCallback> callbacks = new ArrayList<>();
 
     public Script(String name, String desc, Path path) {
         super(name, desc);
         this.path = path;
         try {
+            System.out.println("ты чо охуел пей из лужи как все");
             this.script = new String(Files.readAllBytes(path));
             load();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public Script(Path path) {
+        this(path.toFile().getName(), "", path);
     }
 
     public void load() {
@@ -63,7 +66,7 @@ public class Script extends Feature implements Toggleable {
     }
 
     public void unload(boolean remove) {
-        if(remove) ferret().getScripts().remove(this);
+        if (remove) ferret().getScripts().remove(this);
         Option.getForTarget(this).clear();
         callbacks.clear();
     }
@@ -85,6 +88,7 @@ public class Script extends Feature implements Toggleable {
     }
 
     public void invoke(String name, LuaValue arg) {
+        if(callbacks == null) return;
         callbacks.stream().filter(c -> c.name().equalsIgnoreCase(name)).forEach(c -> c.callback().call(arg));
     }
 
@@ -106,6 +110,18 @@ public class Script extends Feature implements Toggleable {
 
     @Override public void disable() {
         active = false;
+    }
+
+    @Override public JsonObject toJson() {
+        JsonObject object = JsonParser.parseString(gson.toJson(this)).getAsJsonObject();
+        JsonObject options = new JsonObject();
+        Option.getForTarget(this).forEach(o -> options.add(o.getName(), o.toJson()));
+        object.add("options", options);
+        return object;
+    }
+
+    @Override public Script fromJson(JsonObject object) {
+        return this;
     }
 
 }

@@ -1,6 +1,8 @@
 package wtf.cattyn.ferret.impl.events.render;
 
 import net.minecraft.client.util.math.MatrixStack;
+import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import wtf.cattyn.ferret.api.event.Event;
 
 public class Render2DEvent extends Event {
@@ -16,7 +18,7 @@ public class Render2DEvent extends Event {
     }
 
     @Override public String getName() {
-        return getClass().getSimpleName();
+        return "render_2d";
     }
 
 }

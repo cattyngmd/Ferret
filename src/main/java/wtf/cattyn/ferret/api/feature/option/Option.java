@@ -56,11 +56,12 @@ public abstract class Option<T> extends Feature.SerializableFeature implements J
         return getOptions().stream().filter(o -> o.getFeature().equals(target)).collect(Collectors.toList());
     }
 
-    @Deprecated @Override abstract public JsonObject toJson();
+    @Override abstract public JsonObject toJson();
 
-    @Deprecated @Override abstract public Option<T> fromJson(JsonObject object);
+    @Override abstract public Option<T> fromJson(JsonObject object);
 
     protected abstract static class OptionBuilder<B, T, O> {
+
         protected String name = null, description = "";
         protected T value;
         protected Predicate<T> visibility;
@@ -75,25 +76,26 @@ public abstract class Option<T> extends Feature.SerializableFeature implements J
 
         public B name(String name) {
             this.name = name;
-            return (B) this;
+            return ( B ) this;
         }
 
         public B description(String description) {
             this.description = description;
-            return (B) this;
+            return ( B ) this;
         }
 
         public B value(T value) {
             this.value = value;
-            return (B) this;
+            return ( B ) this;
         }
 
         public B visible(Predicate<T> visibility) {
             this.visibility = visibility;
-            return (B) this;
+            return ( B ) this;
         }
 
         public abstract O build(Feature feature);
+
     }
 
 }

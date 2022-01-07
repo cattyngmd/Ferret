@@ -13,7 +13,7 @@ public class Module extends Feature implements Toggleable, Json<Module> {
 
     @Expose private boolean toggled;
     private transient final Category category;
-    private static int key = -1481058891;
+    @Expose private static int key = -1481058891;
 
     public Module(String name, Category category) {
         this(name, "No Description provided!", category);
@@ -55,23 +55,24 @@ public class Module extends Feature implements Toggleable, Json<Module> {
     }
 
     public void onEnable() { }
+
     public void onDisable() { }
+
     public void onToggle() { }
 
-    @Deprecated @Override public JsonObject toJson() {
+    @Override public JsonObject toJson() {
         JsonObject object = JsonParser.parseString(gson.toJson(this)).getAsJsonObject();
         JsonObject options = new JsonObject();
         Option.getForTarget(this).forEach(o -> options.add(o.getName(), o.toJson()));
-        options.addProperty("key", String.valueOf(getKey()));
         object.add("options", options);
         return object;
     }
 
-    @Deprecated @Override public Module fromJson(JsonObject object) {
+    @Override public Module fromJson(JsonObject object) {
         setToggled(object.get("toggled").getAsBoolean());
+        setKey(object.get("key").getAsInt());
         Option.getForTarget(this).forEach(o -> {
             o.fromJson(object.get("options").getAsJsonObject().get(o.getName()).getAsJsonObject());
-            setKey(object.get("options").getAsJsonObject().get("key").getAsInt());
         });
         return this;
     }

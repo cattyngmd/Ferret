@@ -8,8 +8,8 @@ import java.util.Objects;
 
 public class Feature implements Nameable, Globals {
 
-    private transient final String name;
-    private transient final String desc;
+    private final String name;
+    private final String desc;
 
     public Feature(String name, String desc) {
         this.name = name;

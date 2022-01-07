@@ -48,7 +48,7 @@ public class LuaCommand extends Command {
                                                     return 1;
                                                 }
                                             }
-                                            ferret().getScripts().add(new Script(file.getName(), "", file.toPath()));
+                                            ferret().getScripts().add(new Script(file.toPath()));
 
                                             return 1;
                                         })
