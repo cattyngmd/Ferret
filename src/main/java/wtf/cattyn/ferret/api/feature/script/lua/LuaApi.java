@@ -20,6 +20,7 @@ import javax.script.ScriptEngine;
 public class LuaApi implements Globals {
 
     private static final String VERSION = "0.1";
+    public static boolean strict = false;
 
     public static void modifyEngine(ScriptEngine engine, Script script) {
         engine.put("mc", MinecraftClient.getInstance());
@@ -35,4 +36,7 @@ public class LuaApi implements Globals {
         engine.put("BooleanBuilder", new BooleanOption.LuaBuilder());
         engine.put("NumberBuilder", new NumberOption.LuaBuilder());
     }
+
+
+
 }
