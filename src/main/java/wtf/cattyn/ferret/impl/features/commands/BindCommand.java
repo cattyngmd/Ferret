@@ -14,7 +14,6 @@ public class BindCommand extends Command {
         super("bind", "", "bd");
     }
 
-    public static boolean set = false;
     public static Module module;
 
     @Override
@@ -24,7 +23,6 @@ public class BindCommand extends Command {
                         .then(
                                 literal("set")
                                         .executes(context -> {
-                                            set = true;
                                             module = ModuleArgumentType.getModule(context, "module");
                                             ChatUtil.sendMessage("Press a key");
                                             return 1;
