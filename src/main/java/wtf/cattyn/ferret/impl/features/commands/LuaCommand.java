@@ -38,17 +38,16 @@ public class LuaCommand extends Command {
         ).then(
                 literal("load")
                         .then(
-                                argument("filepath", StringArgumentType.greedyString())
+                                argument("name", StringArgumentType.greedyString())
                                         .executes(context -> {
-                                            File file = new File(StringArgumentType.getString(context, "filepath"));
-                                            System.out.println(file.getName());
+                                            String name = StringArgumentType.getString(context, "name");
                                             for(Script script : ferret().getScripts()) {
-                                                if (script.getName().equalsIgnoreCase(file.getName())) {
+                                                if (script.getName().equalsIgnoreCase(name)) {
                                                     script.invoke("command");
                                                     return 1;
                                                 }
                                             }
-                                            ferret().getScripts().add(new Script(file.toPath()));
+                                            ferret().getScripts().add(new Script(name, ""));
 
                                             return 1;
                                         })

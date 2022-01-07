@@ -1,6 +1,5 @@
 package wtf.cattyn.ferret.core;
 
-import com.google.common.eventbus.EventBus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import wtf.cattyn.ferret.api.event.FerretEventBus;
@@ -8,13 +7,15 @@ import wtf.cattyn.ferret.api.manager.impl.CommandManager;
 import wtf.cattyn.ferret.api.manager.impl.ConfigManager;
 import wtf.cattyn.ferret.api.manager.impl.ModuleManager;
 import wtf.cattyn.ferret.api.manager.impl.ScriptManager;
+import wtf.cattyn.ferret.common.impl.util.thread.FileWatcher;
 
 public class Ferret {
 
     private static Ferret INSTANCE;
     public static final Logger LOGGER = LogManager.getLogger("Ferret");
-    public static final FerretEventBus EVENT_BUS= new FerretEventBus();
+    public static final FerretEventBus EVENT_BUS = new FerretEventBus();
 
+    private FileWatcher fileWatcher;
     private ModuleManager moduleManager;
     private ConfigManager configManager;
     private CommandManager commands;
@@ -27,6 +28,8 @@ public class Ferret {
     public void init() {
         commands = new CommandManager().load();
         moduleManager = new ModuleManager().load();
+        fileWatcher = new FileWatcher();
+        fileWatcher.start();
         scripts = new ScriptManager().load();
         configManager = new ConfigManager();
         configManager.load();
@@ -48,6 +51,10 @@ public class Ferret {
 
     public ScriptManager getScripts() {
         return scripts;
+    }
+
+    public FileWatcher getFileWatcher() {
+        return fileWatcher;
     }
 
 }

@@ -21,6 +21,7 @@ public class MixinInGameHud {
 
     @Inject(method = "render", at = @At("RETURN"))
     public void render(MatrixStack matrixStack, float float_1, CallbackInfo ci) {
+        if(MinecraftClient.getInstance().options.debugEnabled) return;
         RenderSystem.setShaderColor(1, 1, 1, 1);
 
         RenderSystem.disableDepthTest();

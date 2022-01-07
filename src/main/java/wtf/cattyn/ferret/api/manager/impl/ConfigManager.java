@@ -17,8 +17,8 @@ import java.nio.file.Paths;
 
 public final class ConfigManager extends Thread implements Manager<ConfigManager>, Globals {
 
-    private static final File MAIN_FOLDER = new File("ferret");
-    private static final File SCRIPT_FOLDER = new File("ferret/scripts");
+    public static final File MAIN_FOLDER = new File("ferret");
+    public static final File SCRIPT_FOLDER = new File("ferret/scripts");
 
     @Override public ConfigManager load() {
         String raw;
@@ -106,7 +106,8 @@ public final class ConfigManager extends Thread implements Manager<ConfigManager
                     try {
                         String raw = new String(Files.readAllBytes(f));
                         JsonObject object = JsonParser.parseString(raw).getAsJsonObject();
-                        Script script = new Script(Path.of(object.get("path").getAsString()));
+                        String name = f.toFile().getName();
+                        Script script = new Script(name.substring(0, name.length() - 5), "");
 
                         for(Option option : Option.getForTarget(script)) {
                             option.fromJson(object.get("options").getAsJsonObject().get(option.getName()).getAsJsonObject());

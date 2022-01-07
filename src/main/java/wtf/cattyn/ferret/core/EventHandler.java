@@ -3,11 +3,17 @@ package wtf.cattyn.ferret.core;
 import com.google.common.eventbus.Subscribe;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
+import org.apache.logging.log4j.core.util.FileWatcher;
 import wtf.cattyn.ferret.api.feature.command.Command;
 import wtf.cattyn.ferret.api.manager.impl.CommandManager;
 import wtf.cattyn.ferret.common.Globals;
 import wtf.cattyn.ferret.impl.events.PacketEvent;
 import wtf.cattyn.ferret.impl.events.TickEvent;
+
+import java.io.IOException;
+import java.nio.file.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class EventHandler implements Globals {
 
