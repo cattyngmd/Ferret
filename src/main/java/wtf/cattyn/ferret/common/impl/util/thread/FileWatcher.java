@@ -38,13 +38,16 @@ public class FileWatcher extends Thread {
 
                         if (!map.get(script).equals(hash)) {
                             script.reload();
+                            map.replace(script, hash);
                         }
                     }
-                    Thread.sleep(2000);
-                } catch (Exception ignored) {
 
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
+
+            try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
         }
 
     }

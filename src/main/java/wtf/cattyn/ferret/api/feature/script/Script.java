@@ -68,7 +68,7 @@ public class Script extends Feature implements Toggleable, Json<Script> {
 
     public void reload() {
         try {
-            this.script = new String(Files.readAllBytes(Path.of(ConfigManager.SCRIPT_FOLDER.toString(), getName())));
+            this.script = new String(Files.readAllBytes(path));
             unload(false);
             load();
         } catch (Exception e) {
