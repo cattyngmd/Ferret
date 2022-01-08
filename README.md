@@ -1,2 +1,2 @@
 # Ferret mod
-credits: Cattyn (main dev), Vaimok (emotional support), ZimnyCat (cool) JsopWtf (alaxy)
+credits: Cattyn (main dev), yoursleep (remaking auto updating scripts and being cool), Vaimok (emotional support), ZimnyCat (cool)
