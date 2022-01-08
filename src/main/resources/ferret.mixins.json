@@ -13,7 +13,8 @@
     "MixinInGameHud",
     "MixinKeyboard",
     "MixinRenderTickCounter",
-    "ducks.DuckMinecraft"
+    "ducks.DuckMinecraft",
+    "ducks.DuckGameMessageS2CPacket"
   ],
   "injectors": {
     "defaultRequire": 1

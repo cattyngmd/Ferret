@@ -1,5 +1,6 @@
 package wtf.cattyn.ferret.core;
 
+import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import wtf.cattyn.ferret.api.event.FerretEventBus;
