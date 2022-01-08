@@ -11,6 +11,7 @@ import java.nio.file.Path;
 public interface Globals {
 
     MinecraftClient mc = MinecraftClient.getInstance();
+
     Gson gson = new GsonBuilder()
             .setPrettyPrinting()
             .excludeFieldsWithoutExposeAnnotation()
@@ -19,6 +20,10 @@ public interface Globals {
 
     default Ferret ferret() {
         return Ferret.getDefault();
+    }
+
+    static MinecraftClient mc() {
+        return MinecraftClient.getInstance();
     }
 
 }

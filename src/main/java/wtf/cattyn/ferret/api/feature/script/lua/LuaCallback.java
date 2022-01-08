@@ -1,5 +1,6 @@
 package wtf.cattyn.ferret.api.feature.script.lua;
 
+import net.minecraft.client.MinecraftClient;
 import org.luaj.vm2.LuaFunction;
 import org.luaj.vm2.LuaValue;
 import wtf.cattyn.ferret.api.feature.script.Script;
@@ -17,7 +18,10 @@ public record LuaCallback(String name, LuaFunction callback, Script script) {
             try {
                 callback.call(o);
             } catch (Exception e) {
-                ChatUtil.sendMessage(e.getMessage());
+                if(MinecraftClient.getInstance().world != null)
+                    ChatUtil.sendMessage(e.getMessage());
+                else
+                    System.err.println(e.getMessage());
                 if(!LuaApi.strict) script.setToggled(false);
             }
         }

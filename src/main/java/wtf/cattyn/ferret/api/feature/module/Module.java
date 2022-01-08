@@ -3,6 +3,7 @@ package wtf.cattyn.ferret.api.feature.module;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.annotations.Expose;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Formatting;
 import wtf.cattyn.ferret.api.feature.Feature;
 import wtf.cattyn.ferret.api.feature.option.Option;
@@ -12,7 +13,6 @@ import wtf.cattyn.ferret.common.impl.util.ChatUtil;
 import wtf.cattyn.ferret.core.Ferret;
 
 public class Module extends Feature implements Toggleable, Json<Module> {
-
     @Expose private boolean toggled;
     private transient final Category category;
     @Expose private int key = -1481058891;

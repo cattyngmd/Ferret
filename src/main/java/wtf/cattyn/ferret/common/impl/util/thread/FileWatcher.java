@@ -1,5 +1,6 @@
 package wtf.cattyn.ferret.common.impl.util.thread;
 
+import net.minecraft.client.MinecraftClient;
 import wtf.cattyn.ferret.api.feature.script.Script;
 import wtf.cattyn.ferret.api.manager.impl.ConfigManager;
 import wtf.cattyn.ferret.common.impl.util.StopWatch;

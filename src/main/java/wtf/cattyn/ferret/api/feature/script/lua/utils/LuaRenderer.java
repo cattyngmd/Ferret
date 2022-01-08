@@ -83,6 +83,14 @@ public class LuaRenderer extends DrawableHelper implements Globals {
         RenderSystem.disableBlend();
     }
 
+    public int width(String text) {
+        return mc.textRenderer.getWidth(text);
+    }
+
+    public int width(Text text) {
+        return mc.textRenderer.getWidth(text);
+    }
+
     public static LuaRenderer getDefault() {
         if(instance == null) instance = new LuaRenderer();
         return instance;

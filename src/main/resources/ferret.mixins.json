@@ -11,7 +11,9 @@
     "MixinClientConnection",
     "MixinCommandSuggestor",
     "MixinInGameHud",
-    "MixinKeyboard"
+    "MixinKeyboard",
+    "MixinRenderTickCounter",
+    "ducks.DuckMinecraft"
   ],
   "injectors": {
     "defaultRequire": 1

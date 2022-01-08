@@ -10,6 +10,7 @@ import wtf.cattyn.ferret.api.feature.script.lua.functions.ColorFunction;
 import wtf.cattyn.ferret.api.feature.script.lua.functions.TextOfFunction;
 import wtf.cattyn.ferret.api.feature.script.lua.functions.Vec2dFunction;
 import wtf.cattyn.ferret.api.feature.script.lua.functions.Vec3dFunction;
+import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaGlobals;
 import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaRenderer;
 import wtf.cattyn.ferret.common.Globals;
 import wtf.cattyn.ferret.core.Ferret;
@@ -31,6 +32,7 @@ public class LuaApi implements Globals {
         engine.put("color", new ColorFunction());
         engine.put("client", Ferret.getDefault());
         engine.put("renderer", LuaRenderer.getDefault());
+        engine.put("globals", LuaGlobals.getDefault());
 
         //options
         engine.put("BooleanBuilder", new BooleanOption.LuaBuilder());
