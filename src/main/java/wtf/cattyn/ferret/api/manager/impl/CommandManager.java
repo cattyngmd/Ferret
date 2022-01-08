@@ -26,7 +26,8 @@ public final class CommandManager extends ArrayList<Command> implements Manager<
                 new LuaCommand(),
                 new ListCommand(),
                 new SetPrefixCommand(),
-                new BindCommand()
+                new BindCommand(),
+                new HelpCommand()
         ));
         return this;
     }
@@ -59,6 +60,10 @@ public final class CommandManager extends ArrayList<Command> implements Manager<
         public FerretCommandSource(MinecraftClient client) {
             super(null, client);
         }
+    }
+
+    public Command get(String name) {
+        return stream().filter(cmd -> cmd.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
     }
 
 }

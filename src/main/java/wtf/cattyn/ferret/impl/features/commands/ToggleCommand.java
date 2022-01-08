@@ -13,7 +13,7 @@ import static wtf.cattyn.ferret.api.feature.command.args.ModuleArgumentType.modu
 public class ToggleCommand extends Command {
 
     public ToggleCommand() {
-        super("Toggle", "Toggles module");
+        super("toggle", "Toggles a module");
     }
 
     @Override public void exec(LiteralArgumentBuilder<CommandSource> builder) {

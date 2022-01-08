@@ -25,7 +25,7 @@ public class LuaCommand extends Command {
     Globals globals = JsePlatform.standardGlobals();
 
     public LuaCommand() {
-        super("lua", "executes javascript scripts", "luaj");
+        super("lua", "Executes javascript scripts", "luaj");
     }
 
     @Override public void exec(LiteralArgumentBuilder<CommandSource> builder) {

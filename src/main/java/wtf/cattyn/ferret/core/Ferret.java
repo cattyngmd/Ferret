@@ -18,7 +18,7 @@ public class Ferret {
     private FileWatcher fileWatcher;
     private ModuleManager moduleManager;
     private ConfigManager configManager;
-    private CommandManager commands;
+    private CommandManager commandManager;
     private ScriptManager scripts;
 
     public Ferret() {
@@ -26,7 +26,7 @@ public class Ferret {
     }
 
     public void init() {
-        commands = new CommandManager().load();
+        commandManager = new CommandManager().load();
         moduleManager = new ModuleManager().load();
         fileWatcher = new FileWatcher();
         fileWatcher.start();
@@ -47,6 +47,10 @@ public class Ferret {
 
     public ConfigManager getConfigManager() {
         return configManager;
+    }
+
+    public CommandManager getCommandManager() {
+        return commandManager;
     }
 
     public ScriptManager getScripts() {

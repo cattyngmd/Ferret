@@ -26,7 +26,7 @@ public class ModuleArgumentType implements ArgumentType<Module>, Globals {
     @Override public Module parse(StringReader reader) throws CommandSyntaxException {
         Module module = ferret().getModuleManager().get(reader.readString());
         if(module == null) throw  new DynamicCommandExceptionType(o ->
-                new LiteralText(o + " doesnt exists")).create(reader.readString());
+                new LiteralText(o + " doesnt exist")).create(reader.readString());
         return module;
     }
 

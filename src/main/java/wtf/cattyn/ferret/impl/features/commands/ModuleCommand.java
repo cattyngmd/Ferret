@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class ModuleCommand extends Command {
 
     public ModuleCommand() {
-        super("module", "", "m");
+        super("module", "Manages modules", "m");
     }
 
     @Override public void exec(LiteralArgumentBuilder<CommandSource> builder) {

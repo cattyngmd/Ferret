@@ -11,7 +11,7 @@ import wtf.cattyn.ferret.common.impl.util.ChatUtil;
 public class SetPrefixCommand extends Command {
 
     public SetPrefixCommand() {
-        super("setprefix", "", "setp");
+        super("setprefix", "Sets a command prefix", "setp");
     }
 
     @Override public void exec(LiteralArgumentBuilder<CommandSource> builder) {

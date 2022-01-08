@@ -11,7 +11,7 @@ import java.util.List;
 public class ListCommand extends Command {
 
     public ListCommand() {
-        super("list", "", "l");
+        super("list", "Sends enabled and disabled modules", "l");
     }
 
     @Override public void exec(LiteralArgumentBuilder<CommandSource> builder) {

@@ -11,7 +11,7 @@ import wtf.cattyn.ferret.common.impl.util.ChatUtil;
 public class BindCommand extends Command {
 
     public BindCommand() {
-        super("bind", "", "bd");
+        super("bind", "Manages binds", "bd");
     }
 
     public static Module module;
