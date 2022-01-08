@@ -1,70 +1,50 @@
 package wtf.cattyn.ferret.common.impl.util.thread;
 
-import net.minecraft.client.MinecraftClient;
+import com.google.common.hash.Hashing;
 import wtf.cattyn.ferret.api.feature.script.Script;
-import wtf.cattyn.ferret.api.manager.impl.ConfigManager;
-import wtf.cattyn.ferret.common.impl.util.StopWatch;
 import wtf.cattyn.ferret.core.Ferret;
 
 import java.io.IOException;
-import java.nio.file.*;
-import java.util.concurrent.TimeUnit;
+import java.nio.file.Files;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
-import static java.nio.file.StandardWatchEventKinds.*;
+/**
+ * @author YourSleep, Cattyn
+ */
 
 public class FileWatcher extends Thread {
 
-    StopWatch lastReload = new StopWatch();
+    Map<Script, String> map = new HashMap<>();
 
     public FileWatcher() {
     }
 
     @Override public void run() {
         super.run();
-        try {
-            WatchService watcher = FileSystems.getDefault().newWatchService();
-            Path dir = ConfigManager.SCRIPT_FOLDER.toPath();
-            dir.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
-
-            while (true) {
-                WatchKey key;
+        while (!interrupted()) {
+            for (Script script : Ferret.getDefault().getScripts()) {
                 try {
-                    key = watcher.take();
-                } catch (InterruptedException ex) {
-                    return;
-                }
-
-                for (WatchEvent<?> event : key.pollEvents()) {
-                    WatchEvent.Kind<?> kind = event.kind();
-                    Path path = ( Path ) event.context();
-
-                    if (kind == ENTRY_MODIFY) {
-
-                        String name = path.toFile().getName();
-
-                        for (Script script : Ferret.getDefault().getScripts()) {
-
-                            if(script.getName().equalsIgnoreCase(name) && lastReload.passed(0.1, TimeUnit.SECONDS)) {
-                                System.out.println("reload");
-                                script.reload();
-                                lastReload.reset();
-                            }
-
+                    String hash = Base64.getEncoder().encodeToString(Hashing.sha256().hashBytes(Files.readAllBytes(script.getPath())).asBytes());
+                    if (!map.containsKey(script)) {
+                        map.put(script, hash);
+                    } else {
+                        // this shouldn't happen, but just for safeness...
+                        if (!map.containsKey(script)) {
+                            map.put(script, hash);
+                            continue;
                         }
 
+                        if (!map.get(script).equals(hash)) {
+                            script.reload();
+                        }
                     }
+                    Thread.sleep(2000);
+                } catch (Exception ignored) {
 
                 }
-
-                boolean valid = key.reset();
-                if (!valid) {
-                    break;
-                }
-
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
     }

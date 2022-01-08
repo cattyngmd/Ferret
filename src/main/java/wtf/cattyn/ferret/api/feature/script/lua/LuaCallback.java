@@ -8,7 +8,7 @@ import wtf.cattyn.ferret.common.impl.util.ChatUtil;
 
 /**
  * @param name callbacks names
- *                        tick, command, hud
+ *                        tick, hud, events
  */
 
 public record LuaCallback(String name, LuaFunction callback, Script script) {

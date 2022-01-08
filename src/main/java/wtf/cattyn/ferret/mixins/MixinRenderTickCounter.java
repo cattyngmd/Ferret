@@ -16,7 +16,6 @@ public class MixinRenderTickCounter {
 
     @Inject(method = "beginRenderTick", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/RenderTickCounter;prevTimeMillis:J"))
     public void beginRenderTick(long timeMillis, CallbackInfoReturnable<Integer> cir) {
-
         if (Ferret.getDefault().getTickManager() != null) {
             this.lastFrameDuration *= Ferret.getDefault().getTickManager().getMultiplier();
         }

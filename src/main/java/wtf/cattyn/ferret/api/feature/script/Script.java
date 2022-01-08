@@ -32,12 +32,14 @@ public class Script extends Feature implements Toggleable, Json<Script> {
 
     @Expose private boolean active = true;
     private transient String script;
+    private Path path;
     private transient final List<LuaCallback> callbacks = new ArrayList<>();
 
     public Script(String name, String desc) {
         super(name, desc);
         try {
-            this.script = new String(Files.readAllBytes(Path.of(ConfigManager.SCRIPT_FOLDER.toString(), name)));
+            this.path = Path.of(ConfigManager.SCRIPT_FOLDER.toString(), name);
+            this.script = new String(Files.readAllBytes(path));
             load();
         } catch (IOException e) {
             e.printStackTrace();
@@ -91,6 +93,10 @@ public class Script extends Feature implements Toggleable, Json<Script> {
 
     public List<LuaCallback> getCallbacks() {
         return callbacks;
+    }
+
+    public Path getPath() {
+        return path;
     }
 
     @Override public boolean isToggled() {

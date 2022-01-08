@@ -29,9 +29,9 @@ public class Ferret {
         commands = new CommandManager().load();
         tickManager = new TickManager().load();
         moduleManager = new ModuleManager().load();
+        scripts = new ScriptManager().load();
         fileWatcher = new FileWatcher();
         fileWatcher.start();
-        scripts = new ScriptManager().load();
         configManager = new ConfigManager();
         configManager.load();
         EVENT_BUS.register(new EventHandler());
