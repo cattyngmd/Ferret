@@ -68,11 +68,6 @@ public class ModuleCommand extends Command {
                                                             module.setToggled(
                                                                     BoolArgumentType.getBool(context, "statement")
                                                             );
-                                                            if (module.isToggled()) {
-                                                                ChatUtil.sendMessage(module.getName() + Formatting.GREEN + " enabled");
-                                                            } else {
-                                                                ChatUtil.sendMessage(module.getName() + Formatting.RED + " disabled");
-                                                            }
                                                             return 1;
                                                         })
                                         )
@@ -80,11 +75,6 @@ public class ModuleCommand extends Command {
                         .executes(context -> {
                             Module module = ModuleArgumentType.getModule(context, "module");
                             module.toggle();
-                            if (module.isToggled()) {
-                                ChatUtil.sendMessage(module.getName() + Formatting.GREEN + " enabled");
-                            } else {
-                                ChatUtil.sendMessage(module.getName() + Formatting.RED + " disabled");
-                            }
                             return 1;
                         })
         ).executes(context -> {

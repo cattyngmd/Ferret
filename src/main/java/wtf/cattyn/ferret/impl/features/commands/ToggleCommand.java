@@ -22,11 +22,6 @@ public class ToggleCommand extends Command {
                         .executes(context -> {
                             Module module = ModuleArgumentType.getModule(context, "module");
                             module.toggle();
-                            if(module.isToggled()) {
-                                ChatUtil.sendMessage(module.getName() + Formatting.GREEN + " enabled");
-                            } else {
-                                ChatUtil.sendMessage(module.getName()  + Formatting.RED + " disabled");
-                            }
                             return 1;
                         })
         ).executes(context -> 0);
