@@ -100,6 +100,8 @@ public final class ConfigManager extends Thread implements Manager<ConfigManager
     }
 
     void loadScripts() {
+        if (!SCRIPT_FOLDER.exists()) SCRIPT_FOLDER.mkdirs();
+
         try {
             Files.walk(SCRIPT_FOLDER.toPath()).forEach( f -> {
                 if(f.toFile().getName().endsWith(".json")) {
