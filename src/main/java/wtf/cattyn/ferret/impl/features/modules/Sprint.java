@@ -16,7 +16,7 @@ public class Sprint extends Module {
     EnumOption enam = new EnumOption.Builder(Shit.OK).name("lel").build(this);
 
     public Sprint() {
-        super("Sprint", Category.PLAYER);
+        super("Sprint", "Sprints automatically", Category.PLAYER);
         setToggled(true);
     }
 
