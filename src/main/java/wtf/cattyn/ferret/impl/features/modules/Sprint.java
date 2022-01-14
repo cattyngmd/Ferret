@@ -1,6 +1,8 @@
 package wtf.cattyn.ferret.impl.features.modules;
 
 import com.google.common.eventbus.Subscribe;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import wtf.cattyn.ferret.api.feature.module.Module;
 import wtf.cattyn.ferret.api.feature.option.impl.BooleanOption;
 import wtf.cattyn.ferret.api.feature.option.impl.EnumOption;

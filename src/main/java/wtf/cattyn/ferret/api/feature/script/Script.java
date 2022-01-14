@@ -3,6 +3,7 @@ package wtf.cattyn.ferret.api.feature.script;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.annotations.Expose;
+import org.luaj.vm2.LuaClosure;
 import org.luaj.vm2.LuaFunction;
 import org.luaj.vm2.LuaValue;
 import wtf.cattyn.ferret.api.feature.Feature;
@@ -47,6 +48,8 @@ public class Script extends Feature implements Toggleable, Json<Script> {
     }
 
     public void load() {
+        ferret().getMappingManager().getFieldCache().clear();
+        ferret().getMappingManager().getMethodCache().clear();
         ScriptEngineManager factory = new ScriptEngineManager();
         ScriptEngine engine = factory.getEngineByName("lua");
 
@@ -61,7 +64,11 @@ public class Script extends Feature implements Toggleable, Json<Script> {
     }
 
     public void unload(boolean remove) {
-        if (remove) ferret().getScripts().remove(this);
+        if (remove) {
+            ferret().getScripts().remove(this);
+            ferret().getMappingManager().getFieldCache().clear();
+            ferret().getMappingManager().getMethodCache().clear();
+        }
         Option.getForTarget(this).clear();
         callbacks.clear();
     }
@@ -76,7 +83,7 @@ public class Script extends Feature implements Toggleable, Json<Script> {
         }
     }
 
-    public LuaCallback registerCallback(String name, LuaFunction luaFunction) {
+    public LuaCallback registerCallback(String name, LuaClosure luaFunction) {
         LuaCallback callback = new LuaCallback(name, luaFunction, this);
         callbacks.add(callback);
         return callback;

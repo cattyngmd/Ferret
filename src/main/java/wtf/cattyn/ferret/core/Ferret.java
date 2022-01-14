@@ -1,5 +1,6 @@
 package wtf.cattyn.ferret.core;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,9 +13,11 @@ public class Ferret {
     private static Ferret INSTANCE;
     public static final Logger LOGGER = LogManager.getLogger("Ferret");
     public static final FerretEventBus EVENT_BUS = new FerretEventBus();
+    private boolean remapped;
 
     private FileWatcher fileWatcher;
 
+    private MappingManager mappingManager;
     private TickManager tickManager;
     private ModuleManager moduleManager;
     private ConfigManager configManager;
@@ -26,6 +29,13 @@ public class Ferret {
     }
 
     public void init() {
+        try {
+           MinecraftClient.class.getDeclaredField("player");
+           remapped = false;
+        } catch (NoSuchFieldException e) {
+            remapped = true;
+        }
+        mappingManager = new MappingManager().load();
         commands = new CommandManager().load();
         tickManager = new TickManager().load();
         moduleManager = new ModuleManager().load();
@@ -64,6 +74,14 @@ public class Ferret {
 
     public TickManager getTickManager() {
         return tickManager;
+    }
+
+    public MappingManager getMappingManager() {
+        return mappingManager;
+    }
+
+    public boolean isRemapped() {
+        return remapped;
     }
 
 }
