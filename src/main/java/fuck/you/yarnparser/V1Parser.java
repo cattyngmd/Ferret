@@ -160,7 +160,6 @@ public class V1Parser
 
     public FieldEntry findField( String classname, String fieldname, NormalFindType findtype )
     {
-        System.out.printf("classname: %s, fieldname: %s\n", classname, fieldname);
         for( FieldEntry entry : fields )
         {
             if( classname != null && !entry.official.equals( classname ) )
