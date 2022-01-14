@@ -16,7 +16,7 @@ public record LuaCallback(String name, LuaClosure callback, Script script) {
     public void run(LuaValue o) {
         if (script.isToggled()) {
             try {
-                callback.onInvoke(o);
+                callback.call(o);
             } catch (Exception e) {
                 if (MinecraftClient.getInstance().world != null)
                     ChatUtil.sendMessage(e.getMessage());
