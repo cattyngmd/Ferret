@@ -27,6 +27,13 @@ public class Sprint extends Module {
         }
     }
 
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        if (mc.world == null) return;
+        mc.player.setSprinting(false);
+    }
+
     public enum Shit {
         OK, FUCK, YOU, LMFAO
     }
