@@ -1,13 +1,10 @@
 package wtf.cattyn.ferret.impl.features.modules;
 
 import com.google.common.eventbus.Subscribe;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
 import wtf.cattyn.ferret.api.feature.module.Module;
 import wtf.cattyn.ferret.api.feature.option.impl.BooleanOption;
 import wtf.cattyn.ferret.api.feature.option.impl.EnumOption;
 import wtf.cattyn.ferret.api.feature.option.impl.NumberOption;
-import wtf.cattyn.ferret.api.manager.impl.ConfigManager;
 import wtf.cattyn.ferret.impl.events.TickEvent;
 
 public class Sprint extends Module {
@@ -26,6 +23,13 @@ public class Sprint extends Module {
         if(mc.player.forwardSpeed != 0 || omni.getValue()) {
             mc.player.setSprinting(true);
         }
+    }
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        if (mc.world == null) return;
+        mc.player.setSprinting(false);
     }
 
     public enum Shit {

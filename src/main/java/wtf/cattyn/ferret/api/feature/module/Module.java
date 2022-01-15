@@ -3,7 +3,6 @@ package wtf.cattyn.ferret.api.feature.module;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.annotations.Expose;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Formatting;
 import wtf.cattyn.ferret.api.feature.Feature;
 import wtf.cattyn.ferret.api.feature.option.Option;
@@ -51,9 +50,9 @@ public class Module extends Feature implements Toggleable, Json<Module> {
     }
 
     @Override public void disable() {
-        Ferret.EVENT_BUS.unregister(this);
         onToggle();
         onDisable();
+        Ferret.EVENT_BUS.unregister(this);
         toggled = false;
         if (mc.world != null) ChatUtil.sendMessage(getName() + Formatting.RED + " disabled");
     }
