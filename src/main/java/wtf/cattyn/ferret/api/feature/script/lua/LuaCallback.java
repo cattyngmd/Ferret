@@ -4,6 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import org.luaj.vm2.LuaClosure;
 import org.luaj.vm2.LuaValue;
 import wtf.cattyn.ferret.api.feature.script.Script;
+import wtf.cattyn.ferret.api.manager.impl.ScriptManager;
 import wtf.cattyn.ferret.common.impl.util.ChatUtil;
 
 /**
@@ -21,7 +22,7 @@ public record LuaCallback(String name, LuaClosure callback, Script script) {
                 if (MinecraftClient.getInstance().world != null)
                     ChatUtil.sendMessage(e.getMessage());
                 e.printStackTrace();
-                if (!LuaApi.strict) script.setToggled(false);
+                if (!ScriptManager.strict) script.setToggled(false);
             }
         }
     }

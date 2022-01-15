@@ -11,7 +11,7 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import wtf.cattyn.ferret.api.feature.option.Option;
 import wtf.cattyn.ferret.api.feature.option.impl.BooleanOption;
-import wtf.cattyn.ferret.api.feature.option.impl.EnumOption;
+import wtf.cattyn.ferret.api.feature.option.impl.ComboOption;
 import wtf.cattyn.ferret.api.feature.option.impl.NumberOption;
 import wtf.cattyn.ferret.common.Globals;
 
@@ -38,11 +38,10 @@ public class ValueArgumentType implements ArgumentType<String>, Globals {
 
         if (option instanceof BooleanOption) {
             return BoolArgumentType.bool().listSuggestions(context, builder);
-        } else if (option instanceof EnumOption) {
+        } else if (option instanceof ComboOption enumOption) {
 
-            Option<Enum> enumOption = ( EnumOption ) option;
-            for(Enum s : enumOption.getValue().getClass().getEnumConstants()) {
-                builder.suggest(s.name());
+            for(String s : enumOption.getCombo()) {
+                builder.suggest(s);
             }
 
             return builder.buildFuture();

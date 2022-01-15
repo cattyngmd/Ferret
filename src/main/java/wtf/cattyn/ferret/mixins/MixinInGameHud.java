@@ -4,15 +4,12 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
-import org.luaj.vm2.LuaTable;
-import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import wtf.cattyn.ferret.api.feature.script.lua.argument.HudArgument;
 import wtf.cattyn.ferret.core.Ferret;
 import wtf.cattyn.ferret.impl.events.render.Render2DEvent;
 
@@ -33,8 +30,8 @@ public class MixinInGameHud {
 
         RenderSystem.disableTexture();
 
-        Ferret.getDefault().getScripts().runCallback("hud", CoerceJavaToLua.coerce(new HudArgument(matrixStack, float_1)));
-        Render2DEvent event = new Render2DEvent(matrixStack);
+        Render2DEvent event = new Render2DEvent(matrixStack, float_1);
+        Ferret.getDefault().getScripts().runCallback("hud", CoerceJavaToLua.coerce(event));
         Ferret.EVENT_BUS.post(event);
 
         RenderSystem.enableDepthTest();

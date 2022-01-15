@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 public class ScriptManager extends ArrayList<Script> implements Manager<ScriptManager> {
 
+    public static boolean strict = false;
+
     @Override public ScriptManager load() {
         return this;
     }

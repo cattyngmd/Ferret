@@ -8,13 +8,19 @@ import wtf.cattyn.ferret.api.event.Event;
 public class Render2DEvent extends Event {
 
     private final MatrixStack matrixStack;
+    private final float tickDelta;
 
-    public Render2DEvent(MatrixStack matrixStack) {
+    public Render2DEvent(MatrixStack matrixStack, float tickDelta) {
         this.matrixStack = matrixStack;
+        this.tickDelta = tickDelta;
     }
 
-    public MatrixStack getStack() {
+    public MatrixStack stack() {
         return matrixStack;
+    }
+
+    public float tickDelta() {
+        return tickDelta;
     }
 
     @Override public String getName() {

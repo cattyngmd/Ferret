@@ -3,17 +3,26 @@ package wtf.cattyn.ferret.api.feature.script;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.annotations.Expose;
+import net.minecraft.client.MinecraftClient;
 import org.luaj.vm2.LuaClosure;
 import org.luaj.vm2.LuaFunction;
 import org.luaj.vm2.LuaValue;
 import wtf.cattyn.ferret.api.feature.Feature;
 import wtf.cattyn.ferret.api.feature.option.Option;
-import wtf.cattyn.ferret.api.feature.script.lua.LuaApi;
+import wtf.cattyn.ferret.api.feature.option.impl.BooleanOption;
+import wtf.cattyn.ferret.api.feature.option.impl.NumberOption;
 import wtf.cattyn.ferret.api.feature.script.lua.LuaCallback;
+import wtf.cattyn.ferret.api.feature.script.lua.functions.ColorFunction;
+import wtf.cattyn.ferret.api.feature.script.lua.functions.TextOfFunction;
+import wtf.cattyn.ferret.api.feature.script.lua.functions.Vec2dFunction;
+import wtf.cattyn.ferret.api.feature.script.lua.functions.Vec3dFunction;
+import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaGlobals;
+import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaRenderer;
 import wtf.cattyn.ferret.api.manager.impl.ConfigManager;
 import wtf.cattyn.ferret.common.impl.trait.Json;
 import wtf.cattyn.ferret.common.impl.trait.Toggleable;
 import wtf.cattyn.ferret.common.impl.util.ChatUtil;
+import wtf.cattyn.ferret.core.Ferret;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -54,7 +63,18 @@ public class Script extends Feature implements Toggleable, Json<Script> {
         ScriptEngine engine = factory.getEngineByName("lua");
 
         try {
-            LuaApi.modifyEngine(engine, this);
+            engine.put("mc", MinecraftClient.getInstance());
+            engine.put("this", script);
+            engine.put("textOf", new TextOfFunction());
+            engine.put("vec2d", new Vec2dFunction());
+            engine.put("vec3d", new Vec3dFunction());
+            engine.put("color", new ColorFunction());
+            engine.put("client", Ferret.getDefault());
+            engine.put("renderer", LuaRenderer.getDefault());
+            engine.put("globals", LuaGlobals.getDefault());
+
+            engine.put("BooleanBuilder", new BooleanOption.LuaBuilder());
+            engine.put("NumberBuilder", new NumberOption.LuaBuilder());
 
             engine.eval(script);
             engine.eval("main()");

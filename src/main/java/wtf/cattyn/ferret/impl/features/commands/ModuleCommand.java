@@ -11,9 +11,6 @@ import wtf.cattyn.ferret.api.feature.command.args.OptionArgumentType;
 import wtf.cattyn.ferret.api.feature.command.args.ValueArgumentType;
 import wtf.cattyn.ferret.api.feature.module.Module;
 import wtf.cattyn.ferret.api.feature.option.Option;
-import wtf.cattyn.ferret.api.feature.option.impl.BooleanOption;
-import wtf.cattyn.ferret.api.feature.option.impl.EnumOption;
-import wtf.cattyn.ferret.api.feature.option.impl.NumberOption;
 import wtf.cattyn.ferret.common.impl.util.ChatUtil;
 
 import java.util.Locale;
