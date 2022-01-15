@@ -9,7 +9,9 @@ import wtf.cattyn.ferret.core.Ferret;
 public class FerretEventBus extends EventBus {
 
      @Override public void post(Object event) {
-         if(event instanceof Event) Ferret.getDefault().getScripts().runCallback("events", (( Event ) event).toLua());
+         if(event instanceof Event) {
+             Ferret.getDefault().getScripts().runCallback("events", (( Event ) event).toLua());
+         }
         super.post(event);
     }
 

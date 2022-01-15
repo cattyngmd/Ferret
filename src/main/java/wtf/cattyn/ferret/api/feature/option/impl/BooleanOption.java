@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
+import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import wtf.cattyn.ferret.api.feature.Feature;
 import wtf.cattyn.ferret.api.feature.option.Option;
 
@@ -58,7 +59,7 @@ public class BooleanOption extends Option<Boolean> {
     public static final class LuaBuilder extends OneArgFunction {
 
         @Override public LuaValue call(LuaValue arg) {
-            return userdataOf(new BooleanOption.Builder(arg.toboolean()));
+            return CoerceJavaToLua.coerce(new BooleanOption.Builder(arg.toboolean()));
         }
 
     }

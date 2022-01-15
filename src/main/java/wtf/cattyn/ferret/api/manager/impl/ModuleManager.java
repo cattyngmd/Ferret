@@ -1,6 +1,9 @@
 package wtf.cattyn.ferret.api.manager.impl;
 
+import org.luaj.vm2.LuaValue;
 import wtf.cattyn.ferret.api.feature.module.Module;
+import wtf.cattyn.ferret.api.feature.script.Script;
+import wtf.cattyn.ferret.api.feature.script.lua.classes.ModuleLua;
 import wtf.cattyn.ferret.api.manager.Manager;
 import wtf.cattyn.ferret.impl.features.modules.Sprint;
 

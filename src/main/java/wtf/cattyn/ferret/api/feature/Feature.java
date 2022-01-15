@@ -1,8 +1,10 @@
 package wtf.cattyn.ferret.api.feature;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import wtf.cattyn.ferret.common.Globals;
 import wtf.cattyn.ferret.common.impl.trait.Nameable;
+import wtf.cattyn.ferret.common.impl.trait.Toggleable;
 
 import java.util.Objects;
 
@@ -55,5 +57,26 @@ public class Feature implements Nameable, Globals {
 
     }
 
+    public static class ToggleableFeature extends Feature implements Toggleable {
+
+        @Expose private boolean toggled = true;
+
+        public ToggleableFeature(String name, String desc) {
+            super(name, desc);
+        }
+
+        @Override public boolean isToggled() {
+            return toggled;
+        }
+
+        @Override public void enable() {
+            toggled = true;
+        }
+
+        @Override public void disable() {
+            toggled = false;
+        }
+
+    }
 
 }

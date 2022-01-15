@@ -5,6 +5,7 @@ import wtf.cattyn.ferret.api.feature.Feature;
 import wtf.cattyn.ferret.common.impl.trait.Json;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -53,6 +54,7 @@ public abstract class Option<T> extends Feature.SerializableFeature implements J
     }
 
     public static List<Option<?>> getForTarget(Feature target) {
+        if(target == null) return Collections.emptyList();
         return getOptions().stream().filter(o -> o.getFeature().equals(target)).collect(Collectors.toList());
     }
 

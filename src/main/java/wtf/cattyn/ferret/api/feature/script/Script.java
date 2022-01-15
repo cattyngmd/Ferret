@@ -2,16 +2,15 @@ package wtf.cattyn.ferret.api.feature.script;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.annotations.Expose;
 import net.minecraft.client.MinecraftClient;
 import org.luaj.vm2.LuaClosure;
-import org.luaj.vm2.LuaFunction;
 import org.luaj.vm2.LuaValue;
 import wtf.cattyn.ferret.api.feature.Feature;
 import wtf.cattyn.ferret.api.feature.option.Option;
 import wtf.cattyn.ferret.api.feature.option.impl.BooleanOption;
 import wtf.cattyn.ferret.api.feature.option.impl.NumberOption;
 import wtf.cattyn.ferret.api.feature.script.lua.LuaCallback;
+import wtf.cattyn.ferret.api.feature.script.lua.classes.ModuleLua;
 import wtf.cattyn.ferret.api.feature.script.lua.functions.ColorFunction;
 import wtf.cattyn.ferret.api.feature.script.lua.functions.TextOfFunction;
 import wtf.cattyn.ferret.api.feature.script.lua.functions.Vec2dFunction;
@@ -20,7 +19,6 @@ import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaGlobals;
 import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaRenderer;
 import wtf.cattyn.ferret.api.manager.impl.ConfigManager;
 import wtf.cattyn.ferret.common.impl.trait.Json;
-import wtf.cattyn.ferret.common.impl.trait.Toggleable;
 import wtf.cattyn.ferret.common.impl.util.ChatUtil;
 import wtf.cattyn.ferret.core.Ferret;
 
@@ -38,12 +36,12 @@ import java.util.List;
  * @since 06/1/22
  */
 
-public class Script extends Feature implements Toggleable, Json<Script> {
+public class Script extends Feature.ToggleableFeature implements  Json<Script> {
 
-    @Expose private boolean active = true;
     private transient String script;
     private Path path;
     private transient final List<LuaCallback> callbacks = new ArrayList<>();
+    private transient final List<ModuleLua> modules = new ArrayList<>();
 
     public Script(String name, String desc) {
         super(name, desc);
@@ -64,7 +62,7 @@ public class Script extends Feature implements Toggleable, Json<Script> {
 
         try {
             engine.put("mc", MinecraftClient.getInstance());
-            engine.put("this", script);
+            engine.put("this", this);
             engine.put("textOf", new TextOfFunction());
             engine.put("vec2d", new Vec2dFunction());
             engine.put("vec3d", new Vec3dFunction());
@@ -72,6 +70,7 @@ public class Script extends Feature implements Toggleable, Json<Script> {
             engine.put("client", Ferret.getDefault());
             engine.put("renderer", LuaRenderer.getDefault());
             engine.put("globals", LuaGlobals.getDefault());
+            engine.put("Module", new ModuleLua.New());
 
             engine.put("BooleanBuilder", new BooleanOption.LuaBuilder());
             engine.put("NumberBuilder", new NumberOption.LuaBuilder());
@@ -89,7 +88,11 @@ public class Script extends Feature implements Toggleable, Json<Script> {
             ferret().getMappingManager().getFieldCache().clear();
             ferret().getMappingManager().getMethodCache().clear();
         }
-        Option.getForTarget(this).clear();
+        for(ModuleLua lua : modules) {
+            Option.getOptions().removeIf(option -> option.getFeature().equals(lua) || option.getFeature().equals(this));
+        }
+        Ferret.getDefault().getModuleManager().removeAll(modules);
+        modules.clear();
         callbacks.clear();
     }
 
@@ -118,24 +121,17 @@ public class Script extends Feature implements Toggleable, Json<Script> {
         invoke(name, LuaValue.NONE);
     }
 
+    public void addModule(ModuleLua lua) {
+        modules.add(lua);
+        Ferret.getDefault().getModuleManager().add(lua);
+    }
+
     public List<LuaCallback> getCallbacks() {
         return callbacks;
     }
 
     public Path getPath() {
         return path;
-    }
-
-    @Override public boolean isToggled() {
-        return active;
-    }
-
-    @Override public void enable() {
-        active = true;
-    }
-
-    @Override public void disable() {
-        active = false;
     }
 
     @Override public JsonObject toJson() {
