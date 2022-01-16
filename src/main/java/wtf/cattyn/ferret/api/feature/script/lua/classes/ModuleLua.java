@@ -26,7 +26,7 @@ public class ModuleLua extends Module {
     }
 
     public void body(LuaClosure luaClosure) {
-        luaClosure.call(CoerceJavaToLua.coerce(this));
+        luaClosure.call();
         register();
     }
 
