@@ -35,7 +35,10 @@ public class Ferret {
         } catch (NoSuchFieldException e) {
             remapped = true;
         }
-        mappingManager = new MappingManager().load();
+        mappingManager = new MappingManager();
+        if(remapped) {
+            mappingManager.load();
+        }
         commands = new CommandManager().load();
         tickManager = new TickManager().load();
         moduleManager = new ModuleManager().load();

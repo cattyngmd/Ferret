@@ -88,6 +88,7 @@ public class Module extends Feature.ToggleableFeature implements Json<Module> {
     public enum Category {
         COMBAT,
         VISUAL,
+        MOVEMENT,
         PLAYER,
         MISC,
         CLIENT

@@ -15,11 +15,11 @@ public class Render2DEvent extends Event {
         this.tickDelta = tickDelta;
     }
 
-    public MatrixStack stack() {
+    public MatrixStack getStack() {
         return matrixStack;
     }
 
-    public float tickDelta() {
+    public float getDelta() {
         return tickDelta;
     }
 

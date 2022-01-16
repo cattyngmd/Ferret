@@ -70,7 +70,7 @@ public class Script extends Feature.ToggleableFeature implements  Json<Script> {
             engine.put("client", Ferret.getDefault());
             engine.put("renderer", LuaRenderer.getDefault());
             engine.put("globals", LuaGlobals.getDefault());
-            engine.put("Module", new ModuleLua.New());
+            engine.put("Module", ModuleLua.getLua());
 
             engine.put("BooleanBuilder", new BooleanOption.LuaBuilder());
             engine.put("NumberBuilder", new NumberOption.LuaBuilder());

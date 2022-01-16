@@ -91,6 +91,14 @@ public class LuaRenderer extends DrawableHelper implements Globals {
         return mc.textRenderer.getWidth(text);
     }
 
+    public double windowWidth() {
+        return mc.getWindow().getScaledWidth();
+    }
+
+    public double windowHeight() {
+        return mc.getWindow().getScaledHeight();
+    }
+
     public static LuaRenderer getDefault() {
         if(instance == null) instance = new LuaRenderer();
         return instance;
