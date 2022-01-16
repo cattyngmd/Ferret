@@ -27,7 +27,8 @@ public final class CommandManager extends ArrayList<Command> implements Manager<
                 new ListCommand(),
                 new SetPrefixCommand(),
                 new BindCommand(),
-                new HelpCommand()
+                new HelpCommand(),
+                new SendCoordsCommand()
         ));
         return this;
     }
