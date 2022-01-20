@@ -8,6 +8,7 @@ import org.luaj.vm2.LuaValue;
 import wtf.cattyn.ferret.api.feature.Feature;
 import wtf.cattyn.ferret.api.feature.option.Option;
 import wtf.cattyn.ferret.api.feature.option.impl.BooleanOption;
+import wtf.cattyn.ferret.api.feature.option.impl.ComboOption;
 import wtf.cattyn.ferret.api.feature.option.impl.NumberOption;
 import wtf.cattyn.ferret.api.feature.script.lua.LuaCallback;
 import wtf.cattyn.ferret.api.feature.script.lua.classes.ModuleLua;
@@ -74,6 +75,7 @@ public class Script extends Feature.ToggleableFeature implements  Json<Script> {
 
             engine.put("BooleanBuilder", new BooleanOption.LuaBuilder());
             engine.put("NumberBuilder", new NumberOption.LuaBuilder());
+            engine.put("ComboBuilder", new ComboOption.LuaBuilder());
 
             engine.eval(script);
             engine.eval("main()");

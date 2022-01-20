@@ -2,9 +2,14 @@ package wtf.cattyn.ferret.api.feature.option.impl;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.lib.OneArgFunction;
+import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import wtf.cattyn.ferret.api.feature.Feature;
 import wtf.cattyn.ferret.api.feature.option.Option;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -60,11 +65,24 @@ public class ComboOption extends Option<String> {
             return this;
         }
 
+        public Builder setCombo(String... combo) {
+            this.combo = List.of(combo);
+            return this;
+        }
+
         @Override public ComboOption build(Feature feature) {
             if(validate()) throw new NullPointerException();
             ComboOption o = new ComboOption(feature, name, description, value, visibility, combo);
             Option.getOptions().add(o);
             return o;
+        }
+
+    }
+
+    public static final class LuaBuilder extends OneArgFunction {
+
+        @Override public LuaValue call(LuaValue arg) {
+            return CoerceJavaToLua.coerce(new ComboOption.Builder(arg.tojstring()));
         }
 
     }
