@@ -3,6 +3,7 @@ package wtf.cattyn.ferret.api.manager.impl;
 import wtf.cattyn.ferret.api.feature.module.Module;
 import wtf.cattyn.ferret.api.manager.Manager;
 import wtf.cattyn.ferret.impl.features.modules.AirPlace;
+import wtf.cattyn.ferret.impl.features.modules.KillAura;
 import wtf.cattyn.ferret.impl.features.modules.Sprint;
 
 import java.util.ArrayList;
@@ -13,7 +14,8 @@ public final class ModuleManager extends ArrayList<Module> implements Manager<Mo
     @Override public ModuleManager load() {
         addAll(List.of(
                 new Sprint(),
-                new AirPlace()
+                new AirPlace(),
+                new KillAura()
         ));
         return this;
     }
