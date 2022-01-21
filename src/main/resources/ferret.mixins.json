@@ -14,7 +14,8 @@
     "MixinKeyboard",
     "MixinRenderTickCounter",
     "ducks.DuckMinecraft",
-    "ducks.DuckGameMessageS2CPacket"
+    "ducks.DuckGameMessageS2CPacket",
+    "MixinPlayerListHud"
   ],
   "injectors": {
     "defaultRequire": 1
