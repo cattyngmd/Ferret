@@ -5,6 +5,7 @@ import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import wtf.cattyn.ferret.api.event.Event;
+import wtf.cattyn.ferret.core.Ferret;
 
 public abstract class PacketEvent extends Event {
 
@@ -18,6 +19,7 @@ public abstract class PacketEvent extends Event {
         return packet;
     }
 
+    //TODO add remapper for this method
     public boolean is(String packet) {
         return getPacket().getClass().getSimpleName().equalsIgnoreCase(packet);
     }

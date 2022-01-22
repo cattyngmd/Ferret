@@ -24,6 +24,7 @@ public class MappingManager implements Manager<MappingManager> {
 
     private Map<String, Field> fieldCache = new HashMap<>();
     private Map<String, LuaValue> methodCache = new HashMap<>();
+    private Map<String, Class<?>> classCache = new HashMap<>();
 
     private synchronized void loadYarn() {
         if(!mappings.exists()) {
@@ -86,6 +87,10 @@ public class MappingManager implements Manager<MappingManager> {
 
     public Map<String, LuaValue> getMethodCache() {
         return methodCache;
+    }
+
+    public Map<String, Class<?>> getClassCache() {
+        return classCache;
     }
 
 }

@@ -22,12 +22,12 @@
 package org.luaj.vm2.lib.jse;
 
 
-import java.lang.reflect.Array;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
+import java.lang.reflect.*;
 
+import fuck.you.yarnparser.V1Parser;
+import fuck.you.yarnparser.entry.ClassEntry;
+import fuck.you.yarnparser.entry.FieldEntry;
+import net.minecraft.client.MinecraftClient;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaTable;
@@ -36,6 +36,8 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.compiler.LuaC;
 import org.luaj.vm2.lib.LibFunction;
 import org.luaj.vm2.lib.VarArgFunction;
+import wtf.cattyn.ferret.api.manager.impl.MappingManager;
+import wtf.cattyn.ferret.core.Ferret;
 
 /** 
  * Subclass of {@link LibFunction} which implements the features of the luajava package. 
@@ -75,7 +77,6 @@ import org.luaj.vm2.lib.VarArgFunction;
  * 
  * @see LibFunction
  * @see org.luaj.vm2.lib.jse.JsePlatform
- * @see org.luaj.vm2.lib.jme.JmePlatform
  * @see LuaC
  * @see CoerceJavaToLua
  * @see CoerceLuaToJava
@@ -103,6 +104,10 @@ public class LuajavaLib extends VarArgFunction {
 	public LuajavaLib() {
 	}
 
+	MappingManager mappings() {
+		return Ferret.getDefault().getMappingManager();
+	}
+
 	public Varargs invoke(Varargs args) {
 		try {
 			switch ( opcode ) {
@@ -116,35 +121,36 @@ public class LuajavaLib extends VarArgFunction {
 				return t;
 			}
 			case BINDCLASS: {
-				final Class clazz = classForName(args.checkjstring(1));
+				String _name = args.checkjstring(1);
+				Class clazz = classForName(_name);
 				return JavaClass.forClass(clazz);
 			}
 			case NEWINSTANCE:
 			case NEW: {
 				// get constructor
-				final LuaValue c = args.checkvalue(1); 
+				final LuaValue c = args.checkvalue(1);
 				final Class clazz = (opcode==NEWINSTANCE? classForName(c.tojstring()): (Class) c.checkuserdata(Class.class));
 				final Varargs consargs = args.subargs(2);
 				return JavaClass.forClass(clazz).getConstructor().invoke(consargs);
 			}
-				
-			case CREATEPROXY: {				
+
+			case CREATEPROXY: {
 				final int niface = args.narg()-1;
 				if ( niface <= 0 )
 					throw new LuaError("no interfaces");
 				final LuaValue lobj = args.checktable(niface+1);
-				
+
 				// get the interfaces
 				final Class[] ifaces = new Class[niface];
-				for ( int i=0; i<niface; i++ ) 
+				for ( int i=0; i<niface; i++ )
 					ifaces[i] = classForName(args.checkjstring(i+1));
-				
+
 				// create the invocation handler
 				InvocationHandler handler = new ProxyInvocationHandler(lobj);
-				
+
 				// create the proxy object
 				Object proxy = Proxy.newProxyInstance(getClass().getClassLoader(), ifaces, handler);
-				
+
 				// return the proxy
 				return LuaValue.userdataOf( proxy );
 			}
@@ -175,6 +181,19 @@ public class LuajavaLib extends VarArgFunction {
 
 	// load classes using app loader to allow luaj to be used as an extension
 	protected Class classForName(String name) throws ClassNotFoundException {
+		if(Ferret.getDefault().isRemapped()) {
+			if(mappings().getClassCache().containsKey(name)) {
+				return mappings().getClassCache().get(name);
+			} else {
+				ClassEntry classEntry = mappings().getParser().findClass(name.replace(".", "/"), V1Parser.ClassFindType.NAMED);
+				if(classEntry != null) {
+					Class c = Class.forName(classEntry.intermediary.replace("/", "."), true, MinecraftClient.class.getClassLoader());
+					mappings().getClassCache().put(name, c);
+					return c;
+				}
+			}
+			mappings( ).getClassCache( ).put( name,  Class.forName(name, true, ClassLoader.getSystemClassLoader()));
+		}
 		return Class.forName(name, true, ClassLoader.getSystemClassLoader());
 	}
 	

@@ -86,11 +86,6 @@ public abstract class Option<T> extends Feature.SerializableFeature implements J
             return ( B ) this;
         }
 
-        public B value(T value) {
-            this.value = value;
-            return ( B ) this;
-        }
-
         public B visible(Predicate<T> visibility) {
             this.visibility = visibility;
             return ( B ) this;
