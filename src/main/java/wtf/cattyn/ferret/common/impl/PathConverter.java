@@ -1,4 +1,4 @@
-package wtf.cattyn.ferret.common.impl.util;
+package wtf.cattyn.ferret.common.impl;
 
 import com.google.gson.*;
 
