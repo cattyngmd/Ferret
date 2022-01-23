@@ -1,9 +1,10 @@
 package wtf.cattyn.ferret.common.impl.util;
 
+import net.minecraft.item.Item;
 import net.minecraft.util.math.MathHelper;
 import wtf.cattyn.ferret.common.Globals;
 
-public class WorldUtil implements Globals {
+public class PlayerUtil implements Globals {
 
     public static Float[] lookAt(double x, double y, double z) {
         float preYaw = mc.player.getYaw();
@@ -21,6 +22,17 @@ public class WorldUtil implements Globals {
         mc.player.setPitch(mc.player.getPitch() + MathHelper.wrapDegrees(pitch - mc.player.getPitch()));
         // возвращает старые значения для облегчения ротейта
         return new Float[]{preYaw, prePitch};
+    }
+
+    public static Integer findInHotbar(Item item) {
+        Integer itemSlot = null;
+        for (int slot = 0; slot < 9; slot++) {
+            if (mc.player.getInventory().getStack(slot).getItem() == item) {
+                itemSlot = slot;
+                break;
+            }
+        }
+        return itemSlot;
     }
 
 }

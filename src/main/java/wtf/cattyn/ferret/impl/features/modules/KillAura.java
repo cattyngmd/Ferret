@@ -6,7 +6,7 @@ import net.minecraft.util.Hand;
 import wtf.cattyn.ferret.api.feature.module.Module;
 import wtf.cattyn.ferret.api.feature.option.impl.BooleanOption;
 import wtf.cattyn.ferret.api.feature.option.impl.NumberOption;
-import wtf.cattyn.ferret.common.impl.util.WorldUtil;
+import wtf.cattyn.ferret.common.impl.util.PlayerUtil;
 import wtf.cattyn.ferret.impl.events.TickEvent;
 
 public class KillAura extends Module {
@@ -27,7 +27,7 @@ public class KillAura extends Module {
                     Float[] pre = new Float[]{};
 
                     if (s) mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.STOP_SPRINTING));
-                    if (r.getValue()) pre = WorldUtil.lookAt(p.getBlockX(), p.getBlockY(), p.getBlockZ());
+                    if (r.getValue()) pre = PlayerUtil.lookAt(p.getBlockX(), p.getBlockY(), p.getBlockZ());
 
                     mc.interactionManager.attackEntity(mc.player, p);
                     mc.player.swingHand(Hand.MAIN_HAND);
