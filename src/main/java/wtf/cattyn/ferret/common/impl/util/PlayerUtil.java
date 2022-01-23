@@ -1,7 +1,12 @@
 package wtf.cattyn.ferret.common.impl.util;
 
 import net.minecraft.item.Item;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import wtf.cattyn.ferret.common.Globals;
 
 public class PlayerUtil implements Globals {
@@ -33,6 +38,17 @@ public class PlayerUtil implements Globals {
             }
         }
         return itemSlot;
+    }
+
+    public static void placeBlock(BlockPos pos, int slot) {
+        Vec3d vec = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
+        int oldSlot = mc.player.getInventory().selectedSlot;
+
+        mc.player.getInventory().selectedSlot = slot;
+        mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
+                vec, Direction.DOWN, pos, true
+        ));
+        mc.player.getInventory().selectedSlot = oldSlot;
     }
 
 }
