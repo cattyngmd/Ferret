@@ -5,10 +5,13 @@ import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.util.math.BlockPos;
 import wtf.cattyn.ferret.api.feature.module.Module;
+import wtf.cattyn.ferret.common.impl.util.ChatUtil;
 import wtf.cattyn.ferret.common.impl.util.PlayerUtil;
 import wtf.cattyn.ferret.impl.events.TickEvent;
 
 public class AntiLava extends Module {
+
+    boolean warn = true;
 
     public AntiLava() {
         super("AntiLava", "Replaces lava over and under you", Category.MISC);
@@ -28,8 +31,15 @@ public class AntiLava extends Module {
                         break;
                     }
                 }
-                if (itemSlot == null) return;
+                if (itemSlot == null) {
+                    if (warn) {
+                        ChatUtil.sendMessage("No blocks found in hotbar!");
+                        warn = false;
+                    }
+                    return;
+                }
 
+                warn = true;
                 PlayerUtil.placeBlock(pos, itemSlot);
             }
         }
