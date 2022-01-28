@@ -1,6 +1,5 @@
 package wtf.cattyn.ferret.api.manager.impl;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import wtf.cattyn.ferret.api.feature.module.Module;
@@ -25,7 +24,7 @@ public final class ConfigManager extends Thread implements Manager<ConfigManager
     @Override public ConfigManager load() {
         String raw;
         try {
-             raw = new String(Files.readAllBytes(Path.of(MAIN_FOLDER.getAbsolutePath(), "config.json")));
+            raw = new String(Files.readAllBytes(Path.of(MAIN_FOLDER.getAbsolutePath(), "config.json")));
         } catch (Exception e) {
             e.printStackTrace();
             return this;
@@ -51,7 +50,7 @@ public final class ConfigManager extends Thread implements Manager<ConfigManager
 
     void loadModules(JsonObject json) {
         for (Module module : ferret().getModuleManager()) {
-            if(json.get(module.getName()) != null) {
+            if (json.get(module.getName()) != null) {
                 try {
                     loadModule(module, json);
                 } catch (Exception e) {
@@ -87,7 +86,7 @@ public final class ConfigManager extends Thread implements Manager<ConfigManager
         JsonObject object = new JsonObject();
         JsonObject modules = new JsonObject();
         Ferret.getDefault().getModuleManager().forEach(m -> {
-            if(m instanceof ModuleLua) return;
+            if (m instanceof ModuleLua) return;
             modules.add(m.getName(), m.toJson());
         });
         object.add("modules", modules);
@@ -110,8 +109,8 @@ public final class ConfigManager extends Thread implements Manager<ConfigManager
         if (!SCRIPT_FOLDER.exists()) SCRIPT_FOLDER.mkdirs();
 
         try {
-            Files.walk(SCRIPT_FOLDER.toPath()).forEach( f -> {
-                if(f.toFile().getName().endsWith(".json")) {
+            Files.walk(SCRIPT_FOLDER.toPath()).forEach(f -> {
+                if (f.toFile().getName().endsWith(".json")) {
                     try {
                         String raw = new String(Files.readAllBytes(f));
                         JsonObject object = JsonParser.parseString(raw).getAsJsonObject();
@@ -119,7 +118,7 @@ public final class ConfigManager extends Thread implements Manager<ConfigManager
                         Script script = new Script(name.substring(0, name.length() - 5), "");
                         script.setToggled(object.get("active").getAsBoolean());
 
-                        for(Option option : Option.getForTarget(script)) {
+                        for (Option option : Option.getForTarget(script)) {
                             option.fromJson(object.get("options").getAsJsonObject());
                         }
 
@@ -137,7 +136,7 @@ public final class ConfigManager extends Thread implements Manager<ConfigManager
     }
 
     void saveScripts() {
-        for(Script script : ferret().getScripts()) {
+        for (Script script : ferret().getScripts()) {
 
             File file = new File(SCRIPT_FOLDER, script.getName() + ".json");
 
@@ -146,9 +145,9 @@ public final class ConfigManager extends Thread implements Manager<ConfigManager
 
             JsonObject module = new JsonObject();
 
-            for(Module m : ferret().getModuleManager()) {
-                if(!(m instanceof ModuleLua)) continue;
-                module.add(m.getName(), m.toJson());
+            for (Module m : ferret().getModuleManager()) {
+                if (!(m instanceof ModuleLua)) continue;
+                if ((( ModuleLua ) m).getScript() == script) module.add(m.getName(), m.toJson());
             }
 
             object.add("modules", module);

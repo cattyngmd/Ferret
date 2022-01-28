@@ -28,6 +28,10 @@ public class BooleanOption extends Option<Boolean> {
         return value;
     }
 
+    @Override public boolean is(String type) {
+        return type.equalsIgnoreCase("bool");
+    }
+
     @Override public JsonObject toJson() {
         JsonObject object = new JsonObject();
         object.addProperty("value", value);

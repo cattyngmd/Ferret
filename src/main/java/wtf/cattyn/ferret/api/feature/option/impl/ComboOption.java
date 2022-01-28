@@ -37,6 +37,15 @@ public class ComboOption extends Option<String> {
         return value;
     }
 
+    @Override public boolean is(String type) {
+        return type.equalsIgnoreCase("combo");
+    }
+
+    public void increase() {
+        if(combo.indexOf(value) + 1 >= combo.size()) setValue(combo.get(0));
+        else setValue(combo.get(combo.indexOf(value) + 1));
+    }
+
     @Override public JsonObject toJson() {
         JsonObject object = new JsonObject();
         object.addProperty("value", value);

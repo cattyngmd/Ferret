@@ -32,6 +32,14 @@ public class NumberOption extends Option<Number> {
         return value;
     }
 
+    @Override public boolean is(String type) {
+        return type.equalsIgnoreCase("number");
+    }
+
+    public boolean withPoint() {
+        return value instanceof Double || value instanceof Float;
+    }
+
     public double getMax() {
         return max;
     }

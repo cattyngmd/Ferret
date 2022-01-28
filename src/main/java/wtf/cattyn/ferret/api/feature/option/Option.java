@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public abstract class Option<T> extends Feature.SerializableFeature implements Json<Option<T>> {
 
-    private static final List<Option<?>> options = new ArrayList<>();
+    private static final ArrayList<Option<?>> options = new ArrayList<>();
 
     protected T value;
     private transient final Feature feature;
@@ -38,6 +38,8 @@ public abstract class Option<T> extends Feature.SerializableFeature implements J
     }
 
     public abstract T getValue();
+
+    public abstract boolean is(String type);
 
     public Feature getFeature() {
         return feature;

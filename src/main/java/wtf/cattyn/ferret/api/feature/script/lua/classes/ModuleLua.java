@@ -15,6 +15,9 @@ public class ModuleLua extends Module {
     private final Script script;
     private static LuaValue value;
 
+    private LuaClosure onEnable;
+    private LuaClosure onDisable;
+
     public ModuleLua(String name, String desc, Category category, Script script) {
         super(name, desc, category);
         this.script = script;
@@ -49,6 +52,22 @@ public class ModuleLua extends Module {
         script.addModule(this);
     }
 
+    public void onEnable(LuaClosure closure) {
+        this.onEnable = closure;
+    }
+
+    public void onDisable(LuaClosure closure) {
+        this.onDisable = closure;
+    }
+
+    @Override public void onEnable() {
+        if(onEnable != null) onEnable.call();
+    }
+
+    @Override public void onDisable() {
+        if(onDisable != null) onDisable.call();
+    }
+
     public static LuaValue getLua() {
         if(value == null) {
             LuaValue moduleLua = CoerceJavaToLua.coerce(ModuleLua.class);
@@ -64,7 +83,6 @@ public class ModuleLua extends Module {
     static class New extends LibFunction {
 
         public LuaValue call(LuaValue name, LuaValue description, LuaValue category, LuaValue script) {
-            System.out.println(name.tojstring());
             if(!name.isstring() || !description.isstring() || !category.isstring()) throw new IllegalArgumentException("Invalid arguments.");
             return CoerceJavaToLua.coerce(
                     new ModuleLua(name.tojstring(), description.tojstring(), Category.valueOf(category.tojstring()), ( Script ) CoerceLuaToJava.coerce(script, Script.class))

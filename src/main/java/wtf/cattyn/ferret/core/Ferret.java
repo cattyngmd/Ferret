@@ -6,8 +6,12 @@ import net.minecraft.text.LiteralText;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import wtf.cattyn.ferret.api.event.FerretEventBus;
+import wtf.cattyn.ferret.api.feature.option.Option;
 import wtf.cattyn.ferret.api.manager.impl.*;
 import wtf.cattyn.ferret.common.impl.util.thread.FileWatcher;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Ferret {
 
@@ -83,6 +87,10 @@ public class Ferret {
 
     public MappingManager getMappingManager() {
         return mappingManager;
+    }
+
+    public List<Option<?>> getOptions() {
+        return Option.getOptions();
     }
 
     public boolean isRemapped() {

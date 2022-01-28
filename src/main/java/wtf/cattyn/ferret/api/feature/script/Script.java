@@ -11,6 +11,7 @@ import wtf.cattyn.ferret.api.feature.option.impl.BooleanOption;
 import wtf.cattyn.ferret.api.feature.option.impl.ComboOption;
 import wtf.cattyn.ferret.api.feature.option.impl.NumberOption;
 import wtf.cattyn.ferret.api.feature.script.lua.LuaCallback;
+import wtf.cattyn.ferret.api.feature.script.lua.classes.GuiBuilder;
 import wtf.cattyn.ferret.api.feature.script.lua.classes.ModuleLua;
 import wtf.cattyn.ferret.api.feature.script.lua.functions.ColorFunction;
 import wtf.cattyn.ferret.api.feature.script.lua.functions.TextOfFunction;
@@ -62,20 +63,7 @@ public class Script extends Feature.ToggleableFeature implements  Json<Script> {
         ScriptEngine engine = factory.getEngineByName("lua");
 
         try {
-            engine.put("mc", MinecraftClient.getInstance());
-            engine.put("this", this);
-            engine.put("textOf", new TextOfFunction());
-            engine.put("vec2d", new Vec2dFunction());
-            engine.put("vec3d", new Vec3dFunction());
-            engine.put("color", new ColorFunction());
-            engine.put("client", Ferret.getDefault());
-            engine.put("renderer", LuaRenderer.getDefault());
-            engine.put("globals", LuaGlobals.getDefault());
-            engine.put("Module", ModuleLua.getLua());
-
-            engine.put("BooleanBuilder", new BooleanOption.LuaBuilder());
-            engine.put("NumberBuilder", new NumberOption.LuaBuilder());
-            engine.put("ComboBuilder", new ComboOption.LuaBuilder());
+            applyEngine(engine);
 
             engine.eval(script);
             engine.eval("main()");
@@ -106,6 +94,24 @@ public class Script extends Feature.ToggleableFeature implements  Json<Script> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void applyEngine(ScriptEngine engine) {
+        engine.put("mc", MinecraftClient.getInstance());
+        engine.put("this", this);
+        engine.put("textOf", new TextOfFunction());
+        engine.put("vec2d", new Vec2dFunction());
+        engine.put("vec3d", new Vec3dFunction());
+        engine.put("color", new ColorFunction());
+        engine.put("client", Ferret.getDefault());
+        engine.put("renderer", LuaRenderer.getDefault());
+        engine.put("globals", LuaGlobals.getDefault());
+        engine.put("Module", ModuleLua.getLua());
+        engine.put("GuiBuilder", GuiBuilder.getLua());
+
+        engine.put("BooleanBuilder", new BooleanOption.LuaBuilder());
+        engine.put("NumberBuilder", new NumberOption.LuaBuilder());
+        engine.put("ComboBuilder", new ComboOption.LuaBuilder());
     }
 
     public LuaCallback registerCallback(String name, LuaClosure luaFunction) {
