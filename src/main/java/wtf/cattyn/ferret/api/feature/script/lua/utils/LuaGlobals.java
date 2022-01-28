@@ -1,8 +1,15 @@
 package wtf.cattyn.ferret.api.feature.script.lua.utils;
 
 import net.minecraft.util.math.Vec3d;
+import org.luaj.vm2.LuaClosure;
+import org.luaj.vm2.lib.jse.CoerceJavaToLua;
+import org.luaj.vm2.lib.jse.CoerceLuaToJava;
 import wtf.cattyn.ferret.common.Globals;
 import wtf.cattyn.ferret.mixins.ducks.DuckMinecraft;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class LuaGlobals implements Globals {
 
@@ -43,6 +50,21 @@ public class LuaGlobals implements Globals {
 
     public float getTickMultiplier() {
         return ferret().getTickManager().getMultiplier();
+    }
+
+    public List<Object> sortList(List<Object> list, LuaClosure closure) {
+        for (int j = 2; j < list.size(); j++) {
+
+            double key = ( double ) CoerceLuaToJava.coerce(closure.call(CoerceJavaToLua.coerce(list.get(j))), Double.class);
+            int i = j - 1;
+
+            while (i > 0 && ( double ) CoerceLuaToJava.coerce(closure.call(CoerceJavaToLua.coerce(list.get(j))), Double.class) > key) {
+                list.set(i + 1,  list.get(i));
+                i--;
+            }
+            list.set(i + 1, key);
+        }
+        return list;
     }
 
     public static LuaGlobals getDefault() {
