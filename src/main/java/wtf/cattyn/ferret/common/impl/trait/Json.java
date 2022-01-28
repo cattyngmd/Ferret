@@ -6,6 +6,10 @@ public interface Json<T> {
 
     JsonObject toJson();
 
+    default JsonObject toJson(JsonObject object) {
+        return toJson();
+    }
+
     T fromJson(JsonObject object);
 
 }

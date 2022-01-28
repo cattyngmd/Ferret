@@ -25,6 +25,10 @@ public class ModuleLua extends Module {
         this.script = script;
     }
 
+    public Script getScript() {
+        return script;
+    }
+
     public void body(LuaClosure luaClosure) {
         luaClosure.call();
         register();

@@ -34,8 +34,13 @@ public class BooleanOption extends Option<Boolean> {
         return object;
     }
 
+    @Override public JsonObject toJson(JsonObject object) {
+        object.addProperty(getName(), value);
+        return object;
+    }
+
     @Override public Option<Boolean> fromJson(JsonObject object) {
-        JsonElement element = object.get("value");
+        JsonElement element = object.get(getName());
         if(element.isJsonNull()) return this;
         this.value = element.getAsBoolean();
         return this;

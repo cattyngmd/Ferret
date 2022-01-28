@@ -8,8 +8,6 @@ import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import wtf.cattyn.ferret.api.feature.Feature;
 import wtf.cattyn.ferret.api.feature.option.Option;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -45,9 +43,14 @@ public class ComboOption extends Option<String> {
         return object;
     }
 
+    @Override public JsonObject toJson(JsonObject object) {
+        object.addProperty(getName(), value);
+        return object;
+    }
+
     @Override public Option<String> fromJson(JsonObject object) {
-        JsonElement element = object.get("value");
-        if(element.isJsonNull()) return this;
+        JsonElement element = object.get(getName());
+        if(element.isJsonNull() || !combo.contains(element.getAsString())) return this;
         this.value = element.getAsString();
         return this;
     }

@@ -5,6 +5,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.annotations.Expose;
 import net.minecraft.util.Formatting;
 import org.luaj.vm2.LuaValue;
+import org.lwjgl.glfw.GLFW;
 import wtf.cattyn.ferret.api.feature.Feature;
 import wtf.cattyn.ferret.api.feature.option.Option;
 import wtf.cattyn.ferret.common.impl.trait.Json;
@@ -15,7 +16,7 @@ import wtf.cattyn.ferret.core.Ferret;
 public class Module extends Feature.ToggleableFeature implements Json<Module> {
     @Expose private boolean toggled;
     private transient final Category category;
-    @Expose private int key = -1481058891;
+    @Expose private int key = -1;
 
     public Module(String name, Category category) {
         this(name, "No Description provided!", category);
@@ -64,14 +65,14 @@ public class Module extends Feature.ToggleableFeature implements Json<Module> {
 
     public void onToggle() { }
 
-    public void registerLuaBody(LuaValue luaValue) {
-
-    }
-
     @Override public JsonObject toJson() {
-        JsonObject object = JsonParser.parseString(gson.toJson(this)).getAsJsonObject();
+        JsonObject object = new JsonObject();
+
+        object.addProperty("toggled", toggled);
+        object.addProperty("key", key);
+
         JsonObject options = new JsonObject();
-        Option.getForTarget(this).forEach(o -> options.add(o.getName(), o.toJson()));
+        Option.getForTarget(this).forEach(o -> o.toJson(options));
         object.add("options", options);
         return object;
     }
@@ -80,7 +81,7 @@ public class Module extends Feature.ToggleableFeature implements Json<Module> {
         setToggled(object.get("toggled").getAsBoolean());
         setKey(object.get("key").getAsInt());
         Option.getForTarget(this).forEach(o -> {
-            o.fromJson(object.get("options").getAsJsonObject().get(o.getName()).getAsJsonObject());
+            o.fromJson(object.get("options").getAsJsonObject());
         });
         return this;
     }

@@ -1,10 +1,12 @@
 package wtf.cattyn.ferret.api.manager.impl;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import wtf.cattyn.ferret.api.feature.module.Module;
 import wtf.cattyn.ferret.api.feature.option.Option;
 import wtf.cattyn.ferret.api.feature.script.Script;
+import wtf.cattyn.ferret.api.feature.script.lua.classes.ModuleLua;
 import wtf.cattyn.ferret.api.manager.Manager;
 import wtf.cattyn.ferret.common.Globals;
 import wtf.cattyn.ferret.core.Ferret;
@@ -30,8 +32,8 @@ public final class ConfigManager extends Thread implements Manager<ConfigManager
         }
         JsonObject json = JsonParser.parseString(raw).getAsJsonObject();
         loadModules(json.get("modules").getAsJsonObject());
-        loadPrefix();
         loadScripts();
+        loadPrefix();
         return this;
     }
 
@@ -51,12 +53,16 @@ public final class ConfigManager extends Thread implements Manager<ConfigManager
         for (Module module : ferret().getModuleManager()) {
             if(json.get(module.getName()) != null) {
                 try {
-                    module.fromJson(json.get(module.getName()).getAsJsonObject());
+                    loadModule(module, json);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
+    }
+
+    void loadModule(Module module, JsonObject json) {
+        module.fromJson(json.get(module.getName()).getAsJsonObject());
     }
 
     void loadPrefix() {
@@ -81,6 +87,7 @@ public final class ConfigManager extends Thread implements Manager<ConfigManager
         JsonObject object = new JsonObject();
         JsonObject modules = new JsonObject();
         Ferret.getDefault().getModuleManager().forEach(m -> {
+            if(m instanceof ModuleLua) return;
             modules.add(m.getName(), m.toJson());
         });
         object.add("modules", modules);
@@ -110,10 +117,13 @@ public final class ConfigManager extends Thread implements Manager<ConfigManager
                         JsonObject object = JsonParser.parseString(raw).getAsJsonObject();
                         String name = f.toFile().getName();
                         Script script = new Script(name.substring(0, name.length() - 5), "");
+                        script.setToggled(object.get("active").getAsBoolean());
 
                         for(Option option : Option.getForTarget(script)) {
-                            option.fromJson(object.get("options").getAsJsonObject().get(option.getName()).getAsJsonObject());
+                            option.fromJson(object.get("options").getAsJsonObject());
                         }
+
+                        loadModules(object.get("modules").getAsJsonObject());
 
                         ferret().getScripts().add(script);
                     } catch (Exception e) {
@@ -129,10 +139,22 @@ public final class ConfigManager extends Thread implements Manager<ConfigManager
     void saveScripts() {
         for(Script script : ferret().getScripts()) {
 
-            File  file = new File(SCRIPT_FOLDER, script.getName() + ".json");
+            File file = new File(SCRIPT_FOLDER, script.getName() + ".json");
+
+            JsonObject object = new JsonObject();
+            object.addProperty("active", script.isToggled());
+
+            JsonObject module = new JsonObject();
+
+            for(Module m : ferret().getModuleManager()) {
+                if(!(m instanceof ModuleLua)) continue;
+                module.add(m.getName(), m.toJson());
+            }
+
+            object.add("modules", module);
 
             try {
-                Files.write(file.toPath(), gson.toJson(script.toJson()).getBytes());
+                Files.write(file.toPath(), gson.toJson(object).getBytes());
             } catch (Exception e) {
                 e.printStackTrace();
             }
