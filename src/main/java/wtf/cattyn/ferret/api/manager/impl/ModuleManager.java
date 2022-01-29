@@ -15,7 +15,8 @@ public final class ModuleManager extends ArrayList<Module> implements Manager<Mo
                 new AirPlace(),
                 new KillAura(),
                 new ExtraTab(),
-                new AntiLava()
+                new AntiLava(),
+                new TablistToggle()
         ));
         return this;
     }
