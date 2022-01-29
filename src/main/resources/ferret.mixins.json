@@ -3,19 +3,17 @@
   "minVersion": "0.8",
   "package": "wtf.cattyn.ferret.mixins",
   "compatibilityLevel": "JAVA_17",
-  "mixins": [
-  ],
   "client": [
-    "MixinMinecraft",
-    "MixinClientPlayerEntity",
     "MixinClientConnection",
+    "MixinClientPlayerEntity",
     "MixinCommandSuggestor",
     "MixinInGameHud",
     "MixinKeyboard",
+    "MixinMinecraft",
+    "MixinPlayerListHud",
     "MixinRenderTickCounter",
-    "ducks.DuckMinecraft",
     "ducks.DuckGameMessageS2CPacket",
-    "MixinPlayerListHud"
+    "ducks.DuckMinecraft"
   ],
   "injectors": {
     "defaultRequire": 1

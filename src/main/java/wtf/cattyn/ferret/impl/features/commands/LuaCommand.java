@@ -41,6 +41,11 @@ public class LuaCommand extends Command {
                                 argument("name", StringArgumentType.greedyString())
                                         .executes(context -> {
                                             String name = StringArgumentType.getString(context, "name");
+                                            for (Script s : ferret().getScripts()) {
+                                                if(s.getName().equalsIgnoreCase(name)) {
+                                                    s.unload(true);
+                                                }
+                                            }
                                             ferret().getScripts().add(new Script(name, ""));
 
                                             return 1;
