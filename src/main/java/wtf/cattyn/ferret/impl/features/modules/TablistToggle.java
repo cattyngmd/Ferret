@@ -1,6 +1,7 @@
 package wtf.cattyn.ferret.impl.features.modules;
 
 import com.google.common.eventbus.Subscribe;
+import net.minecraft.item.Items;
 import wtf.cattyn.ferret.api.feature.module.Module;
 import wtf.cattyn.ferret.impl.events.TickEvent;
 

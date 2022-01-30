@@ -30,7 +30,6 @@ public class Ferret {
     private ScriptManager scripts;
 
     public Ferret() {
-
     }
 
     public void init() {

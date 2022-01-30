@@ -6,11 +6,11 @@ import net.minecraft.client.MinecraftClient;
 import org.luaj.vm2.LuaClosure;
 import org.luaj.vm2.LuaValue;
 import wtf.cattyn.ferret.api.feature.Feature;
-import wtf.cattyn.ferret.api.feature.module.Module;
 import wtf.cattyn.ferret.api.feature.option.Option;
 import wtf.cattyn.ferret.api.feature.option.impl.BooleanOption;
 import wtf.cattyn.ferret.api.feature.option.impl.ComboOption;
 import wtf.cattyn.ferret.api.feature.option.impl.NumberOption;
+import wtf.cattyn.ferret.api.feature.option.impl.TextOption;
 import wtf.cattyn.ferret.api.feature.script.lua.LuaCallback;
 import wtf.cattyn.ferret.api.feature.script.lua.classes.GuiBuilder;
 import wtf.cattyn.ferret.api.feature.script.lua.classes.ModuleLua;
@@ -20,7 +20,6 @@ import wtf.cattyn.ferret.api.feature.script.lua.functions.Vec2dFunction;
 import wtf.cattyn.ferret.api.feature.script.lua.functions.Vec3dFunction;
 import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaGlobals;
 import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaRenderer;
-import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaUtils;
 import wtf.cattyn.ferret.api.manager.impl.ConfigManager;
 import wtf.cattyn.ferret.common.impl.trait.Json;
 import wtf.cattyn.ferret.common.impl.util.ChatUtil;
@@ -28,7 +27,6 @@ import wtf.cattyn.ferret.core.Ferret;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -40,7 +38,7 @@ import java.util.List;
  * @since 06/1/22
  */
 
-public class Script extends Feature.ToggleableFeature implements  Json<Script> {
+public class Script extends Feature.ToggleableFeature implements Json<Script> {
 
     private JsonObject cache = new JsonObject();
     private transient String script;
@@ -74,7 +72,7 @@ public class Script extends Feature.ToggleableFeature implements  Json<Script> {
             ChatUtil.sendMessage(e.getMessage());
         }
         modules.forEach(m -> {
-            if(cache.has(m.getName())) m.fromJson(cache.get(m.getName()).getAsJsonObject());
+            if (cache.has(m.getName())) m.fromJson(cache.get(m.getName()).getAsJsonObject());
         });
         cache = new JsonObject();
     }
@@ -86,7 +84,7 @@ public class Script extends Feature.ToggleableFeature implements  Json<Script> {
             ferret().getMappingManager().getFieldCache().clear();
             ferret().getMappingManager().getMethodCache().clear();
         }
-        for(ModuleLua lua : modules) {
+        for (ModuleLua lua : modules) {
             Option.getOptions().removeIf(option -> option.getFeature() == null || option.getFeature().equals(lua) || option.getFeature().equals(this));
         }
         Ferret.getDefault().getModuleManager().removeAll(modules);
@@ -117,6 +115,7 @@ public class Script extends Feature.ToggleableFeature implements  Json<Script> {
         engine.put("Module", ModuleLua.getLua());
         engine.put("GuiBuilder", GuiBuilder.getLua());
 
+        engine.put("TextBuilder", new TextOption.LuaBuilder());
         engine.put("BooleanBuilder", new BooleanOption.LuaBuilder());
         engine.put("NumberBuilder", new NumberOption.LuaBuilder());
         engine.put("ComboBuilder", new ComboOption.LuaBuilder());
@@ -129,7 +128,7 @@ public class Script extends Feature.ToggleableFeature implements  Json<Script> {
     }
 
     public void invoke(String name, LuaValue arg) {
-        if(callbacks == null) return;
+        if (callbacks == null) return;
         callbacks.stream().filter(c -> c.name().equalsIgnoreCase(name)).forEach(c -> c.run(arg));
     }
 

@@ -33,4 +33,5 @@ public class Sprint extends Module {
         if (mc.world == null) return;
         mc.player.setSprinting(false);
     }
+
 }
