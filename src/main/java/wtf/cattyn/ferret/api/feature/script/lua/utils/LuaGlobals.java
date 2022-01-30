@@ -1,5 +1,8 @@
 package wtf.cattyn.ferret.api.feature.script.lua.utils;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import org.luaj.vm2.LuaClosure;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
@@ -53,10 +56,14 @@ public class LuaGlobals implements Globals {
         return ferret().getTickManager().getMultiplier();
     }
 
+    public Block getBlock(double x, double y, double z) {
+        if(mc.world == null) return Blocks.AIR;
+        return mc.world.getBlockState(new BlockPos(x, y, z)).getBlock();
+    }
+
     public static LuaGlobals getDefault() {
         if(instance == null) instance = new LuaGlobals();
         return instance;
     }
-
 
 }
