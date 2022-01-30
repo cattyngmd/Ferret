@@ -1,7 +1,6 @@
 package wtf.cattyn.ferret.impl.features.modules;
 
 import com.google.common.eventbus.Subscribe;
-import org.lwjgl.glfw.GLFW;
 import wtf.cattyn.ferret.api.feature.module.Module;
 import wtf.cattyn.ferret.api.feature.option.impl.BooleanOption;
 import wtf.cattyn.ferret.api.feature.option.impl.ComboOption;
@@ -23,7 +22,6 @@ public class Sprint extends Module {
     }
 
     @Subscribe public void onTick(TickEvent e) {
-        mc.world.getBlockState(mc.player.getBlockPos()).getBlock().toString();
         if(mc.player.forwardSpeed != 0 || omni.getValue()) {
             mc.player.setSprinting(true);
         }
@@ -35,9 +33,4 @@ public class Sprint extends Module {
         if (mc.world == null) return;
         mc.player.setSprinting(false);
     }
-
-    public enum Shit {
-        OK, FUCK, YOU, LMFAO
-    }
-
 }
