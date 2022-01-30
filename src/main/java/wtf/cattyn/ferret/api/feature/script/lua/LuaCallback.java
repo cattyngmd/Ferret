@@ -5,6 +5,7 @@ import org.luaj.vm2.LuaClosure;
 import org.luaj.vm2.LuaValue;
 import wtf.cattyn.ferret.api.feature.Feature;
 import wtf.cattyn.ferret.api.feature.script.Script;
+import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaUtils;
 import wtf.cattyn.ferret.api.manager.impl.ScriptManager;
 import wtf.cattyn.ferret.common.impl.util.ChatUtil;
 
@@ -17,14 +18,7 @@ public record LuaCallback(String name, LuaClosure callback, Feature.ToggleableFe
 
     public void run(LuaValue o) {
         if (script.isToggled()) {
-            try {
-                callback.call(o);
-            } catch (Exception e) {
-                if (MinecraftClient.getInstance().world != null)
-                    ChatUtil.sendMessage(e.getMessage());
-                e.printStackTrace();
-                if (!ScriptManager.strict) script.setToggled(false);
-            }
+            LuaUtils.safeCall(script, callback, o);
         }
     }
 

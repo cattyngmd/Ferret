@@ -2,7 +2,7 @@ package wtf.cattyn.ferret.api.manager.impl;
 
 import wtf.cattyn.ferret.api.manager.Manager;
 
-public class TickManager implements Manager<TickManager> {
+public final class TickManager implements Manager<TickManager> {
 
     private float multiplier;
 

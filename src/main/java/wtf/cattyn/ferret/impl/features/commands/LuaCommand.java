@@ -8,6 +8,10 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.command.CommandSource;
+import net.minecraft.text.ClickEvent;
+import net.minecraft.text.HoverEvent;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Style;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.lib.jse.JsePlatform;
 import wtf.cattyn.ferret.api.feature.command.Command;
@@ -32,7 +36,14 @@ public class LuaCommand extends Command {
         builder.then(
                 literal("info")
                         .executes(context -> {
-                            ChatUtil.sendMessage("TODO make info shit");
+                            ChatUtil.sendMessage(
+                                    new LiteralText("Documentation: https://cattyn.gitbook.io/ferret-lua-api/reference/readme. ")
+                                            .setStyle(Style.EMPTY.withClickEvent(
+                                                    new ClickEvent(
+                                                            ClickEvent.Action.OPEN_URL, "https://cattyn.gitbook.io/ferret-lua-api/reference/readme"
+                                                    )
+                                            ))
+                            );
                             return 1;
                         })
         ).then(
@@ -43,7 +54,8 @@ public class LuaCommand extends Command {
                                             String name = StringArgumentType.getString(context, "name");
                                             for (Script s : ferret().getScripts()) {
                                                 if(s.getName().equalsIgnoreCase(name)) {
-                                                    s.unload(true);
+                                                    ChatUtil.sendMessage("script is already loaded!");
+                                                    return 1;
                                                 }
                                             }
                                             ferret().getScripts().add(new Script(name, ""));

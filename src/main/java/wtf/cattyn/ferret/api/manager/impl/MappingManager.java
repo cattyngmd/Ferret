@@ -16,7 +16,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.zip.GZIPInputStream;
 
-public class MappingManager implements Manager<MappingManager> {
+public final class MappingManager implements Manager<MappingManager> {
 
     private static final String YARN = "https://maven.fabricmc.net/net/fabricmc/yarn/1.18.1+build.18/yarn-1.18.1+build.18-tiny.gz";
     private final File mappings = new File(ConfigManager.MAIN_FOLDER, "mappings/mappings.tiny");

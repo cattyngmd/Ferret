@@ -9,6 +9,7 @@ import org.luaj.vm2.lib.jse.CoerceLuaToJava;
 import wtf.cattyn.ferret.api.feature.module.Module;
 import wtf.cattyn.ferret.api.feature.script.Script;
 import wtf.cattyn.ferret.api.feature.script.lua.LuaCallback;
+import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaUtils;
 
 public class ModuleLua extends Module {
 
@@ -33,7 +34,7 @@ public class ModuleLua extends Module {
     }
 
     public void body(LuaClosure luaClosure) {
-        luaClosure.call();
+        LuaUtils.safeCall(script, luaClosure);
         register();
     }
 
@@ -61,11 +62,11 @@ public class ModuleLua extends Module {
     }
 
     @Override public void onEnable() {
-        if(onEnable != null) onEnable.call();
+        LuaUtils.safeCall(onEnable);
     }
 
     @Override public void onDisable() {
-        if(onDisable != null) onDisable.call();
+        LuaUtils.safeCall(onDisable);
     }
 
     public static LuaValue getLua() {

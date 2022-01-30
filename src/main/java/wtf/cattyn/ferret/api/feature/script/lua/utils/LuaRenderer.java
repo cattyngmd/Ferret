@@ -15,7 +15,7 @@ public class LuaRenderer extends DrawableHelper implements Globals {
 
     private static LuaRenderer instance;
 
-    public LuaRenderer() {
+    private LuaRenderer() {
     }
 
     public void text(MatrixStack stack, String text, Vec2d vec2d, Color color) {

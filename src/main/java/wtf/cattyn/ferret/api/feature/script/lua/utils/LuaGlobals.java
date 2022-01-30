@@ -16,7 +16,7 @@ public class LuaGlobals implements Globals {
 
     private static LuaGlobals instance;
 
-    public LuaGlobals() {
+    private LuaGlobals() {
     }
 
     public int getFps() {
@@ -37,8 +37,8 @@ public class LuaGlobals implements Globals {
     }
 
     public String getServer() {
-        if(mc.player == null || mc.player.getServer() == null) return "none";
-        return mc.player.getServer().getServerIp();
+        if(mc.player == null || mc.getCurrentServerEntry() == null) return "none";
+        return mc.getCurrentServerEntry().address;
     }
 
     public String getUsername() {
@@ -51,21 +51,6 @@ public class LuaGlobals implements Globals {
 
     public float getTickMultiplier() {
         return ferret().getTickManager().getMultiplier();
-    }
-
-    public List<Object> sortList(List<Object> list, LuaClosure closure) {
-        for (int j = 2; j < list.size(); j++) {
-
-            double key = ( double ) CoerceLuaToJava.coerce(closure.call(CoerceJavaToLua.coerce(list.get(j))), Double.class);
-            int i = j - 1;
-
-            while (i > 0 && ( double ) CoerceLuaToJava.coerce(closure.call(CoerceJavaToLua.coerce(list.get(j))), Double.class) > key) {
-                list.set(i + 1,  list.get(i));
-                i--;
-            }
-            list.set(i + 1, key);
-        }
-        return list;
     }
 
     public static LuaGlobals getDefault() {

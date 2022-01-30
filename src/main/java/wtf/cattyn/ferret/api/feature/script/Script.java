@@ -6,6 +6,7 @@ import net.minecraft.client.MinecraftClient;
 import org.luaj.vm2.LuaClosure;
 import org.luaj.vm2.LuaValue;
 import wtf.cattyn.ferret.api.feature.Feature;
+import wtf.cattyn.ferret.api.feature.module.Module;
 import wtf.cattyn.ferret.api.feature.option.Option;
 import wtf.cattyn.ferret.api.feature.option.impl.BooleanOption;
 import wtf.cattyn.ferret.api.feature.option.impl.ComboOption;
@@ -19,6 +20,7 @@ import wtf.cattyn.ferret.api.feature.script.lua.functions.Vec2dFunction;
 import wtf.cattyn.ferret.api.feature.script.lua.functions.Vec3dFunction;
 import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaGlobals;
 import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaRenderer;
+import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaUtils;
 import wtf.cattyn.ferret.api.manager.impl.ConfigManager;
 import wtf.cattyn.ferret.common.impl.trait.Json;
 import wtf.cattyn.ferret.common.impl.util.ChatUtil;
@@ -40,6 +42,7 @@ import java.util.List;
 
 public class Script extends Feature.ToggleableFeature implements  Json<Script> {
 
+    private JsonObject cache = new JsonObject();
     private transient String script;
     private Path path;
     private transient final List<LuaCallback> callbacks = new ArrayList<>();
@@ -67,19 +70,24 @@ public class Script extends Feature.ToggleableFeature implements  Json<Script> {
 
             engine.eval(script);
             engine.eval("main()");
-        } catch (ScriptException e) {
+        } catch (Exception e) {
             ChatUtil.sendMessage(e.getMessage());
         }
+        modules.forEach(m -> {
+            if(cache.has(m.getName())) m.fromJson(cache.get(m.getName()).getAsJsonObject());
+        });
+        cache = new JsonObject();
     }
 
     public void unload(boolean remove) {
+        modules.forEach(m -> cache.add(m.getName(), m.toJson()));
         if (remove) {
             ferret().getScripts().remove(this);
             ferret().getMappingManager().getFieldCache().clear();
             ferret().getMappingManager().getMethodCache().clear();
         }
         for(ModuleLua lua : modules) {
-            Option.getOptions().removeIf(option -> option.getFeature().equals(lua) || option.getFeature().equals(this));
+            Option.getOptions().removeIf(option -> option.getFeature() == null || option.getFeature().equals(lua) || option.getFeature().equals(this));
         }
         Ferret.getDefault().getModuleManager().removeAll(modules);
         modules.clear();

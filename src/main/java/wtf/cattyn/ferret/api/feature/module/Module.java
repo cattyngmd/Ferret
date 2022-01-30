@@ -3,6 +3,9 @@ package wtf.cattyn.ferret.api.feature.module;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.annotations.Expose;
+import net.minecraft.text.HoverEvent;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Style;
 import net.minecraft.util.Formatting;
 import org.luaj.vm2.LuaValue;
 import org.lwjgl.glfw.GLFW;
@@ -48,7 +51,14 @@ public class Module extends Feature.ToggleableFeature implements Json<Module> {
         onToggle();
         onEnable();
         Ferret.EVENT_BUS.register(this);
-        if (mc.world != null) ChatUtil.sendMessage(getName() + Formatting.GREEN + " enabled");
+        if (mc.world != null) ChatUtil.sendMessage(
+                new LiteralText(getName() + Formatting.GREEN + " enabled")
+                        .setStyle(Style.EMPTY.withHoverEvent(
+                                new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                        new LiteralText(getName() + " was enabled").formatted(Formatting.GREEN)
+                                )
+                        ))
+        );
     }
 
     @Override public void disable() {
@@ -56,7 +66,14 @@ public class Module extends Feature.ToggleableFeature implements Json<Module> {
         onDisable();
         Ferret.EVENT_BUS.unregister(this);
         toggled = false;
-        if (mc.world != null) ChatUtil.sendMessage(getName() + Formatting.RED + " disabled");
+        if (mc.world != null) ChatUtil.sendMessage(
+                new LiteralText(getName() + Formatting.RED + " disabled")
+                        .setStyle(Style.EMPTY.withHoverEvent(
+                                new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                        new LiteralText(getName() + " was disabled").formatted(Formatting.RED)
+                                )
+                        ))
+        );
     }
 
     public void onEnable() { }

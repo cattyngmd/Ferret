@@ -7,7 +7,7 @@ import wtf.cattyn.ferret.api.manager.Manager;
 
 import java.util.ArrayList;
 
-public class ScriptManager extends ArrayList<Script> implements Manager<ScriptManager> {
+public final class ScriptManager extends ArrayList<Script> implements Manager<ScriptManager> {
 
     public static boolean strict = false;
 

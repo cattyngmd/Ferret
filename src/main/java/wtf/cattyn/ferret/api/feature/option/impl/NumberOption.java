@@ -25,7 +25,9 @@ public class NumberOption extends Option<Number> {
     }
 
     @Override public void setStringValue(String value) {
-        setValue(Double.parseDouble(value));
+        try {
+            setValue(Double.parseDouble(value));
+        } catch (Exception ignored) {}
     }
 
     @Override public Number getValue() {
