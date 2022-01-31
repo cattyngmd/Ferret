@@ -2,7 +2,9 @@ package wtf.cattyn.ferret.api.feature.script.lua.classes;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.Items;
 import net.minecraft.text.Text;
+import net.minecraft.util.registry.Registry;
 import org.luaj.vm2.LuaClosure;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
@@ -18,6 +20,7 @@ public class GuiBuilder {
 
     private LuaClosure render;
     private LuaClosure keyPressed;
+    private LuaClosure keyReleased;
     private LuaClosure charTyped;
     private LuaClosure mouseClicked;
     private LuaClosure mouseReleased;
@@ -55,6 +58,10 @@ public class GuiBuilder {
 
     public void setKeyPressed(LuaClosure keyPressed) {
         this.keyPressed = keyPressed;
+    }
+
+    public void setKeyReleased(LuaClosure keyReleased) {
+        this.keyReleased = keyReleased;
     }
 
     public Screen build() {
@@ -102,6 +109,15 @@ public class GuiBuilder {
                         LuaValue.valueOf(button)
                 );
                 return super.mouseReleased(mouseX, mouseY, button);
+            }
+
+            @Override public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
+                LuaUtils.safeCall(keyReleased,
+                        LuaValue.valueOf(keyCode),
+                        LuaValue.valueOf(scanCode),
+                        LuaValue.valueOf(modifiers)
+                );
+                return super.keyReleased(keyCode, scanCode, modifiers);
             }
         };
     }
