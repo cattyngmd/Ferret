@@ -5,7 +5,6 @@ import org.jetbrains.annotations.Nullable;
 import org.luaj.vm2.LuaClosure;
 import org.luaj.vm2.LuaValue;
 import wtf.cattyn.ferret.api.feature.Feature;
-import wtf.cattyn.ferret.api.feature.script.Script;
 import wtf.cattyn.ferret.api.manager.impl.ScriptManager;
 import wtf.cattyn.ferret.common.impl.util.ChatUtil;
 
@@ -15,13 +14,14 @@ public class LuaUtils {
     }
 
     public static void safeCall(@Nullable Feature.ToggleableFeature script, @Nullable LuaClosure closure, @Nullable LuaValue... values) {
-        if(closure == null) return;
+        if (closure == null) return;
         try {
-            if(values == null) closure.invoke();
+            if (values == null) closure.invoke();
             else closure.invoke(values);
         } catch (Exception e) {
-            if (MinecraftClient.getInstance().inGameHud.getChatHud() != null)
+            if (MinecraftClient.getInstance().inGameHud.getChatHud() != null) {
                 ChatUtil.sendMessage(e.getMessage());
+            }
             e.printStackTrace();
             if (script != null && !ScriptManager.strict) script.setToggled(false);
         }

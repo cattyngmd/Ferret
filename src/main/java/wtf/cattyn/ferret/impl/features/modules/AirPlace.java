@@ -2,6 +2,7 @@ package wtf.cattyn.ferret.impl.features.modules;
 
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
 import net.minecraft.util.Hand;

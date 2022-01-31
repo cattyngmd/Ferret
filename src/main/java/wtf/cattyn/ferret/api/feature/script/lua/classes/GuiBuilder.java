@@ -24,6 +24,7 @@ public class GuiBuilder {
     private LuaClosure charTyped;
     private LuaClosure mouseClicked;
     private LuaClosure mouseReleased;
+    private LuaClosure mouseScrolled;
 
     private boolean isPauseScreen = true;
 
@@ -62,6 +63,10 @@ public class GuiBuilder {
 
     public void setKeyReleased(LuaClosure keyReleased) {
         this.keyReleased = keyReleased;
+    }
+
+    public void setMouseScrolled(LuaClosure mouseScrolled) {
+        this.mouseScrolled = mouseScrolled;
     }
 
     public Screen build() {
@@ -109,6 +114,14 @@ public class GuiBuilder {
                         LuaValue.valueOf(button)
                 );
                 return super.mouseReleased(mouseX, mouseY, button);
+            }
+
+            @Override public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+                LuaUtils.safeCall(mouseScrolled,
+                        CoerceJavaToLua.coerce(new Vec2d(mouseX, mouseY)),
+                        LuaValue.valueOf(amount)
+                );
+                return super.mouseScrolled(mouseX, mouseY, amount);
             }
 
             @Override public boolean keyReleased(int keyCode, int scanCode, int modifiers) {

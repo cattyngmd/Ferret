@@ -122,7 +122,11 @@ public final class ConfigManager extends Thread implements Manager<ConfigManager
         for (Map.Entry<String, JsonElement> entry : object.entrySet()) {
             String name = entry.getKey();
             if(!name.endsWith(".lua")) continue;
-            Script script = new Script(name, "");
+            Script script;
+
+            try { script = new Script(name, ""); }
+            catch (IOException exception) { continue; }
+
             if (entry.getValue().isJsonObject()) {
                 JsonObject scriptJson = entry.getValue().getAsJsonObject();
 

@@ -46,15 +46,11 @@ public class Script extends Feature.ToggleableFeature implements Json<Script> {
     private transient final List<LuaCallback> callbacks = new ArrayList<>();
     private transient final List<ModuleLua> modules = new ArrayList<>();
 
-    public Script(String name, String desc) {
+    public Script(String name, String desc) throws IOException {
         super(name, desc);
-        try {
-            this.path = Path.of(ConfigManager.SCRIPT_FOLDER.toString(), name);
-            this.script = new String(Files.readAllBytes(path));
-            load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.path = Path.of(ConfigManager.SCRIPT_FOLDER.toString(), name);
+        this.script = new String(Files.readAllBytes(path));
+        load();
     }
 
     public void load() {
