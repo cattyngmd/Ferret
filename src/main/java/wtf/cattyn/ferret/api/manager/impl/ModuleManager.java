@@ -17,7 +17,8 @@ public final class ModuleManager extends ArrayList<Module> implements Manager<Mo
                 new ExtraTab(),
                 new AntiLava(),
                 new TablistToggle(),
-                new UnfocusedCPU()
+                new UnfocusedCPU(),
+                new CameraClip()
         ));
         return this;
     }

@@ -17,5 +17,8 @@
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "mixins": [
+    "MixinCamera"
+  ]
 }
