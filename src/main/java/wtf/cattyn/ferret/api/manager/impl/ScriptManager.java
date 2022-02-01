@@ -22,7 +22,7 @@ public final class ScriptManager extends ArrayList<Script> implements Manager<Sc
 
     public void runCallback(String callback, LuaValue o) {
         for(Script script : this) {
-            if(!script.isToggled()) continue;
+            if(!script.isToggled() || !script.isLoaded()) continue;
             script.invoke(callback, o);
         }
     }
