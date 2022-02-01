@@ -15,7 +15,10 @@ public class FakePlayer extends Module {
     }
 
     @Override public void onEnable() {
-        if (mc.world == null) disable();
+        if (mc.world == null) {
+            disable();
+            return;
+        }
         fakePlayer = new OtherClientPlayerEntity(mc.world, new GameProfile(UUID.randomUUID(), "FakePlayer"));
         fakePlayer.copyFrom(mc.player);
         mc.world.addEntity(-100, fakePlayer);
