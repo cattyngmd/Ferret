@@ -12,13 +12,11 @@
     "MixinMinecraft",
     "MixinPlayerListHud",
     "MixinRenderTickCounter",
+    "MixinCamera",
     "ducks.DuckGameMessageS2CPacket",
     "ducks.DuckMinecraft"
   ],
   "injectors": {
     "defaultRequire": 1
-  },
-  "mixins": [
-    "MixinCamera"
-  ]
+  }
 }
