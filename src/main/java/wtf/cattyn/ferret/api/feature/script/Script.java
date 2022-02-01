@@ -43,6 +43,7 @@ public class Script extends Feature.ToggleableFeature implements Json<Script> {
     private JsonObject cache = new JsonObject();
     private transient String script;
     private Path path;
+    private boolean loaded;
     private transient final List<LuaCallback> callbacks = new ArrayList<>();
     private transient final List<ModuleLua> modules = new ArrayList<>();
 
@@ -71,9 +72,11 @@ public class Script extends Feature.ToggleableFeature implements Json<Script> {
             if (cache.has(m.getName())) m.fromJson(cache.get(m.getName()).getAsJsonObject());
         });
         cache = new JsonObject();
+        loaded = true;
     }
 
     public void unload(boolean remove) {
+        loaded = false;
         modules.forEach(m -> cache.add(m.getName(), m.toJson()));
         if (remove) {
             ferret().getScripts().remove(this);
@@ -144,6 +147,8 @@ public class Script extends Feature.ToggleableFeature implements Json<Script> {
     public Path getPath() {
         return path;
     }
+
+    public boolean isLoaded() { return loaded; }
 
     @Override public JsonObject toJson() {
         JsonObject object = JsonParser.parseString(gson.toJson(this)).getAsJsonObject();
