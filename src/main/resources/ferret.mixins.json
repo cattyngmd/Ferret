@@ -12,6 +12,7 @@
     "MixinMinecraft",
     "MixinPlayerListHud",
     "MixinRenderTickCounter",
+    "MixinWorldRenderer",
     "MixinCamera",
     "ducks.DuckGameMessageS2CPacket",
     "ducks.DuckMinecraft"

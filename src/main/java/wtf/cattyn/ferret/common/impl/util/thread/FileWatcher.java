@@ -38,8 +38,6 @@ public class FileWatcher extends Thread {
                         }
                     }
 
-
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

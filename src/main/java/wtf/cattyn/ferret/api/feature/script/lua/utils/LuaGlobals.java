@@ -4,16 +4,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import org.luaj.vm2.LuaClosure;
-import org.luaj.vm2.lib.jse.CoerceJavaToLua;
-import org.luaj.vm2.lib.jse.CoerceLuaToJava;
 import wtf.cattyn.ferret.common.Globals;
 import wtf.cattyn.ferret.mixins.ducks.DuckMinecraft;
-
-import java.awt.*;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class LuaGlobals implements Globals {
 
