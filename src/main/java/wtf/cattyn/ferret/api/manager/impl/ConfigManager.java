@@ -99,7 +99,7 @@ public final class ConfigManager extends Thread implements Manager<ConfigManager
         JsonObject modules = new JsonObject();
         Ferret.getDefault().getModuleManager().forEach(m -> {
             if (m instanceof ModuleLua) return;
-            modules.add(m.getName(), m.toJson());
+            modules.add(m.getName(), m.toJson().value());
         });
         object.add("modules", modules);
         try {
@@ -167,7 +167,7 @@ public final class ConfigManager extends Thread implements Manager<ConfigManager
 
             for (Module m : ferret().getModuleManager()) {
                 if (!(m instanceof ModuleLua)) continue;
-                if ((( ModuleLua ) m).getScript() == script) module.add(m.getName(), m.toJson());
+                if ((( ModuleLua ) m).getScript() == script) module.add(m.getName(), m.toJson().value());
             }
 
             scriptObject.add("modules", module);

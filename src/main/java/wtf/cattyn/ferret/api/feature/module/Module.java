@@ -1,5 +1,6 @@
 package wtf.cattyn.ferret.api.feature.module;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.annotations.Expose;
@@ -11,6 +12,7 @@ import org.luaj.vm2.LuaValue;
 import org.lwjgl.glfw.GLFW;
 import wtf.cattyn.ferret.api.feature.Feature;
 import wtf.cattyn.ferret.api.feature.option.Option;
+import wtf.cattyn.ferret.common.impl.Pair;
 import wtf.cattyn.ferret.common.impl.trait.Json;
 import wtf.cattyn.ferret.common.impl.trait.Toggleable;
 import wtf.cattyn.ferret.common.impl.util.ChatUtil;
@@ -82,16 +84,16 @@ public class Module extends Feature.ToggleableFeature implements Json<Module> {
 
     public void onToggle() { }
 
-    @Override public JsonObject toJson() {
+    @Override public Pair<String, JsonElement> toJson() {
         JsonObject object = new JsonObject();
 
         object.addProperty("toggled", toggled);
         object.addProperty("key", key);
 
         JsonObject options = new JsonObject();
-        Option.getForTarget(this).forEach(o -> o.toJson(options));
+        Option.getForTarget(this).forEach(o -> options.add(o.getName(), o.toJson().value()));
         object.add("options", options);
-        return object;
+        return new Pair<>(getName(), object);
     }
 
     @Override public Module fromJson(JsonObject object) {

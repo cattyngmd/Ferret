@@ -2,11 +2,13 @@ package wtf.cattyn.ferret.api.feature.option.impl;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import wtf.cattyn.ferret.api.feature.Feature;
 import wtf.cattyn.ferret.api.feature.option.Option;
+import wtf.cattyn.ferret.common.impl.Pair;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -46,15 +48,8 @@ public class ComboOption extends Option<String> {
         else setValue(combo.get(combo.indexOf(value) + 1));
     }
 
-    @Override public JsonObject toJson() {
-        JsonObject object = new JsonObject();
-        object.addProperty("value", value);
-        return object;
-    }
-
-    @Override public JsonObject toJson(JsonObject object) {
-        object.addProperty(getName(), value);
-        return object;
+    @Override public Pair<String, JsonElement> toJson() {
+        return new Pair<>(getName(), new JsonPrimitive(value));
     }
 
     @Override public Option<String> fromJson(JsonObject object) {

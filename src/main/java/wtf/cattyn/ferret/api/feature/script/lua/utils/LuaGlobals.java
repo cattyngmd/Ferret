@@ -11,7 +11,7 @@ public class LuaGlobals implements Globals {
 
     private static LuaGlobals instance;
 
-    private LuaGlobals() {
+    LuaGlobals() {
     }
 
     public int getFps() {

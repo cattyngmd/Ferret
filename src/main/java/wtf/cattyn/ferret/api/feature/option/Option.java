@@ -1,7 +1,9 @@
 package wtf.cattyn.ferret.api.feature.option;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import wtf.cattyn.ferret.api.feature.Feature;
+import wtf.cattyn.ferret.common.impl.Pair;
 import wtf.cattyn.ferret.common.impl.trait.Json;
 
 import java.util.ArrayList;
@@ -60,7 +62,7 @@ public abstract class Option<T> extends Feature.SerializableFeature implements J
         return getOptions().stream().filter(o -> o.getFeature().equals(target)).collect(Collectors.toList());
     }
 
-    @Override abstract public JsonObject toJson();
+    @Override abstract public Pair<String, JsonElement> toJson();
 
     @Override abstract public Option<T> fromJson(JsonObject object);
 

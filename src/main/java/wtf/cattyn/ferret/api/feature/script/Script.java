@@ -1,7 +1,9 @@
 package wtf.cattyn.ferret.api.feature.script;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import net.minecraft.client.MinecraftClient;
 import org.luaj.vm2.LuaClosure;
 import org.luaj.vm2.LuaValue;
@@ -21,6 +23,7 @@ import wtf.cattyn.ferret.api.feature.script.lua.functions.Vec3dFunction;
 import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaGlobals;
 import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaRenderer;
 import wtf.cattyn.ferret.api.manager.impl.ConfigManager;
+import wtf.cattyn.ferret.common.impl.Pair;
 import wtf.cattyn.ferret.common.impl.trait.Json;
 import wtf.cattyn.ferret.common.impl.util.ChatUtil;
 import wtf.cattyn.ferret.core.Ferret;
@@ -77,7 +80,7 @@ public class Script extends Feature.ToggleableFeature implements Json<Script> {
 
     public void unload(boolean remove) {
         loaded = false;
-        modules.forEach(m -> cache.add(m.getName(), m.toJson()));
+        modules.forEach(m -> cache.add(m.getName(), m.toJson().value()));
         if (remove) {
             ferret().getScripts().remove(this);
             ferret().getMappingManager().getFieldCache().clear();
@@ -150,12 +153,12 @@ public class Script extends Feature.ToggleableFeature implements Json<Script> {
 
     public boolean isLoaded() { return loaded; }
 
-    @Override public JsonObject toJson() {
+    @Override public Pair<String, JsonElement> toJson() {
         JsonObject object = JsonParser.parseString(gson.toJson(this)).getAsJsonObject();
         JsonObject options = new JsonObject();
-        Option.getForTarget(this).forEach(o -> options.add(o.getName(), o.toJson()));
+        Option.getForTarget(this).forEach(o -> options.add(o.getName(), o.toJson().value()));
         object.add("options", options);
-        return object;
+        return new Pair<>(getName(), object);
     }
 
     @Override public Script fromJson(JsonObject object) {
