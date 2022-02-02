@@ -1,11 +1,18 @@
 package wtf.cattyn.ferret.api.feature.script.lua.utils;
 
+import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 import wtf.cattyn.ferret.common.Globals;
 import wtf.cattyn.ferret.mixins.ducks.DuckMinecraft;
+
+import java.util.Collections;
+import java.util.List;
 
 public class LuaGlobals implements Globals {
 
@@ -51,6 +58,11 @@ public class LuaGlobals implements Globals {
     public Block getBlock(double x, double y, double z) {
         if(mc.world == null) return Blocks.AIR;
         return mc.world.getBlockState(new BlockPos(x, y, z)).getBlock();
+    }
+
+    public List<Entity> getEntities() {
+        if (mc.world == null) return Collections.emptyList();
+        return Lists.newArrayList(mc.world.getEntities());
     }
 
     public static LuaGlobals getDefault() {
