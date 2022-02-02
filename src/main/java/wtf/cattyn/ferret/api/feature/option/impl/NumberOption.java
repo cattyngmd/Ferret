@@ -23,7 +23,7 @@ public class NumberOption extends Option<Number> {
     }
 
     @Override public void setValue(Number value) {
-        this.value = value;
+        this.value = Math.max(getMin(), Math.min((double) value, getMax()));
     }
 
     @Override public void setStringValue(String value) {
