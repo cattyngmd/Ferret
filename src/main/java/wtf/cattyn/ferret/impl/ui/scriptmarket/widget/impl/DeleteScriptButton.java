@@ -1,8 +1,9 @@
-package wtf.cattyn.ferret.common.impl.scriptmarket.widget;
+package wtf.cattyn.ferret.impl.ui.scriptmarket.widget.impl;
 
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
-import wtf.cattyn.ferret.common.impl.scriptmarket.ScriptUtil;
+import wtf.cattyn.ferret.common.impl.util.ScriptUtil;
+import wtf.cattyn.ferret.impl.ui.scriptmarket.widget.Component;
 
 import java.awt.*;
 

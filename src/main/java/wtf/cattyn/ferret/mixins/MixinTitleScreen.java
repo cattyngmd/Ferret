@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import wtf.cattyn.ferret.common.impl.scriptmarket.ScriptMarket;
+import wtf.cattyn.ferret.impl.ui.scriptmarket.ScriptMarket;
 
 @Mixin(TitleScreen.class)
 public abstract class MixinTitleScreen extends Screen {

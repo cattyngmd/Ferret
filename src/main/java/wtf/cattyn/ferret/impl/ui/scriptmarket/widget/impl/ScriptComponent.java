@@ -1,9 +1,10 @@
-package wtf.cattyn.ferret.common.impl.scriptmarket.widget;
+package wtf.cattyn.ferret.impl.ui.scriptmarket.widget.impl;
 
 import com.google.gson.JsonObject;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
-import wtf.cattyn.ferret.common.impl.scriptmarket.ScriptUtil;
+import wtf.cattyn.ferret.common.impl.util.ScriptUtil;
+import wtf.cattyn.ferret.impl.ui.scriptmarket.widget.Component;
 
 import java.awt.*;
 
@@ -20,7 +21,13 @@ public class ScriptComponent extends Component {
     public ScriptComponent(JsonObject object) {
         this.scriptObject = object;
         this.scriptName = ScriptUtil.getScriptName(scriptObject).split("/")[1].replace("\"", "");
-        this.installScriptButton = new InstallScriptButton(this, ScriptUtil.isInstalled(scriptName));
+        InstallScriptButton.Action statement;
+        if (ScriptUtil.isInstalled(scriptName)) {
+           statement = InstallScriptButton.Action.NONE;
+        } else {
+            statement = InstallScriptButton.Action.INSTALL;
+        }
+        this.installScriptButton = new InstallScriptButton(this, statement);
         this.deleteScriptButton = new DeleteScriptButton(this);
         this.luaContent = ScriptUtil.getUrlContent(
                 "https://raw.githubusercontent.com/cattyngmd/Ferret-Scripts/main/" + ScriptUtil.getScriptName(object).substring(1, ScriptUtil.getScriptName(object).length() - 1));
@@ -53,6 +60,10 @@ public class ScriptComponent extends Component {
 
     private boolean hovered(double mouseX, double mouseY) {
         return mouseX >= 30 && mouseX <= mc.getWindow().getScaledWidth() - 30 && mouseY >= offset && mouseY <= offset + 40;
+    }
+
+    public JsonObject getScriptJson() {
+        return scriptObject;
     }
 
     public int getOffset() {

@@ -16,10 +16,12 @@ public class ChatUtil implements Globals {
     }
 
     public static void sendMessage(Text message) {
+        if(mc.inGameHud == null) return;
         mc.inGameHud.getChatHud().addMessage(getDefaultPrefix().append(" ").append(message.shallowCopy()));
     }
 
     public static void sendMessage(String message) {
+        if(mc.inGameHud == null) return;
         mc.inGameHud.getChatHud().addMessage(getDefaultPrefix().append(" ").append(new LiteralText(message).setStyle(Style.EMPTY)));
     }
 

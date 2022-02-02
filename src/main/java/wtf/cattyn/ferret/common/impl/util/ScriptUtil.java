@@ -1,7 +1,8 @@
-package wtf.cattyn.ferret.common.impl.scriptmarket;
+package wtf.cattyn.ferret.common.impl.util;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import wtf.cattyn.ferret.api.feature.script.Script;
 import wtf.cattyn.ferret.api.manager.impl.ConfigManager;
 
 import java.io.BufferedReader;
@@ -61,10 +62,15 @@ public class ScriptUtil {
         return Path.of(ConfigManager.SCRIPT_FOLDER.getAbsolutePath(), script).toFile().exists();
     }
 
+    public static boolean isScriptUpdated(String script, JsonObject json) {
+        if(!json.has("size")) return true;
+        return Path.of(ConfigManager.SCRIPT_FOLDER.getAbsolutePath(), script).toFile().length() == json.get("size").getAsLong();
+    }
+
     public static void downloadScript(String scriptName) {
         Path scriptPath = Path.of(ConfigManager.SCRIPT_FOLDER.getAbsolutePath(), scriptName);
         try {
-            Files.createFile(scriptPath);
+            if (!scriptPath.toFile().exists()) Files.createFile(scriptPath);
             Files.write(scriptPath, getUrlContent("https://raw.githubusercontent.com/cattyngmd/Ferret-Scripts/main/scripts/" + scriptName).getBytes(), StandardOpenOption.WRITE);
         } catch (IOException e) {
             e.printStackTrace();
