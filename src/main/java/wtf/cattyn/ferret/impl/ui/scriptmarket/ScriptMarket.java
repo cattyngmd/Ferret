@@ -33,7 +33,7 @@ public class ScriptMarket extends Screen {
 
     @Override public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrices);
-        mc.textRenderer.drawWithShadow(matrices, "Script Market",
+        mc.textRenderer.drawWithShadow(matrices, "Script Hub",
                 mc.getWindow().getScaledWidth() / 2f - mc.textRenderer.getWidth("Script Market") / 2f, 10, Color.WHITE.getRGB());
         int offset = 30;
         if (!loaded) {
