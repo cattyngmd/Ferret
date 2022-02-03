@@ -205,20 +205,20 @@ public class LuaRenderer extends DrawableHelper implements Globals {
         DrawableHelper.fill(matrices, -halfWidth, 0, (int) (offset2.x() - halfWidth), ( int ) offset2.y(), color.getRGB());
     }
 
-    public void drawSemi2dText(String text, Vec3d pos, double offX, double offY, double scale, double textOffset, Color color, boolean shadow) {
+    public void drawSemi2dText(String text, Vec3d pos, Vec2d offset, Vec2d offset2, double scale, Color color, boolean shadow) {
         MatrixStack matrices = matrixFrom(pos);
         Camera camera = mc.gameRenderer.getCamera();
         matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-camera.getYaw()));
         matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(camera.getPitch()));
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        matrices.translate(offX, offY, 0);
+        matrices.translate(offset.x(), offset.y(), 0);
         matrices.scale(-0.025f * (float) scale, -0.025f * (float) scale, 1);
         VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
         if (shadow) {
-            mc.textRenderer.drawWithShadow(matrices, text, ( float ) textOffset, 0f, color.getRGB());
+            mc.textRenderer.drawWithShadow(matrices, text, ( float ) offset2.x(), ( float ) offset2.y(), color.getRGB());
         } else {
-            mc.textRenderer.draw(matrices, text, ( float ) textOffset, 0f, color.getRGB());
+            mc.textRenderer.draw(matrices, text, ( float ) offset2.x(), ( float ) offset2.y(), color.getRGB());
         }
         immediate.draw();
         RenderSystem.disableBlend();

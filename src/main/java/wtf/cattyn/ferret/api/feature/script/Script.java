@@ -16,11 +16,9 @@ import wtf.cattyn.ferret.api.feature.option.impl.TextOption;
 import wtf.cattyn.ferret.api.feature.script.lua.LuaCallback;
 import wtf.cattyn.ferret.api.feature.script.lua.classes.GuiBuilder;
 import wtf.cattyn.ferret.api.feature.script.lua.classes.ModuleLua;
-import wtf.cattyn.ferret.api.feature.script.lua.functions.ColorFunction;
-import wtf.cattyn.ferret.api.feature.script.lua.functions.TextOfFunction;
-import wtf.cattyn.ferret.api.feature.script.lua.functions.Vec2dFunction;
-import wtf.cattyn.ferret.api.feature.script.lua.functions.Vec3dFunction;
+import wtf.cattyn.ferret.api.feature.script.lua.functions.*;
 import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaGlobals;
+import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaInteractions;
 import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaRenderer;
 import wtf.cattyn.ferret.api.manager.impl.ConfigManager;
 import wtf.cattyn.ferret.common.impl.Pair;
@@ -111,9 +109,11 @@ public class Script extends Feature.ToggleableFeature implements Json<Script> {
         engine.put("vec2d", new Vec2dFunction());
         engine.put("vec3d", new Vec3dFunction());
         engine.put("color", new ColorFunction());
+        engine.put("StopWatch", new StopWatchFunction());
         engine.put("client", Ferret.getDefault());
         engine.put("renderer", LuaRenderer.getDefault());
         engine.put("globals", LuaGlobals.getDefault());
+        engine.put("interactions", LuaInteractions.getDefault());
         engine.put("Module", ModuleLua.getLua());
         engine.put("GuiBuilder", GuiBuilder.getLua());
 
