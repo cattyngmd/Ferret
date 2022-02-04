@@ -17,6 +17,7 @@ import wtf.cattyn.ferret.api.feature.script.lua.LuaCallback;
 import wtf.cattyn.ferret.api.feature.script.lua.classes.GuiBuilder;
 import wtf.cattyn.ferret.api.feature.script.lua.classes.ModuleLua;
 import wtf.cattyn.ferret.api.feature.script.lua.functions.*;
+import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaFiles;
 import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaGlobals;
 import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaInteractions;
 import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaRenderer;
@@ -114,6 +115,7 @@ public class Script extends Feature.ToggleableFeature implements Json<Script> {
         engine.put("renderer", LuaRenderer.getDefault());
         engine.put("globals", LuaGlobals.getDefault());
         engine.put("interactions", LuaInteractions.getDefault());
+        engine.put("files", LuaFiles.getDefault());
         engine.put("Module", ModuleLua.getLua());
         engine.put("GuiBuilder", GuiBuilder.getLua());
 

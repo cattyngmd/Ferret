@@ -15,6 +15,7 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	implementation 'org.apache.bcel:bcel:6.5.0'
+	implementation 'com.github.kevinsawicki:http-request:6.0'
 	include 'org.apache.bcel:bcel:6.5.0'
 
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
