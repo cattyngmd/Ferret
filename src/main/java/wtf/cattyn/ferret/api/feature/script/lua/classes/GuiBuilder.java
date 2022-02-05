@@ -1,23 +1,26 @@
 package wtf.cattyn.ferret.api.feature.script.lua.classes;
 
+import imgui.ImGui;
+import imgui.gl3.ImGuiImplGl3;
+import imgui.glfw.ImGuiImplGlfw;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.Items;
 import net.minecraft.text.Text;
-import net.minecraft.util.registry.Registry;
 import org.luaj.vm2.LuaClosure;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaUtils;
+import wtf.cattyn.ferret.common.Globals;
 import wtf.cattyn.ferret.common.impl.Vec2d;
 
-public class GuiBuilder {
+public class GuiBuilder implements Globals {
 
     private static LuaValue value;
     private final Text title;
 
+    private boolean prepareImGui;
     private LuaClosure render;
     private LuaClosure keyPressed;
     private LuaClosure keyReleased;
@@ -35,6 +38,10 @@ public class GuiBuilder {
     public GuiBuilder setRender(LuaClosure render) {
         this.render = render;
         return this;
+    }
+
+    public void prepareImGui(boolean prepareImGui) {
+        this.prepareImGui = prepareImGui;
     }
 
     public GuiBuilder isPauseScreen(boolean isPauseScreen) {
@@ -69,14 +76,41 @@ public class GuiBuilder {
         this.mouseScrolled = mouseScrolled;
     }
 
+    public void End() {
+        ImGui.end();
+    }
+
     public Screen build() {
         return new Screen(title) {
+
+            private final ImGuiImplGlfw implGlfw = new ImGuiImplGlfw();
+            private final ImGuiImplGl3 implGl3 = new ImGuiImplGl3();
+
+            {
+                if (prepareImGui) {
+                    long windowPtr = mc.getWindow().getHandle();
+                    ImGui.createContext();
+                    implGlfw.init(windowPtr, false);
+                    implGl3.init("#version 150");
+                }
+            }
+
             @Override public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
                 super.render(matrices, mouseX, mouseY, delta);
+                if (prepareImGui) {
+                    implGlfw.newFrame();
+                    ImGui.newFrame();
+                }
                 LuaUtils.safeCall(render,
                         CoerceJavaToLua.coerce(matrices),
                         CoerceJavaToLua.coerce(new Vec2d(mouseX, mouseY))
                 );
+                if (prepareImGui) {
+                    try {
+                        ImGui.render();
+                        if (ImGui.getDrawData() != null) implGl3.renderDrawData(ImGui.getDrawData());
+                    } catch (Exception e) { e.printStackTrace(); }
+                }
             }
 
             @Override public boolean isPauseScreen() {

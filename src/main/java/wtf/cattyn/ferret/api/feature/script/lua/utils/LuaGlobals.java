@@ -1,6 +1,7 @@
 package wtf.cattyn.ferret.api.feature.script.lua.utils;
 
 import com.google.common.collect.Lists;
+import imgui.ImGui;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.texture.NativeImage;
@@ -10,11 +11,15 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.luaj.vm2.LuaTable;
+import org.luaj.vm2.LuaValue;
 import wtf.cattyn.ferret.common.Globals;
 import wtf.cattyn.ferret.mixins.ducks.DuckMinecraft;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class LuaGlobals implements Globals {
 
@@ -65,6 +70,30 @@ public class LuaGlobals implements Globals {
     public List<Entity> getEntities() {
         if (mc.world == null) return Collections.emptyList();
         return Lists.newArrayList(mc.world.getEntities());
+    }
+
+    public String[] toArrayS(LuaTable table) {
+        String[] floats = new String[table.length()];
+        for (int j = 1; j <= table.length(); j++) {
+            floats[j - 1] = table.get(j).tojstring();
+        }
+        return floats;
+    }
+
+    public float[] toArrayF(LuaTable table) {
+        float[] floats = new float[table.length()];
+        for (int j = 1; j <= table.length(); j++) {
+            floats[j - 1] = table.get(j).tofloat();
+        }
+        return floats;
+    }
+
+    public int[] toArrayI(LuaTable table) {
+        int[] floats = new int[table.length()];
+        for (int j = 1; j <= table.length(); j++) {
+            floats[j - 1] = table.get(j).toint();
+        }
+        return floats;
     }
 
     public static LuaGlobals getDefault() {

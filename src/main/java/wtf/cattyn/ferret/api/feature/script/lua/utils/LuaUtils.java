@@ -19,7 +19,7 @@ public class LuaUtils {
             if (values == null) closure.invoke();
             else closure.invoke(values);
         } catch (Exception e) {
-            if (MinecraftClient.getInstance().inGameHud.getChatHud() != null) {
+            if (MinecraftClient.getInstance().inGameHud != null) {
                 ChatUtil.sendMessage(e.getMessage());
             }
             e.printStackTrace();

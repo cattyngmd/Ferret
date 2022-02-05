@@ -1,12 +1,14 @@
 package wtf.cattyn.ferret.api.feature.script.lua.utils;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.fabricmc.loader.impl.lib.sat4j.core.Vec;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3f;
 import wtf.cattyn.ferret.common.Globals;
 import wtf.cattyn.ferret.common.impl.Vec2d;
 
@@ -37,24 +39,10 @@ public class LuaRenderer extends DrawableHelper implements Globals {
 
     public void rect(MatrixStack stack, Vec2d from, Vec2d to, Color color) {
         int x1 = ( int ) from.x(), x2 = ( int ) to.x(), y1 = ( int ) from.y(), y2 = ( int ) to.y();
-        float i2 = (float)(color.hashCode() >> 24 & 0xFF) / 255.0f;
-        float f = (float)(color.hashCode() >> 16 & 0xFF) / 255.0f;
-        float g = (float)(color.hashCode() >> 8 & 0xFF) / 255.0f;
-        float h = (float)(color.hashCode() & 0xFF) / 255.0f;
-        BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
-        RenderSystem.enableBlend();
-        RenderSystem.disableTexture();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        bufferBuilder.begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR);
-        bufferBuilder.vertex(stack.peek().getPositionMatrix(), x1, y2, 0.0f).color(f, g, h, i2).next();
-        bufferBuilder.vertex(stack.peek().getPositionMatrix(), x2, y2, 0.0f).color(f, g, h, i2).next();
-        bufferBuilder.vertex(stack.peek().getPositionMatrix(), x2, y1, 0.0f).color(f, g, h, i2).next();
-        bufferBuilder.vertex(stack.peek().getPositionMatrix(), x1, y1, 0.0f).color(f, g, h, i2).next();
-        bufferBuilder.end();
-        BufferRenderer.draw(bufferBuilder);
-        RenderSystem.enableTexture();
-        RenderSystem.disableBlend();
+        this.drawHorizontalLine(stack, x1, x2, y1, color.hashCode());
+        this.drawVerticalLine(stack, x2, y1, y2, color.hashCode());
+        this.drawHorizontalLine(stack, x1, x2, y2, color.hashCode());
+        this.drawVerticalLine(stack, x1, y1, y2, color.hashCode());
     }
 
     public void rectFilled(MatrixStack stack, Vec2d from, Vec2d to, Color color) {
