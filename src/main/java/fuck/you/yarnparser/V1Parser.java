@@ -6,16 +6,17 @@ import fuck.you.yarnparser.entry.MethodEntry;
 import fuck.you.yarnparser.exceptions.MappingParseException;
 import fuck.you.yarnparser.exceptions.UnknownMappingTypeException;
 import fuck.you.yarnparser.exceptions.YarnVersionException;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectList;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class V1Parser
 {
-    private List< ClassEntry > classes;
-    private List< MethodEntry > methods;
-    private List< FieldEntry > fields;
+    private ObjectList< ClassEntry > classes;
+    private ObjectList< MethodEntry > methods;
+    private ObjectList< FieldEntry > fields;
 
     public boolean parsed;
 
@@ -38,9 +39,9 @@ public class V1Parser
 
     public void reset( )
     {
-        this.classes = new ArrayList< >( );
-        this.methods = new ArrayList< >( );
-        this.fields = new ArrayList< >( );
+        this.classes = new ObjectArrayList<>( );
+        this.methods = new ObjectArrayList< >( );
+        this.fields = new ObjectArrayList< >( );
         this.parsed = false;
     }
 
@@ -49,7 +50,9 @@ public class V1Parser
         // dont parse twice
         if( parsed ) return;
 
+
         BufferedReader reader = new BufferedReader( new InputStreamReader( is ) );
+
 
         String line = reader.readLine( );
 
@@ -141,15 +144,15 @@ public class V1Parser
             switch( findtype )
             {
                 case OFFICIAL:
-                    if( entry.official.equalsIgnoreCase( name ) )
+                    if( entry.official.equals( name ) )
                         return entry;
                     break;
                 case INTERMEDIARY:
-                    if( entry.intermediary.equalsIgnoreCase( name ) )
+                    if( entry.intermediary.equals( name ) )
                         return entry;
                     break;
                 case NAMED:
-                    if( entry.named.equalsIgnoreCase( name ) )
+                    if( entry.named.equals( name ) )
                         return entry;
                     break;
             }
