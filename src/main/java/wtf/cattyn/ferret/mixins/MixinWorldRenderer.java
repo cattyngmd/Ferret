@@ -22,7 +22,13 @@ public class MixinWorldRenderer {
     @Inject(method = "render", at = @At("RETURN"))
     private void render(MatrixStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f matrix4f, CallbackInfo callback) {
         RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, MinecraftClient.IS_SYSTEM_MAC);
-        Render3DEvent event = new Render3DEvent(matrices, tickDelta);
+        Render3DEvent event = new Render3DEvent.Post(matrices, tickDelta);
+        Ferret.EVENT_BUS.post(event);
+    }
+
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V", shift = At.Shift.BEFORE, ordinal = 10))
+    private void render_pre(MatrixStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f matrix4f, CallbackInfo callback) {
+        Render3DEvent event = new Render3DEvent.Pre(matrices, tickDelta);
         Ferret.EVENT_BUS.post(event);
     }
 
