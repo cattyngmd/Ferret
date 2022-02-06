@@ -45,21 +45,9 @@ public class Feature implements Nameable, Globals {
                 "desc=" + desc + ']';
     }
 
-    public static class SerializableFeature extends Feature {
-
-        @SerializedName("name")
-        private final String serializableName;
-
-        public SerializableFeature(String name, String desc) {
-            super(name, desc);
-            this.serializableName = name;
-        }
-
-    }
-
     public static class ToggleableFeature extends Feature implements Toggleable {
 
-        @Expose private boolean toggled = true;
+        private boolean toggled = true;
 
         public ToggleableFeature(String name, String desc) {
             super(name, desc);

@@ -19,9 +19,9 @@ import wtf.cattyn.ferret.common.impl.util.ChatUtil;
 import wtf.cattyn.ferret.core.Ferret;
 
 public class Module extends Feature.ToggleableFeature implements Json<Module> {
-    @Expose private boolean toggled;
+    private boolean toggled;
     private transient final Category category;
-    @Expose private int key = -1;
+    private int key = -1;
 
     public Module(String name, Category category) {
         this(name, "No Description provided!", category);

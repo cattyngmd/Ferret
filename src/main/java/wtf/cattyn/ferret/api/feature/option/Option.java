@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public abstract class Option<T> extends Feature.SerializableFeature implements Json<Option<T>> {
+public abstract class Option<T> extends Feature implements Json<Option<T>> {
 
     private static final ArrayList<Option<?>> options = new ArrayList<>();
 

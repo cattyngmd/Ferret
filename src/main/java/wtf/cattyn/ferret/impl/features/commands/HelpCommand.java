@@ -2,6 +2,8 @@ package wtf.cattyn.ferret.impl.features.commands;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.CommandSource;
+import net.minecraft.network.packet.s2c.play.DisconnectS2CPacket;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import wtf.cattyn.ferret.api.feature.command.Command;
 import wtf.cattyn.ferret.api.feature.command.args.CommandArgumentType;
