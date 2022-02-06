@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 import wtf.cattyn.ferret.api.event.FerretEventBus;
 import wtf.cattyn.ferret.api.feature.option.Option;
 import wtf.cattyn.ferret.api.manager.impl.*;
-import wtf.cattyn.ferret.common.impl.asm.ImGuiTransformer;
 import wtf.cattyn.ferret.common.impl.util.thread.FileWatcher;
 
 import java.util.ArrayList;
@@ -34,7 +33,6 @@ public class Ferret {
     }
 
     public void init() {
-        new ImGuiTransformer();
         try {
            MinecraftClient.class.getDeclaredField("player");
            remapped = false;
