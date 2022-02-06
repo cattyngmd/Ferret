@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import imgui.ImGui;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.util.ScreenshotRecorder;
 import net.minecraft.client.world.ClientWorld;
@@ -52,6 +53,13 @@ public class LuaGlobals implements Globals {
 
     public String getUsername() {
         return mc.getSession().getUsername();
+    }
+
+    public int getPing() {
+        if (mc.getNetworkHandler() == null || mc.player == null) return 0;
+        PlayerListEntry playerListEntry = mc.getNetworkHandler().getPlayerListEntry(mc.player.getUuid());
+        if (playerListEntry != null) return playerListEntry.getLatency();
+        return 0;
     }
 
     public void setTickMultiplier(float tick) {
