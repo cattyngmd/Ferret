@@ -87,7 +87,7 @@ public class GuiBuilder implements Globals {
             private final ImGuiImplGl3 implGl3 = new ImGuiImplGl3();
 
             {
-                if (prepareImGui) {
+                if (prepareImGui && mc.getWindow() != null) {
                     long windowPtr = mc.getWindow().getHandle();
                     ImGui.createContext();
                     implGlfw.init(windowPtr, false);

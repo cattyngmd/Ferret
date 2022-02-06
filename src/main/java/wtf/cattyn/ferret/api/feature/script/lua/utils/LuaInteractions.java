@@ -65,12 +65,12 @@ public class LuaInteractions implements Globals {
         return true;
     }
 
-    public boolean useItem(BlockPos pos) {
-        return useItem(pos, Hand.MAIN_HAND);
+    public void useItem(BlockPos pos) {
+        useItem(pos, Hand.MAIN_HAND);
     }
 
-    public boolean useItem(BlockPos pos, Hand hand) {
-        if (mc.world == null || mc.player == null || mc.interactionManager == null) return false;
+    public void useItem(BlockPos pos, Hand hand) {
+        if (mc.world == null || mc.player == null || mc.interactionManager == null) return;
         Direction direction = mc.crosshairTarget != null ? (( BlockHitResult ) mc.crosshairTarget).getSide() : Direction.DOWN;
         ActionResult result = mc.interactionManager.interactBlock(mc.player, mc.world, hand, new BlockHitResult(
                 Vec3d.ofCenter(pos),  direction, pos, false
@@ -78,7 +78,6 @@ public class LuaInteractions implements Globals {
         if (result.shouldSwingHand()) {
             mc.player.networkHandler.sendPacket(new HandSwingC2SPacket(hand));
         }
-        return true;
     }
 
     public boolean place(BlockPos pos, boolean airPlace) {

@@ -3,6 +3,13 @@ plugins {
 	id 'maven-publish'
 }
 
+repositories {
+	maven {
+		name = "aikar"
+		url = "https://repo.aikar.co/content/groups/aikar/"
+	}
+}
+
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
@@ -17,9 +24,6 @@ dependencies {
 	implementation 'org.apache.bcel:bcel:6.5.0'
 	modImplementation 'com.github.kevinsawicki:http-request:6.0'
 	include 'com.github.kevinsawicki:http-request:6.0'
-
-	implementation  'it.unimi.dsi:fastutil:8.2.1'
-	include  'it.unimi.dsi:fastutil:8.2.1'
 
 	implementation("io.github.spair:imgui-java-binding:1.82.2")
 	include("io.github.spair:imgui-java-binding:1.82.2")
