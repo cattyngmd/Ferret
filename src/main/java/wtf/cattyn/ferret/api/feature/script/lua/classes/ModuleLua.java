@@ -81,6 +81,12 @@ public class ModuleLua extends Module {
         return value;
     }
 
+    @Override public String toString() {
+        return "ModuleLua{" +
+                "script=" + script +
+                "} " + super.toString();
+    }
+
     static class New extends LibFunction {
 
         public LuaValue call(LuaValue name, LuaValue description, LuaValue category, LuaValue script) {

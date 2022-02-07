@@ -44,7 +44,7 @@ public class Script extends Feature.ToggleableFeature implements Json<Script> {
 
     private JsonObject cache = new JsonObject();
     private transient String script;
-    private Path path;
+    private final Path path;
     private boolean loaded;
     private transient final List<LuaCallback> callbacks = new ArrayList<>();
     private transient final List<ModuleLua> modules = new ArrayList<>();

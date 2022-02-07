@@ -1,5 +1,6 @@
 package wtf.cattyn.ferret.common.impl.util;
 
+import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import wtf.cattyn.ferret.api.feature.script.Script;
@@ -9,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Files;
@@ -17,7 +19,6 @@ import java.nio.file.StandardOpenOption;
 
 public class ScriptUtil {
     public static JsonObject getAllScripts() {
-        JsonObject json = null;
         String content = getUrlContent("https://api.github.com/repos/cattyngmd/Ferret-Scripts/git/trees/main?recursive=1");
         return (JsonObject) JsonParser.parseString(content);
     }
@@ -31,20 +32,15 @@ public class ScriptUtil {
     }
 
     public static String getUrlContent(String url) {
-        StringBuilder content = new StringBuilder();
-        try {
-            URL url_ = new URL(url);
-            URLConnection urlConnection = url_.openConnection();
-            HttpURLConnection connection = (HttpURLConnection) urlConnection;
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String currentLine;
-            while ((currentLine = in.readLine()) != null) {
-                content.append(currentLine).append("\n");
-            }
-        } catch (Exception e) {
+        String content = "";
 
+        try {
+            content = HttpRequest.get(new URL(url)).body();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
-        return content.toString();
+
+        return content;
     }
 
     public static String getModuleInfo(String content) {

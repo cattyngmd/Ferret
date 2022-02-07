@@ -11,9 +11,6 @@ public class DeleteScriptButton extends Component {
     private boolean shouldRender = false, hovered;
     private final ScriptComponent SCRIPT;
 
-    private final Color BLACK = new Color(0, 0, 0, 150);
-    private final Color GRAY = new Color(30, 30, 30, 150);
-
     public DeleteScriptButton(ScriptComponent script) {
         this.SCRIPT = script;
         this.shouldRender = ScriptUtil.isInstalled(script.getScriptName());

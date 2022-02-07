@@ -81,23 +81,6 @@ public class LuaCommand extends Command {
                                         })
                         )
         ).then(
-                literal("script")
-                        .then(
-                                argument("script", StringArgumentType.greedyString())
-                                        .executes(context -> {
-                                            ScriptEngineManager factory = new ScriptEngineManager();
-                                            ScriptEngine engine = factory.getEngineByName("lua");
-                                            try {
-                                                engine.eval(StringArgumentType.getString(context, "script"));
-                                                engine.put("mc", MinecraftClient.getInstance());
-                                                ChatUtil.sendMessage(engine.eval("return main()").toString());
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                            }
-                                            return 1;
-                                        })
-                        )
-        ).then(
                     literal("get")
                             .then(
                                     argument("script", ScriptArgumentType.script())

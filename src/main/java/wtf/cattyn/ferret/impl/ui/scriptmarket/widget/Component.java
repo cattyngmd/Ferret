@@ -3,8 +3,12 @@ package wtf.cattyn.ferret.impl.ui.scriptmarket.widget;
 import net.minecraft.client.util.math.MatrixStack;
 import wtf.cattyn.ferret.common.Globals;
 
+import java.awt.*;
+
 public abstract class Component implements Globals {
-    public int offsetNested = 5;
+
+    protected final Color BLACK = new Color(0, 0, 0, 100);
+    protected final Color GRAY = new Color(30, 30, 30, 100);
 
     public abstract void render(MatrixStack matrix);
 

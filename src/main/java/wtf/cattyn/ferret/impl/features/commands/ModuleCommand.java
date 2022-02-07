@@ -12,6 +12,7 @@ import wtf.cattyn.ferret.api.feature.command.args.ValueArgumentType;
 import wtf.cattyn.ferret.api.feature.module.Module;
 import wtf.cattyn.ferret.api.feature.option.Option;
 import wtf.cattyn.ferret.common.impl.util.ChatUtil;
+import wtf.cattyn.ferret.core.Ferret;
 
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -75,7 +76,6 @@ public class ModuleCommand extends Command {
                             return 1;
                         })
         ).executes(context -> {
-            System.out.println("negro");
             return 0;
         });
     }

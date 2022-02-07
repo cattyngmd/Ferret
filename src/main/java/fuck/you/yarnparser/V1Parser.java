@@ -65,70 +65,54 @@ public class V1Parser
             String[ ] split = line.split( "\t" );
             if( split.length >= 2 )
             {
-                switch( split[ 0 ] )
-                {
-                    case "CLASS":
-                        if( split.length < 4 )
-                            throw new MappingParseException( "[CLASS] whitespace count mismatch, got " + split.length + " while expected at least 4 [" + line + "]" );
-
+                switch (split[ 0 ]) {
+                    case "CLASS" -> {
+                        if (split.length < 4)
+                            throw new MappingParseException("[CLASS] whitespace count mismatch, got " + split.length + " while expected at least 4 [" + line + "]");
                         String cofficial = split[ 1 ];
                         String cintermediary = split[ 2 ];
                         String cnamed = split[ 3 ];
-
-                        ClassEntry centry = new ClassEntry( );
+                        ClassEntry centry = new ClassEntry();
                         centry.official = cofficial;
                         centry.intermediary = cintermediary;
                         centry.named = cnamed;
-
-                        classes.add( centry );
-
-                        break;
-                    case "FIELD":
-                        if( split.length < 6 )
-                            throw new MappingParseException( "[FIELD] whitespace count mismatch, got " + split.length + " while expected at least 6 [" + line + "]" );
-
+                        classes.add(centry);
+                    }
+                    case "FIELD" -> {
+                        if (split.length < 6)
+                            throw new MappingParseException("[FIELD] whitespace count mismatch, got " + split.length + " while expected at least 6 [" + line + "]");
                         String fofficial = split[ 1 ];
                         String ftype = split[ 2 ];
                         String fintermediary = split[ 4 ];
                         String fnamed = split[ 5 ];
-
-                        ClassEntry fcentry = findClass( fofficial, ClassFindType.OFFICIAL );
-                        if( fcentry != null )
+                        ClassEntry fcentry = findClass(fofficial, ClassFindType.OFFICIAL);
+                        if (fcentry != null)
                             fofficial = fcentry.intermediary;
-
-                        FieldEntry fentry = new FieldEntry( );
+                        FieldEntry fentry = new FieldEntry();
                         fentry.official = fofficial;
                         fentry.type = ftype;
                         fentry.intermediary = fintermediary;
                         fentry.named = fnamed;
-
-                        fields.add( fentry );
-
-                        break;
-                    case "METHOD":
-                        if( split.length < 6 )
-                            throw new MappingParseException( "[METHOD] whitespace count mismatch, got " + split.length + " while expected at least 6 [" + line + "]" );
-
+                        fields.add(fentry);
+                    }
+                    case "METHOD" -> {
+                        if (split.length < 6)
+                            throw new MappingParseException("[METHOD] whitespace count mismatch, got " + split.length + " while expected at least 6 [" + line + "]");
                         String mofficial = split[ 1 ];
                         String mtype = split[ 2 ];
                         String mintermediary = split[ 4 ];
                         String mnamed = split[ 5 ];
-
-                        ClassEntry mcentry = findClass( mofficial, ClassFindType.OFFICIAL );
-                        if( mcentry != null )
+                        ClassEntry mcentry = findClass(mofficial, ClassFindType.OFFICIAL);
+                        if (mcentry != null)
                             mofficial = mcentry.intermediary;
-
-                        MethodEntry mentry = new MethodEntry( );
+                        MethodEntry mentry = new MethodEntry();
                         mentry.official = mofficial;
                         mentry.type = mtype;
                         mentry.intermediary = mintermediary;
                         mentry.named = mnamed;
-
-                        methods.add( mentry );
-
-                        break;
-                    default:
-                        throw new UnknownMappingTypeException( "Unknown mapping type [" + line + "]" );
+                        methods.add(mentry);
+                    }
+                    default -> throw new UnknownMappingTypeException("Unknown mapping type [" + line + "]");
                 }
             }
         }

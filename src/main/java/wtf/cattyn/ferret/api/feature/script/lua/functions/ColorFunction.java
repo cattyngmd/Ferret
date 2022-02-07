@@ -1,11 +1,8 @@
 package wtf.cattyn.ferret.api.feature.script.lua.functions;
 
-import org.luaj.vm2.LuaTable;
-import org.luaj.vm2.LuaUserdata;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.LibFunction;
-import wtf.cattyn.ferret.common.impl.ColorMutable;
 
 import java.awt.*;
 

@@ -18,7 +18,6 @@ public class AntiLava extends Module {
     }
 
     @Subscribe public void onTick(TickEvent e) {
-        if (mc.world == null) return;
         BlockPos playerPos = mc.player.getBlockPos();
         BlockPos[] poses = new BlockPos[]{playerPos.up(2), playerPos.down()};
 

@@ -16,9 +16,6 @@ public class InstallScriptButton extends Component {
     private boolean hovered;
     private final StopWatch updateWatcher = new StopWatch();
 
-    private final Color BLACK = new Color(0, 0, 0, 150);
-    private final Color GRAY = new Color(30, 30, 30, 150);
-
     public InstallScriptButton(ScriptComponent script, Action statement) {
         this.SCRIPT = script;
         this.statement = statement;

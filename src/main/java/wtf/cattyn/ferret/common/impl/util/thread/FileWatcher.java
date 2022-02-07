@@ -18,28 +18,22 @@ public class FileWatcher extends Thread {
     }
 
     @Override public void run() {
-        super.run();
         while (!interrupted()) {
             for (Script script : Ferret.getDefault().getScripts()) {
-                try {
-                    long lastModified = script.getPath().toFile().lastModified();
+                long lastModified = script.getPath().toFile().lastModified();
+                if (!map.containsKey(script)) {
+                    map.put(script, lastModified);
+                } else {
+                    // this shouldn't happen, but just for safeness...
                     if (!map.containsKey(script)) {
                         map.put(script, lastModified);
-                    } else {
-                        // this shouldn't happen, but just for safeness...
-                        if (!map.containsKey(script)) {
-                            map.put(script, lastModified);
-                            continue;
-                        }
-
-                        if (!map.get(script).equals(lastModified)) {
-                            script.reload();
-                            map.replace(script, lastModified);
-                        }
+                        continue;
                     }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    if (!map.get(script).equals(lastModified)) {
+                        script.reload();
+                        map.replace(script, lastModified);
+                    }
                 }
             }
 

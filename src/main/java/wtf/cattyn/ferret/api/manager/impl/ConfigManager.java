@@ -54,7 +54,7 @@ public final class ConfigManager extends Thread implements Manager<ConfigManager
     }
 
     @Override public void run() {
-        if (!MAIN_FOLDER.exists() && !MAIN_FOLDER.mkdirs()) System.out.println("Failed to create config folder");
+        if (!MAIN_FOLDER.exists() && !MAIN_FOLDER.mkdirs()) Ferret.LOGGER.warn("Failed to create config folder");
         saveModules();
         savePrefix();
         saveScripts();

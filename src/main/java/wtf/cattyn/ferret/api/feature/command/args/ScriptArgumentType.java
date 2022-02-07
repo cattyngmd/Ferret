@@ -20,7 +20,7 @@ public class ScriptArgumentType implements ArgumentType<Script>, Globals {
     @Override public Script parse(StringReader reader) throws CommandSyntaxException {
         Script script = ferret().getScripts().get(reader.readString());
         if(script == null) throw  new DynamicCommandExceptionType(o ->
-                new LiteralText(o + " doesnt exists")).create(reader.readString());
+                new LiteralText(o + " doesn't exists")).create(reader.readString());
         return script;
     }
 

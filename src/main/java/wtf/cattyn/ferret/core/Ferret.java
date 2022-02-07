@@ -37,7 +37,6 @@ public class Ferret {
            MinecraftClient.class.getDeclaredField("player");
            remapped = false;
         } catch (NoSuchFieldException e) {
-            System.out.println(LiteralText.class.getName());
             remapped = true;
         }
         mappingManager = new MappingManager();

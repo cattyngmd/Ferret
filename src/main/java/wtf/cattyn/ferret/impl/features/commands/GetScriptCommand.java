@@ -1,5 +1,6 @@
 package wtf.cattyn.ferret.impl.features.commands;
 
+import com.github.kevinsawicki.http.HttpRequest;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.CommandSource;
@@ -33,14 +34,7 @@ public class GetScriptCommand extends Command {
                             if (!scriptName.endsWith(".lua")) scriptName += ".lua";
 
                             try {
-                                URL url = new URL("https://raw.githubusercontent.com/cattyngmd/Ferret-Scripts/main/scripts/" + scriptName);
-                                URLConnection urlConnection = url.openConnection();
-                                HttpURLConnection connection = (HttpURLConnection) urlConnection;
-                                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                                String currentLine;
-                                while ((currentLine = in.readLine()) != null) {
-                                    content += currentLine + "\n";
-                                }
+                                content = HttpRequest.get(new URL("https://raw.githubusercontent.com/cattyngmd/Ferret-Scripts/main/scripts/" + scriptName)).body();
                             } catch (Exception e) {
                                 ChatUtil.sendMessage("Incorrect name or no internet connection!");
                                 return 0;

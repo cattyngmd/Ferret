@@ -15,8 +15,7 @@ public class ScriptComponent extends Component {
     private final DeleteScriptButton deleteScriptButton;
     private boolean hovered, isModule;
     private int offset;
-    private final Color BLACK = new Color(0, 0, 0, 100);
-    private final Color GRAY = new Color(30, 30, 30, 100);
+
 
     public ScriptComponent(JsonObject object) {
         this.scriptObject = object;

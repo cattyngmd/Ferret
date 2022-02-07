@@ -13,7 +13,6 @@ import wtf.cattyn.ferret.impl.ui.scriptmarket.ScriptMarket;
 
 @Mixin(TitleScreen.class)
 public abstract class MixinTitleScreen extends Screen {
-    private MinecraftClient mc = MinecraftClient.getInstance();
 
     protected MixinTitleScreen() {
         super(Text.of("TitleScreen"));
@@ -22,7 +21,7 @@ public abstract class MixinTitleScreen extends Screen {
     @Inject(at = @At("RETURN"), method = "initWidgetsNormal")
     private void addCustomButton(int y, int spacingY, CallbackInfo ci) {
         this.addDrawableChild(new ButtonWidget(this.width / 2 - 100 + 205, y, 80, 20, Text.of("Scripts"), (button) -> {
-            this.mc.setScreen(new ScriptMarket());
+            MinecraftClient.getInstance().setScreen(new ScriptMarket());
         }));
     }
 }

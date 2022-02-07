@@ -22,9 +22,9 @@ public final class MappingManager implements Manager<MappingManager> {
     private final File mappings = new File(ConfigManager.MAIN_FOLDER, "mappings/mappings.tiny");
     private V1Parser parser;
 
-    private Map<String, Field> fieldCache = new HashMap<>();
-    private Map<String, LuaValue> methodCache = new HashMap<>();
-    private Map<String, Class<?>> classCache = new HashMap<>();
+    private final Map<String, Field> fieldCache = new HashMap<>();
+    private final Map<String, LuaValue> methodCache = new HashMap<>();
+    private final Map<String, Class<?>> classCache = new HashMap<>();
 
     private synchronized void loadYarn() {
         if(!mappings.exists()) {
