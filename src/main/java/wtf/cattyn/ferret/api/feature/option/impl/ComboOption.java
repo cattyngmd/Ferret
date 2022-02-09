@@ -17,8 +17,8 @@ public class ComboOption extends Option<String> {
 
     private final List<String> combo;
 
-    public ComboOption(Feature feature, String name, String desc, String value, Predicate visibility, List<String> combo) {
-        super(feature, name, desc, value, visibility);
+    public ComboOption(Feature feature, String name, String desc, String value, Option<Boolean> parent, Predicate<Option<String>> visibility, List<String> combo) {
+        super(feature, name, desc, value, parent, visibility);
         this.combo = combo;
     }
 
@@ -79,7 +79,7 @@ public class ComboOption extends Option<String> {
 
         @Override public ComboOption build(Feature feature) {
             if(validate()) throw new NullPointerException();
-            ComboOption o = new ComboOption(feature, name, description, value, visibility, combo);
+            ComboOption o = new ComboOption(feature, name, description, value, parent, visibility, combo);
             Option.getOptions().add(o);
             return o;
         }

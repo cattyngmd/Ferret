@@ -17,13 +17,16 @@ public abstract class Option<T> extends Feature implements Json<Option<T>> {
     private static final ArrayList<Option<?>> options = new ArrayList<>();
 
     protected T value;
+    private transient final Option<Boolean> parent;
+    private transient final List<Option<Boolean>> parents = new ArrayList<>();
     private transient final Feature feature;
-    private transient final Predicate<T> visibility;
+    private transient final Predicate<Option<T>> visibility;
 
-    public Option(Feature feature, String name, String desc, T value, Predicate<T> visibility) {
+    public Option(Feature feature, String name, String desc, T value, Option<Boolean> parent, Predicate<Option<T>> visibility) {
         super(name, desc);
         this.value = value;
         this.feature = feature;
+        this.parent = parent;
         this.visibility = visibility;
     }
 
@@ -31,12 +34,16 @@ public abstract class Option<T> extends Feature implements Json<Option<T>> {
 
     public abstract void setStringValue(String value);
 
-    public Predicate<T> getVisibility() {
+    public Predicate<Option<T>> getVisibility() {
         return visibility;
     }
 
     public boolean isVisible() {
-        return visibility.test(value);
+        return visibility.test(this);
+    }
+
+    public Option<Boolean> getParent() {
+        return parent;
     }
 
     public abstract T getValue();
@@ -70,7 +77,8 @@ public abstract class Option<T> extends Feature implements Json<Option<T>> {
 
         protected String name = null, description = "";
         protected T value;
-        protected Predicate<T> visibility;
+        protected Predicate<Option<T>> visibility;
+        protected Option<Boolean> parent;
 
         protected OptionBuilder(T value) {
             this.value = value;
@@ -90,8 +98,13 @@ public abstract class Option<T> extends Feature implements Json<Option<T>> {
             return ( B ) this;
         }
 
-        public B visible(Predicate<T> visibility) {
+        public B visible(Predicate<Option<T>> visibility) {
             this.visibility = visibility;
+            return ( B ) this;
+        }
+
+        public B parent(Option<Boolean> parent) {
+            this.parent = parent;
             return ( B ) this;
         }
 

@@ -14,8 +14,8 @@ import java.util.function.Predicate;
 
 public class TextOption extends Option<String> {
 
-    public TextOption(Feature feature, String name, String desc, String value, Predicate<String> visibility) {
-        super(feature, name, desc, value, visibility);
+    public TextOption(Feature feature, String name, String desc, String value, Option<Boolean> parent, Predicate<Option<String>> visibility) {
+        super(feature, name, desc, value, parent, visibility);
     }
 
     @Override public void setValue(String value) {
@@ -53,7 +53,7 @@ public class TextOption extends Option<String> {
 
         @Override public TextOption build(Feature feature) {
             if(validate()) throw new NullPointerException();
-            TextOption o = new TextOption(feature, name, description, value, visibility);
+            TextOption o = new TextOption(feature, name, description, value, parent, visibility);
             Option.getOptions().add(o);
             return o;
         }

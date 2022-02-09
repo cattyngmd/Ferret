@@ -16,8 +16,8 @@ public class NumberOption extends Option<Number> {
 
     private transient final double max, min;
 
-    private NumberOption(Feature feature, String name, String desc, Number value, double max, double min, Predicate<Number> visibility) {
-        super(feature, name, desc, value, visibility);
+    private NumberOption(Feature feature, String name, String desc, Number value, double max, double min, Option<Boolean> parent, Predicate<Option<Number>> visibility) {
+        super(feature, name, desc, value, parent, visibility);
         this.max = max;
         this.min = min;
     }
@@ -79,7 +79,7 @@ public class NumberOption extends Option<Number> {
 
         @Override public NumberOption build(Feature feature) {
             if(validate()) throw new NullPointerException();
-            NumberOption o = new NumberOption(feature, name, description, value, max, min, visibility);
+            NumberOption o = new NumberOption(feature, name, description, value, max, min, parent, visibility);
             Option.getOptions().add(o);
             return o;
         }

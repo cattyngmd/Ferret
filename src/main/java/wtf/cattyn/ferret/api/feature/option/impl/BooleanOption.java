@@ -14,8 +14,8 @@ import java.util.function.Predicate;
 
 public class BooleanOption extends Option<Boolean> {
 
-    private BooleanOption(Feature feature, String name, String desc, Boolean value, Predicate<Boolean> visibility) {
-        super(feature, name, desc, value, visibility);
+    private BooleanOption(Feature feature, String name, String desc, Boolean value, Option<Boolean> parent, Predicate<Option<Boolean>> visibility) {
+        super(feature, name, desc, value, parent, visibility);
     }
 
     @Override public void setValue(Boolean value) {
@@ -53,7 +53,7 @@ public class BooleanOption extends Option<Boolean> {
 
         @Override public BooleanOption build(Feature feature) {
             if(validate()) throw new NullPointerException();
-            BooleanOption o = new BooleanOption(feature, name, description, value, visibility);
+            BooleanOption o = new BooleanOption(feature, name, description, value, parent, visibility);
             Option.getOptions().add(o);
             return o;
         }
