@@ -8,6 +8,8 @@ import org.apache.commons.io.FileUtils;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.ast.Str;
 import wtf.cattyn.ferret.api.manager.Manager;
+import wtf.cattyn.ferret.common.impl.util.ChatUtil;
+import wtf.cattyn.ferret.core.Ferret;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -21,6 +23,10 @@ public final class MappingManager implements Manager<MappingManager> {
     private static final String YARN = "https://maven.fabricmc.net/net/fabricmc/yarn/1.18.1+build.18/yarn-1.18.1+build.18-tiny.gz";
     private final File mappings = new File(ConfigManager.MAIN_FOLDER, "mappings/mappings.tiny");
     private V1Parser parser;
+
+    private final Map<String, ClassEntry> classEntryCache = new HashMap<>();
+    private final Map<String, FieldEntry> fieldEntryCache = new HashMap<>();
+    private final Map<String, MethodEntry> methodEntryCache = new HashMap<>();
 
     private final Map<String, Field> fieldCache = new HashMap<>();
     private final Map<String, LuaValue> methodCache = new HashMap<>();
@@ -75,6 +81,72 @@ public final class MappingManager implements Manager<MappingManager> {
     @Override public MappingManager unload() {
         parser.reset();
         return this;
+    }
+
+    public ClassEntry remapClass(String name, String type) {
+        if (classEntryCache.containsKey(name)) {
+            return classEntryCache.get(name);
+        }
+
+        ClassEntry entry = null;
+
+        try {
+            entry = parser.findClass(name, V1Parser.ClassFindType.valueOf(type.toUpperCase()));
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+
+        if (entry != null) classEntryCache.put(name, entry);
+        else {
+            Ferret.LOGGER.warn(name + " class is not found.");
+            ChatUtil.sendMessage(name + " class is not found.");
+        }
+
+        return entry;
+    }
+
+    public FieldEntry remapField(String className, String name, String type) {
+        if (fieldEntryCache.containsKey(className + "." + name)) {
+            return fieldEntryCache.get(className + "." + name);
+        }
+
+        FieldEntry entry = null;
+
+        try {
+            entry = parser.findField(className, name, V1Parser.NormalFindType.valueOf(type.toUpperCase()));
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+
+        if (entry != null) fieldEntryCache.put(className + "." + name, entry);
+        else {
+            Ferret.LOGGER.warn(className + "." + name + " field is not found.");
+            ChatUtil.sendMessage(className + "." + name + " field is not found.");
+        }
+
+        return entry;
+    }
+
+    public MethodEntry remapMethod(String className, String name, String type) {
+        if (methodEntryCache.containsKey(className + "." + name)) {
+            return methodEntryCache.get(className + "." + name);
+        }
+
+        MethodEntry entry = null;
+
+        try {
+            entry = parser.findMethod(className, name, V1Parser.NormalFindType.valueOf(type.toUpperCase()));
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+
+        if (entry != null) methodEntryCache.put(className + "." + name, entry);
+        else {
+            Ferret.LOGGER.warn(className + "." + name + " method is not found.");
+            ChatUtil.sendMessage(className + "." + name + " method is not found.");
+        }
+
+        return entry;
     }
 
     public V1Parser getParser() {
