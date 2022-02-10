@@ -103,6 +103,8 @@ public class Script extends Feature.ToggleableFeature implements Json<Script> {
         }
     }
 
+
+    //TODO make that shit better lole
     private void applyEngine(ScriptEngine engine) {
         engine.put("mc", MinecraftClient.getInstance());
         engine.put("this", this);
