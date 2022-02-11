@@ -18,11 +18,13 @@ public final class RotationManager implements Manager<RotationManager> {
     public float getYaw() { return yaw; }
 
     public void setPitch(float pitch) {
+        this.yaw = mc.player.getYaw();
         this.pitch = pitch;
         valid = true;
     }
 
     public void setYaw(float yaw) {
+        this.pitch = mc.player.getPitch();
         this.yaw = yaw;
         valid = true;
     }

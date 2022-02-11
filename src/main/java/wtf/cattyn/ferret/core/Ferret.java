@@ -27,6 +27,7 @@ public class Ferret {
     private ConfigManager configManager;
     private CommandManager commands;
     private ScriptManager scripts;
+    private RotationManager rotationManager;
 
     public Ferret() {
     }
@@ -38,6 +39,7 @@ public class Ferret {
         } catch (NoSuchFieldException e) {
             remapped = true;
         }
+        rotationManager = new RotationManager().load();
         commands = new CommandManager().load();
         tickManager = new TickManager().load();
         moduleManager = new ModuleManager().load();
@@ -80,6 +82,10 @@ public class Ferret {
 
     public MappingManager getMappingManager() {
         return MappingManager.getInstance( );
+    }
+
+    public RotationManager getRotationManager() {
+        return rotationManager;
     }
 
     public List<Option<?>> getOptions() {
