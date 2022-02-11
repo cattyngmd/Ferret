@@ -43,10 +43,6 @@ public final class RotationManager implements Manager<RotationManager> {
         return valid;
     }
 
-    public void update() {
-        mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(yaw, pitch, mc.player.isOnGround()));
-    }
-
     @Override public RotationManager load() {
         return this;
     }
