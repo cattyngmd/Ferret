@@ -22,6 +22,7 @@ public class Ferret {
 
     private FileWatcher fileWatcher;
 
+    private RotationManager rotationManager;
     private MappingManager mappingManager;
     private TickManager tickManager;
     private ModuleManager moduleManager;
@@ -43,14 +44,14 @@ public class Ferret {
         if(remapped) {
             mappingManager.load();
         }
+        rotationManager = new RotationManager().load();
         commands = new CommandManager().load();
         tickManager = new TickManager().load();
         moduleManager = new ModuleManager().load();
         scripts = new ScriptManager().load();
         fileWatcher = new FileWatcher();
         fileWatcher.start();
-        configManager = new ConfigManager();
-        configManager.load();
+        configManager = new ConfigManager().load();
         EVENT_BUS.register(new EventHandler());
     }
 
@@ -85,6 +86,10 @@ public class Ferret {
 
     public MappingManager getMappingManager() {
         return mappingManager;
+    }
+
+    public RotationManager getRotationManager() {
+        return rotationManager;
     }
 
     public List<Option<?>> getOptions() {

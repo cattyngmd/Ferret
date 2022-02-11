@@ -6,7 +6,8 @@ import net.minecraft.util.Hand;
 import wtf.cattyn.ferret.api.feature.module.Module;
 import wtf.cattyn.ferret.api.feature.option.impl.BooleanOption;
 import wtf.cattyn.ferret.api.feature.option.impl.NumberOption;
-import wtf.cattyn.ferret.common.impl.util.PlayerUtil;
+import wtf.cattyn.ferret.api.manager.impl.RotationManager;
+import wtf.cattyn.ferret.core.Ferret;
 import wtf.cattyn.ferret.impl.events.TickEvent;
 
 public class KillAura extends Module {
@@ -19,25 +20,29 @@ public class KillAura extends Module {
     }
 
     @Subscribe public void onTick(TickEvent e) {
-        if (mc.world == null || mc.player.getAttackCooldownProgress(mc.getTickDelta()) != 1.0f) return;
+        if (mc.world == null) return;
 
-        mc.world.getPlayers().stream()
-                .filter(p -> p.isAlive() && mc.player.distanceTo(p) <= d.getValue().floatValue() && p != mc.player).forEach(p -> {
-                    boolean s = mc.player.isSprinting();
-                    Float[] pre = new Float[]{};
+        var target = mc.world.getPlayers().stream().filter(p -> p.isAlive() && mc.player.distanceTo(p) <= d.getValue().floatValue() && p != mc.player).findFirst().orElse(null);
+        if (target != null) {
 
-                    if (s) mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.STOP_SPRINTING));
-                    if (r.getValue()) pre = PlayerUtil.lookAt(p.getBlockX(), p.getBlockY(), p.getBlockZ());
+            if (r.getValue()) {
+                float[] rots = RotationManager.calcRotations(target);
+                Ferret.getDefault().getRotationManager().set(rots[ 0 ], rots[ 1 ]);
+            }
 
-                    mc.interactionManager.attackEntity(mc.player, p);
-                    mc.player.swingHand(Hand.MAIN_HAND);
+            if (mc.player.getAttackCooldownProgress(mc.getTickDelta()) != 1.0f) return;
 
-                    if (r.getValue()) {
-                        mc.player.setYaw(pre[0]);
-                        mc.player.setPitch(pre[1]);
-                    }
-                    if (s) mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.START_SPRINTING));
-                });
+            boolean s = mc.player.isSprinting();
+
+            if (s)
+                mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.STOP_SPRINTING));
+
+            mc.interactionManager.attackEntity(mc.player, target);
+            mc.player.swingHand(Hand.MAIN_HAND);
+
+            if (s)
+                mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.START_SPRINTING));
+        }
     }
 
 }
