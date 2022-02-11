@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "plugin": "wtf.cattyn.ferret.core.MixinPlugin",
   "client": [
+    "MixinCamera",
     "MixinClientConnection",
     "MixinClientPlayerEntity",
     "MixinCommandSuggestor",
@@ -13,14 +14,16 @@
     "MixinMinecraft",
     "MixinPlayerListHud",
     "MixinRenderTickCounter",
-    "MixinWorldRenderer",
-    "MixinCamera",
     "MixinTitleScreen",
+    "MixinWorldRenderer",
     "ducks.DuckGameMessageS2CPacket",
     "ducks.DuckMinecraft"
   ],
   "injectors": {
     "defaultRequire": 1
   },
-  "refmap": null
+  "refmap": null,
+  "mixins": [
+    "ducks.DuckClientPlayerEntity"
+  ]
 }
