@@ -6,10 +6,8 @@ import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
 import org.apache.logging.log4j.core.util.FileWatcher;
 import wtf.cattyn.ferret.api.feature.command.Command;
 import wtf.cattyn.ferret.api.manager.impl.CommandManager;
-import wtf.cattyn.ferret.api.manager.impl.RotationManager;
 import wtf.cattyn.ferret.common.Globals;
 import wtf.cattyn.ferret.impl.events.PacketEvent;
-import wtf.cattyn.ferret.impl.events.PlayerMotionUpdateEvent;
 import wtf.cattyn.ferret.impl.events.TickEvent;
 
 import java.io.IOException;
@@ -18,8 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class EventHandler implements Globals {
-
-    private final RotationManager rotations = Ferret.getDefault().getRotationManager();
 
     @Subscribe public void onTick(TickEvent event) {
         ferret().getScripts().runCallback("tick");
@@ -37,13 +33,6 @@ public final class EventHandler implements Globals {
                     event.cancel();
                 }
             }
-        }
-    }
-
-    @Subscribe public void onPlayerMotionUpdatePost(PlayerMotionUpdateEvent.Post event) {
-        if (rotations.isValid()) {
-            rotations.update();
-            rotations.setValid(false);
         }
     }
 

@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import net.minecraft.client.MinecraftClient;
 import org.luaj.vm2.LuaClosure;
+import org.luaj.vm2.LuaString;
 import org.luaj.vm2.LuaValue;
 import wtf.cattyn.ferret.api.feature.Feature;
 import wtf.cattyn.ferret.api.feature.option.Option;
@@ -22,10 +23,12 @@ import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaGlobals;
 import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaInteractions;
 import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaRenderer;
 import wtf.cattyn.ferret.api.manager.impl.ConfigManager;
+import wtf.cattyn.ferret.asm.ScriptMixin;
 import wtf.cattyn.ferret.common.impl.Pair;
 import wtf.cattyn.ferret.common.impl.trait.Json;
 import wtf.cattyn.ferret.common.impl.util.ChatUtil;
 import wtf.cattyn.ferret.core.Ferret;
+import wtf.cattyn.ferret.core.MixinPlugin;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -121,7 +124,6 @@ public class Script extends Feature.ToggleableFeature implements Json<Script> {
         engine.put("Module", ModuleLua.getLua());
         engine.put("GuiBuilder", GuiBuilder.getLua());
         engine.put("remapper", Ferret.getDefault().getMappingManager());
-        engine.put("rotations", Ferret.getDefault().getRotationManager());
 
         engine.put("TextBuilder", new TextOption.LuaBuilder());
         engine.put("BooleanBuilder", new BooleanOption.LuaBuilder());
@@ -133,6 +135,26 @@ public class Script extends Feature.ToggleableFeature implements Json<Script> {
         LuaCallback callback = new LuaCallback(name, luaFunction, this);
         callbacks.add(callback);
         return callback;
+    }
+
+    public LuaString mixinInject(String classname, String method, String at, int argcount, String attarget, boolean remap, int ordinal )
+    {
+        for( ScriptMixin mixin : MixinPlugin.MIXINS )
+        {
+            if( mixin.classname.equalsIgnoreCase( classname ) &&
+                    mixin.method.equalsIgnoreCase( method ) &&
+                    mixin.at.equalsIgnoreCase( at ) &&
+                    mixin.args == argcount )
+            {
+                if( mixin.attarget != null && attarget != null && !mixin.attarget.equalsIgnoreCase( attarget ) )
+                    continue;
+
+                // МНЕ ПОХУЙ НА РЕМАП
+                return LuaString.valueOf( mixin.callbackname );
+            }
+        }
+
+        return LuaString.valueOf( "operwkiofsdiojjeroitjws" );
     }
 
     public void invoke(String name, LuaValue arg) {

@@ -8,6 +8,7 @@ import fuck.you.yarnparser.exceptions.UnknownMappingTypeException;
 import fuck.you.yarnparser.exceptions.YarnVersionException;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
+import org.objectweb.asm.Type;
 
 import java.io.*;
 import java.util.List;
@@ -168,12 +169,14 @@ public class V1Parser
         return null;
     }
 
-    public MethodEntry findMethod( String classname, String methodname, NormalFindType findtype )
+    public MethodEntry findMethod( String classname, String methodname, NormalFindType findtype, int args )
     {
         for( MethodEntry entry : methods )
         {
             if( classname != null && !entry.official.equals( classname ) )
                 continue;
+
+            if( args != -1 && Type.getArgumentTypes( entry.type ).length != args ) continue;
 
             switch( findtype )
             {

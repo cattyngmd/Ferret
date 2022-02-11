@@ -9,7 +9,7 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.ast.Str;
 import wtf.cattyn.ferret.api.manager.Manager;
 import wtf.cattyn.ferret.common.impl.util.ChatUtil;
-import wtf.cattyn.ferret.core.Ferret;
+import wtf.cattyn.ferret.core.MixinPlugin;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -18,10 +18,10 @@ import java.net.URL;
 import java.util.*;
 import java.util.zip.GZIPInputStream;
 
-public final class MappingManager implements Manager<MappingManager> {
+public final class MappingManager {
 
     private static final String YARN = "https://maven.fabricmc.net/net/fabricmc/yarn/1.18.1+build.18/yarn-1.18.1+build.18-tiny.gz";
-    private final File mappings = new File(ConfigManager.MAIN_FOLDER, "mappings/mappings.tiny");
+    private final File mappings = new File("ferret/mappings/mappings.tiny");
     private V1Parser parser;
 
     private final Map<String, ClassEntry> classEntryCache = new HashMap<>();
@@ -32,10 +32,20 @@ public final class MappingManager implements Manager<MappingManager> {
     private final Map<String, LuaValue> methodCache = new HashMap<>();
     private final Map<String, Class<?>> classCache = new HashMap<>();
 
+    private static MappingManager instance;
+
+    public static MappingManager getInstance( )
+    {
+        if( instance == null )
+            instance = new MappingManager( );
+
+        return instance;
+    }
+
     private synchronized void loadYarn() {
         if(!mappings.exists()) {
             try {
-                File archive = new File(ConfigManager.MAIN_FOLDER, "mappings/mappings.gz");
+                File archive = new File("ferret/mappings/mappings.gz");
                 FileUtils.copyURLToFile(new URL(YARN), archive, 10000, 10000);
                 extract(archive, mappings);
                 archive.deleteOnExit();
@@ -65,7 +75,7 @@ public final class MappingManager implements Manager<MappingManager> {
         }
     }
 
-    @Override public MappingManager load() {
+    public MappingManager load() {
 
         loadYarn();
 
@@ -78,7 +88,7 @@ public final class MappingManager implements Manager<MappingManager> {
         return this;
     }
 
-    @Override public MappingManager unload() {
+    public MappingManager unload() {
         parser.reset();
         return this;
     }
@@ -98,7 +108,7 @@ public final class MappingManager implements Manager<MappingManager> {
 
         if (entry != null) classEntryCache.put(name, entry);
         else {
-            Ferret.LOGGER.warn(name + " class is not found.");
+            MixinPlugin.LOGGER.warn(name + " class is not found.");
             ChatUtil.sendMessage(name + " class is not found.");
         }
 
@@ -120,7 +130,7 @@ public final class MappingManager implements Manager<MappingManager> {
 
         if (entry != null) fieldEntryCache.put(className + "." + name, entry);
         else {
-            Ferret.LOGGER.warn(className + "." + name + " field is not found.");
+            MixinPlugin.LOGGER.warn(className + "." + name + " field is not found.");
             ChatUtil.sendMessage(className + "." + name + " field is not found.");
         }
 
@@ -135,14 +145,14 @@ public final class MappingManager implements Manager<MappingManager> {
         MethodEntry entry = null;
 
         try {
-            entry = parser.findMethod(className, name, V1Parser.NormalFindType.valueOf(type.toUpperCase()));
+            entry = parser.findMethod(className, name, V1Parser.NormalFindType.valueOf(type.toUpperCase()), -1);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
 
         if (entry != null) methodEntryCache.put(className + "." + name, entry);
         else {
-            Ferret.LOGGER.warn(className + "." + name + " method is not found.");
+            MixinPlugin.LOGGER.warn(className + "." + name + " method is not found.");
             ChatUtil.sendMessage(className + "." + name + " method is not found.");
         }
 

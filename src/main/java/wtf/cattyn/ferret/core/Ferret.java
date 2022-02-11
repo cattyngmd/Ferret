@@ -22,8 +22,6 @@ public class Ferret {
 
     private FileWatcher fileWatcher;
 
-    private RotationManager rotationManager;
-    private MappingManager mappingManager;
     private TickManager tickManager;
     private ModuleManager moduleManager;
     private ConfigManager configManager;
@@ -40,18 +38,14 @@ public class Ferret {
         } catch (NoSuchFieldException e) {
             remapped = true;
         }
-        mappingManager = new MappingManager();
-        if(remapped) {
-            mappingManager.load();
-        }
-        rotationManager = new RotationManager().load();
         commands = new CommandManager().load();
         tickManager = new TickManager().load();
         moduleManager = new ModuleManager().load();
         scripts = new ScriptManager().load();
         fileWatcher = new FileWatcher();
         fileWatcher.start();
-        configManager = new ConfigManager().load();
+        configManager = new ConfigManager();
+        configManager.load();
         EVENT_BUS.register(new EventHandler());
     }
 
@@ -85,11 +79,7 @@ public class Ferret {
     }
 
     public MappingManager getMappingManager() {
-        return mappingManager;
-    }
-
-    public RotationManager getRotationManager() {
-        return rotationManager;
+        return MappingManager.getInstance( );
     }
 
     public List<Option<?>> getOptions() {

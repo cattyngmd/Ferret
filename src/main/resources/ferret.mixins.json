@@ -3,8 +3,8 @@
   "minVersion": "0.8",
   "package": "wtf.cattyn.ferret.mixins",
   "compatibilityLevel": "JAVA_17",
+  "plugin": "wtf.cattyn.ferret.core.MixinPlugin",
   "client": [
-    "MixinCamera",
     "MixinClientConnection",
     "MixinClientPlayerEntity",
     "MixinCommandSuggestor",
@@ -13,15 +13,14 @@
     "MixinMinecraft",
     "MixinPlayerListHud",
     "MixinRenderTickCounter",
-    "MixinTitleScreen",
     "MixinWorldRenderer",
+    "MixinCamera",
+    "MixinTitleScreen",
     "ducks.DuckGameMessageS2CPacket",
     "ducks.DuckMinecraft"
   ],
   "injectors": {
     "defaultRequire": 1
   },
-  "mixins": [
-    "ducks.DuckClientPlayerEntity"
-  ]
+  "refmap": null
 }

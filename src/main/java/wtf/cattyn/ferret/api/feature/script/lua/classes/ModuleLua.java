@@ -1,6 +1,7 @@
 package wtf.cattyn.ferret.api.feature.script.lua.classes;
 
 import org.luaj.vm2.LuaClosure;
+import org.luaj.vm2.LuaString;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.LibFunction;
@@ -10,6 +11,8 @@ import wtf.cattyn.ferret.api.feature.module.Module;
 import wtf.cattyn.ferret.api.feature.script.Script;
 import wtf.cattyn.ferret.api.feature.script.lua.LuaCallback;
 import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaUtils;
+import wtf.cattyn.ferret.asm.ScriptMixin;
+import wtf.cattyn.ferret.core.MixinPlugin;
 
 public class ModuleLua extends Module {
 
@@ -36,6 +39,26 @@ public class ModuleLua extends Module {
     public void body(LuaClosure luaClosure) {
         LuaUtils.safeCall(script, luaClosure);
         register();
+    }
+
+    public LuaString mixinInject(String classname, String method, String at, int argcount, String attarget, boolean remap, int ordinal )
+    {
+        for( ScriptMixin mixin : MixinPlugin.MIXINS )
+        {
+            if( mixin.classname.equalsIgnoreCase( classname ) &&
+                    mixin.method.equalsIgnoreCase( method ) &&
+                    mixin.at.equalsIgnoreCase( at ) &&
+                    mixin.args == argcount )
+            {
+                if( mixin.attarget != null && attarget != null && !mixin.attarget.equalsIgnoreCase( attarget ) )
+                    continue;
+
+                // МНЕ ПОХУЙ НА РЕМАП
+                return LuaString.valueOf( mixin.callbackname );
+            }
+        }
+
+        return LuaString.valueOf( "operwkiofsdiojjeroitjws" );
     }
 
     public LuaCallback registerCallback(String name, LuaClosure luaFunction) {
