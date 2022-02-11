@@ -97,7 +97,6 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
                 } else if (((DuckClientPlayerEntity)mc.player).lastOnGround() != this.onGround) {
                     mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(this.onGround));
                 }
-                System.out.println(rotations().getYaw() + " " + rotations().getPitch());
                 if (bl2) {
                     ((DuckClientPlayerEntity)mc.player).lastX(this.getX());
                     ((DuckClientPlayerEntity)mc.player).lastBaseY(this.getY());
