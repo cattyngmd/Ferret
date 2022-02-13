@@ -169,7 +169,7 @@ public class V1Parser
         return null;
     }
 
-    public MethodEntry findMethod( String classname, String methodname, NormalFindType findtype, int args )
+    public MethodEntry findMethod( String classname, String methodname, NormalFindType findtype, int args, String desc )
     {
         for( MethodEntry entry : methods )
         {
@@ -177,6 +177,12 @@ public class V1Parser
                 continue;
 
             if( args != -1 && Type.getArgumentTypes( entry.type ).length != args ) continue;
+
+            if( desc != null )
+            {
+                if( !entry.type.contains( desc ) )
+                    continue;
+            }
 
             switch( findtype )
             {

@@ -25,7 +25,7 @@ public class ScriptMixinWriter
         }
 
         MethodEntry m = MappingManager.getInstance( ).getParser( ).findMethod(
-                e.intermediary, mixin.method, V1Parser.NormalFindType.NAMED, mixin.args );
+                e.intermediary, mixin.method, V1Parser.NormalFindType.NAMED, mixin.args, null );
 
         if( m == null )
         {

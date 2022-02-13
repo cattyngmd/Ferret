@@ -173,7 +173,7 @@ class JavaClass extends JavaInstance implements CoerceJavaToLua.Coercion {
 				return mappings().getMethodCache().get(name);
 			}
 			while (superclass != null) {
-				MethodEntry methodEntry = parser().findMethod(superclass.getName().replace(".", "/"), key.tojstring(), V1Parser.NormalFindType.NAMED, -1);
+				MethodEntry methodEntry = parser().findMethod(superclass.getName().replace(".", "/"), key.tojstring(), V1Parser.NormalFindType.NAMED, -1, null);
 				if(methodEntry != null) {
 					mappings().getMethodCache().put(name, ( LuaValue ) methods.get(LuaValue.valueOf(methodEntry.intermediary)));
 					return ( LuaValue ) methods.get(LuaValue.valueOf(methodEntry.intermediary));

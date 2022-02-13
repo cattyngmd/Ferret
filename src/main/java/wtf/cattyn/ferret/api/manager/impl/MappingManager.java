@@ -137,7 +137,7 @@ public final class MappingManager {
         return entry;
     }
 
-    public MethodEntry remapMethod(String className, String name, String type) {
+    public MethodEntry remapMethod(String className, String name, String type, String desc) {
         if (methodEntryCache.containsKey(className + "." + name)) {
             return methodEntryCache.get(className + "." + name);
         }
@@ -145,7 +145,7 @@ public final class MappingManager {
         MethodEntry entry = null;
 
         try {
-            entry = parser.findMethod(className, name, V1Parser.NormalFindType.valueOf(type.toUpperCase()), -1);
+            entry = parser.findMethod(className, name, V1Parser.NormalFindType.valueOf(type.toUpperCase()), -1, desc);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
