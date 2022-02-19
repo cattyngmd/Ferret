@@ -1,4 +1,4 @@
-package wtf.cattyn.ferret.api.feature.script.lua.classes;
+package wtf.cattyn.ferret.api.feature.script.lua.tables;
 
 import org.luaj.vm2.LuaClosure;
 import org.luaj.vm2.LuaString;

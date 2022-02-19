@@ -278,9 +278,9 @@ public class ScriptMixinWriter
 
         // run event callbacks
         // Ferret.getDefault().getScripts()
-        mv.visitMethodInsn( Opcodes.INVOKESTATIC,
+        mv.visitMethodInsn(Opcodes.INVOKESTATIC,
                 "wtf/cattyn/ferret/core/Ferret",
-                "getDefault", "()Lwtf/cattyn/ferret/core/Ferret;" );
+                "getDefault", "()Lwtf/cattyn/ferret/core/Ferret;");
         mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL,
                 "wtf/cattyn/ferret/core/Ferret",
                 "getScripts", "()Lwtf/cattyn/ferret/api/manager/impl/ScriptManager;" );

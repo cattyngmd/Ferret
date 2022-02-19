@@ -2,10 +2,13 @@ package wtf.cattyn.ferret.api.manager.impl;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
+import net.minecraft.network.packet.s2c.play.WorldEventS2CPacket;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
+import wtf.cattyn.ferret.api.feature.module.Module;
 import wtf.cattyn.ferret.api.manager.Manager;
 
 public final class RotationManager implements Manager<RotationManager> {

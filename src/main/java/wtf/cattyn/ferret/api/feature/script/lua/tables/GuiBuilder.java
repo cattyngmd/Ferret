@@ -1,4 +1,4 @@
-package wtf.cattyn.ferret.api.feature.script.lua.classes;
+package wtf.cattyn.ferret.api.feature.script.lua.tables;
 
 import imgui.ImGui;
 import imgui.gl3.ImGuiImplGl3;

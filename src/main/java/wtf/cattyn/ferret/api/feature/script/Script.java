@@ -3,7 +3,6 @@ package wtf.cattyn.ferret.api.feature.script;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
 import net.minecraft.client.MinecraftClient;
 import org.luaj.vm2.LuaClosure;
 import org.luaj.vm2.LuaString;
@@ -15,8 +14,9 @@ import wtf.cattyn.ferret.api.feature.option.impl.ComboOption;
 import wtf.cattyn.ferret.api.feature.option.impl.NumberOption;
 import wtf.cattyn.ferret.api.feature.option.impl.TextOption;
 import wtf.cattyn.ferret.api.feature.script.lua.LuaCallback;
-import wtf.cattyn.ferret.api.feature.script.lua.classes.GuiBuilder;
-import wtf.cattyn.ferret.api.feature.script.lua.classes.ModuleLua;
+import wtf.cattyn.ferret.api.feature.script.lua.tables.ColorTable;
+import wtf.cattyn.ferret.api.feature.script.lua.tables.GuiBuilder;
+import wtf.cattyn.ferret.api.feature.script.lua.tables.ModuleLua;
 import wtf.cattyn.ferret.api.feature.script.lua.functions.*;
 import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaFiles;
 import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaGlobals;
@@ -115,6 +115,7 @@ public class Script extends Feature.ToggleableFeature implements Json<Script> {
         engine.put("vec2d", new Vec2dFunction());
         engine.put("vec3d", new Vec3dFunction());
         engine.put("color", new ColorFunction());
+        engine.put("colorutil", ColorTable.getLua());
         engine.put("StopWatch", new StopWatchFunction());
         engine.put("client", Ferret.getDefault());
         engine.put("renderer", LuaRenderer.getDefault());
@@ -159,7 +160,7 @@ public class Script extends Feature.ToggleableFeature implements Json<Script> {
     }
 
     public void invoke(String name, LuaValue arg) {
-        if (callbacks == null) return;
+        if (callbacks == null || callbacks.isEmpty()) return;
         callbacks.stream().filter(c -> c.name().equalsIgnoreCase(name)).forEach(c -> c.run(arg));
     }
 

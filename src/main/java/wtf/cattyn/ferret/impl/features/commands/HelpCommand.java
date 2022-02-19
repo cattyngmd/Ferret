@@ -12,6 +12,8 @@ import wtf.cattyn.ferret.api.feature.module.Module;
 import wtf.cattyn.ferret.api.manager.impl.CommandManager;
 import wtf.cattyn.ferret.common.impl.util.ChatUtil;
 
+import java.awt.*;
+
 public class HelpCommand extends Command {
 
     public HelpCommand() {

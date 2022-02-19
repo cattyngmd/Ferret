@@ -27,6 +27,7 @@ import java.lang.reflect.*;
 import fuck.you.yarnparser.V1Parser;
 import fuck.you.yarnparser.entry.ClassEntry;
 import fuck.you.yarnparser.entry.FieldEntry;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaError;
