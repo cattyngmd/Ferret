@@ -10,6 +10,7 @@ import net.minecraft.text.Style;
 import net.minecraft.util.Formatting;
 import org.luaj.vm2.LuaValue;
 import org.lwjgl.glfw.GLFW;
+import wtf.cattyn.ferret.api.event.FerretEventBus;
 import wtf.cattyn.ferret.api.feature.Feature;
 import wtf.cattyn.ferret.api.feature.option.Option;
 import wtf.cattyn.ferret.common.impl.Pair;
@@ -17,6 +18,7 @@ import wtf.cattyn.ferret.common.impl.trait.Json;
 import wtf.cattyn.ferret.common.impl.trait.Toggleable;
 import wtf.cattyn.ferret.common.impl.util.ChatUtil;
 import wtf.cattyn.ferret.core.Ferret;
+import wtf.cattyn.ferret.impl.events.ModuleEvent;
 
 public class Module extends Feature.ToggleableFeature implements Json<Module> {
     private boolean toggled;
@@ -53,14 +55,7 @@ public class Module extends Feature.ToggleableFeature implements Json<Module> {
         onToggle();
         onEnable();
         Ferret.EVENT_BUS.register(this);
-        if (mc.world != null) ChatUtil.sendMessage(
-                new LiteralText(getName() + Formatting.GREEN + " enabled")
-                        .setStyle(Style.EMPTY.withHoverEvent(
-                                new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                                        new LiteralText(getName() + " was enabled").formatted(Formatting.GREEN)
-                                )
-                        ))
-        );
+        Ferret.EVENT_BUS.post(new ModuleEvent(this, true));
     }
 
     @Override public void disable() {
@@ -68,14 +63,7 @@ public class Module extends Feature.ToggleableFeature implements Json<Module> {
         onDisable();
         Ferret.EVENT_BUS.unregister(this);
         toggled = false;
-        if (mc.world != null) ChatUtil.sendMessage(
-                new LiteralText(getName() + Formatting.RED + " disabled")
-                        .setStyle(Style.EMPTY.withHoverEvent(
-                                new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                                        new LiteralText(getName() + " was disabled").formatted(Formatting.RED)
-                                )
-                        ))
-        );
+        Ferret.EVENT_BUS.post(new ModuleEvent(this, false));
     }
 
     public void onEnable() { }
