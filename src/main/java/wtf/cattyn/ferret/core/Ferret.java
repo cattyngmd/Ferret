@@ -42,8 +42,8 @@ public class Ferret {
         rotationManager = new RotationManager().load();
         commands = new CommandManager().load();
         tickManager = new TickManager().load();
-        moduleManager = new ModuleManager().load();
         scripts = new ScriptManager().load();
+        moduleManager = new ModuleManager().load();
         fileWatcher = new FileWatcher();
         fileWatcher.start();
         configManager = new ConfigManager();
