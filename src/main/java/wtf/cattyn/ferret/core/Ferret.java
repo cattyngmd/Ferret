@@ -46,8 +46,7 @@ public class Ferret {
         moduleManager = new ModuleManager().load();
         fileWatcher = new FileWatcher();
         fileWatcher.start();
-        configManager = new ConfigManager();
-        configManager.load();
+        configManager = new ConfigManager().load();
         EVENT_BUS.register(new EventHandler());
     }
 

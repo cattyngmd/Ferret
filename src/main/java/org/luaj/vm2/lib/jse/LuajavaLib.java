@@ -193,9 +193,9 @@ public class LuajavaLib extends VarArgFunction {
 					return c;
 				}
 			}
-			mappings( ).getClassCache( ).put( name,  Class.forName(name, true, ClassLoader.getSystemClassLoader()));
+			mappings( ).getClassCache( ).put( name,  Class.forName(name, true, MinecraftClient.class.getClassLoader()));
 		}
-		return Class.forName(name, true, ClassLoader.getSystemClassLoader());
+		return Class.forName(name, true, MinecraftClient.class.getClassLoader());
 	}
 	
 	private static final class ProxyInvocationHandler implements InvocationHandler {
