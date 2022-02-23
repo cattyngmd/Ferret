@@ -24,8 +24,18 @@ public class ScriptMixinWriter
             return null;
         }
 
-        MethodEntry m = MappingManager.getInstance( ).getParser( ).findMethod(
-                e.intermediary, mixin.method, V1Parser.NormalFindType.NAMED, mixin.args, null );
+        MethodEntry m = null;
+        
+        if( mixin.method.startsWith( "method_" ) )
+        {
+            m = MappingManager.getInstance( ).getParser( ).findMethod(
+                    null, mixin.method, V1Parser.NormalFindType.INTERMEDIARY, mixin.args, null );
+        }
+        else
+        {
+            m = MappingManager.getInstance( ).getParser( ).findMethod(
+                    e.intermediary, mixin.method, V1Parser.NormalFindType.NAMED, mixin.args, null );
+        }
 
         if( m == null )
         {
