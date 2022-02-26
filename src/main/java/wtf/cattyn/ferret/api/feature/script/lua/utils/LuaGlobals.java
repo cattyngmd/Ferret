@@ -14,6 +14,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.lib.jse.CoerceLuaToJava;
 import wtf.cattyn.ferret.common.Globals;
 import wtf.cattyn.ferret.mixins.ducks.DuckMinecraft;
 
@@ -80,28 +81,44 @@ public class LuaGlobals implements Globals {
         return Lists.newArrayList(mc.world.getEntities());
     }
 
-    public String[] toArrayS(LuaTable table) {
-        String[] floats = new String[table.length()];
+    public int[] intArray(LuaTable table) {
+        int[] ints = new int[table.length()];
         for (int j = 1; j <= table.length(); j++) {
-            floats[j - 1] = table.get(j).tojstring();
+            ints[j - 1] = table.get(j).toint();
         }
-        return floats;
+        return ints;
     }
 
-    public float[] toArrayF(LuaTable table) {
-        float[] floats = new float[table.length()];
+    public float[] floatArray(LuaTable table) {
+        float[] ints = new float[table.length()];
         for (int j = 1; j <= table.length(); j++) {
-            floats[j - 1] = table.get(j).tofloat();
+            ints[j - 1] = table.get(j).tofloat();
         }
-        return floats;
+        return ints;
     }
 
-    public int[] toArrayI(LuaTable table) {
-        int[] floats = new int[table.length()];
+    public double[] doubleArray(LuaTable table) {
+        double[] ints = new double[table.length()];
         for (int j = 1; j <= table.length(); j++) {
-            floats[j - 1] = table.get(j).toint();
+            ints[j - 1] = table.get(j).todouble();
         }
-        return floats;
+        return ints;
+    }
+
+    public char[] charArray(LuaTable table) {
+        char[] ints = new char[table.length()];
+        for (int j = 1; j <= table.length(); j++) {
+            ints[j - 1] = table.get(j).tochar();
+        }
+        return ints;
+    }
+
+    public <T> T[] customArray(LuaTable table, Class<T> type) {
+        Object[] ints = new Object[table.length()];
+        for (int j = 1; j <= table.length(); j++) {
+            ints[j - 1] = CoerceLuaToJava.coerce(table.get(j), type);
+        }
+        return ( T[] ) ints;
     }
 
     public static LuaGlobals getDefault() {
