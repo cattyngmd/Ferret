@@ -11,15 +11,10 @@ public final class ModuleManager extends ArrayList<Module> implements Manager<Mo
 
     @Override public ModuleManager load() {
         addAll(List.of(
-                new Sprint(),
-                new AirPlace(),
-                new KillAura(),
                 new ExtraTab(),
-                new AntiLava(),
                 new TablistToggle(),
                 new UnfocusedCPU(),
-                new CameraClip(),
-                new FakePlayer()
+                new CameraClip()
         ));
         return this;
     }
