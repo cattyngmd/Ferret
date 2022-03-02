@@ -18,14 +18,17 @@ public class LuaUtils {
         try {
             if (values == null) closure.invoke();
             else closure.invoke(values);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             if (MinecraftClient.getInstance().inGameHud != null) {
                 ChatUtil.sendMessage(
                         (script != null ? script.getName( ) + " -> " : "" ) + e.getMessage()
                 );
             }
             e.printStackTrace();
-            if (script != null && !ScriptManager.strict) script.setToggled(false);
+            if (script != null && !ScriptManager.strict) {
+                script.setToggled(false);
+                script.getCache().addProperty("__toggled", true);
+            }
         }
     }
 

@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -45,7 +46,6 @@ import java.util.List;
 
 public class Script extends Feature.ToggleableFeature implements Json<Script> {
 
-    private JsonObject cache = new JsonObject();
     private transient String script;
     private final Path path;
     private boolean loaded;
@@ -76,6 +76,9 @@ public class Script extends Feature.ToggleableFeature implements Json<Script> {
         modules.forEach(m -> {
             if (cache.has(m.getName())) m.fromJson(cache.get(m.getName()).getAsJsonObject());
         });
+        if (cache.has("__toggled")) {
+            setToggled(cache.get("__toggled").getAsBoolean());
+        }
         cache = new JsonObject();
         loaded = true;
     }
@@ -161,7 +164,12 @@ public class Script extends Feature.ToggleableFeature implements Json<Script> {
 
     public void invoke(String name, LuaValue arg) {
         if (callbacks == null || callbacks.isEmpty()) return;
-        callbacks.stream().filter(c -> c.name().equalsIgnoreCase(name)).forEach(c -> c.run(arg));
+        for (int i = 0; i < callbacks.size(); i++) {
+            final LuaCallback c = callbacks.get(i);
+            if (c.name().equalsIgnoreCase(name)) {
+                c.run(arg);
+            }
+        }
     }
 
     public void invoke(String name) {

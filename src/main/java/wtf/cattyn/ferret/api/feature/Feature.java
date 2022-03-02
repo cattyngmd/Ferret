@@ -1,5 +1,6 @@
 package wtf.cattyn.ferret.api.feature;
 
+import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import wtf.cattyn.ferret.common.Globals;
@@ -10,6 +11,7 @@ import java.util.Objects;
 
 public class Feature implements Nameable, Globals {
 
+    protected JsonObject cache = new JsonObject();
     private final String name;
     private final String desc;
 
@@ -24,6 +26,10 @@ public class Feature implements Nameable, Globals {
 
     public String getDesc() {
         return desc;
+    }
+
+    public JsonObject getCache() {
+        return cache;
     }
 
     @Override public boolean equals(Object obj) {
