@@ -4,8 +4,6 @@
 
 ![](https://img.shields.io/github/downloads/cattyngmd/ferret/total) ![](https://img.shields.io/github/commit-activity/w/cattyngmd/ferret) ![](https://img.shields.io/tokei/lines/github/cattyngmd/ferret) <a href="https://discord.gg/dbH47Pg4Mf"><img src="https://img.shields.io/discord/928792065649819698" /></a> ![](https://img.shields.io/github/workflow/status/cattyngmd/ferret/Gradle%20Build)
 
-<img src="https://user-images.githubusercontent.com/60744119/152034594-a5c7d8e3-5239-4d1f-a651-9f1ae424a2de.png" width="50%" />
-
 Free and open source Minecraft mod with [Lua](https://en.wikipedia.org/wiki/Lua_(programming_language)) scripting API
 
 Lua API https://cattyn.gitbook.io/ferret-lua-api/
@@ -38,7 +36,7 @@ Please note that Ferret requires [Fabric API](https://www.curseforge.com/minecra
   
 Download Ferret scripts from [here](https://github.com/cattyngmd/Ferret-Scripts) and put them into your `.minecraft/ferret/scripts` folder
 
-The default command prefix is `.` . You can change it by typing `.setprefix <prefix>`
+The default command prefix is `.` . You can change it by typing `.setprefix "<prefix>"`
   
 # Credits
 
