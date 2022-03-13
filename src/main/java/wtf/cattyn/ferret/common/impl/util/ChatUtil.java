@@ -33,7 +33,7 @@ public class ChatUtil implements Globals {
         chatPrefix.setStyle(
                 Style.EMPTY.withHoverEvent(
                         new HoverEvent(
-                                HoverEvent.Action.SHOW_TEXT, new LiteralText(Formatting.AQUA + "Ferret :3")
+                                HoverEvent.Action.SHOW_TEXT, new LiteralText(Formatting.AQUA + "Ferret")
                         )
                 )
         );
