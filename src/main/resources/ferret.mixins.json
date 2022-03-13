@@ -17,13 +17,10 @@
     "MixinTitleScreen",
     "MixinWorldRenderer",
     "ducks.DuckGameMessageS2CPacket",
-    "ducks.DuckMinecraft"
+    "ducks.DuckMinecraft",
+    "ducks.DuckClientPlayerEntity"
   ],
   "injectors": {
     "defaultRequire": 1
-  },
-  "refmap": null,
-  "mixins": [
-    "ducks.DuckClientPlayerEntity"
-  ]
+  }
 }

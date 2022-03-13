@@ -20,7 +20,7 @@ import java.util.zip.GZIPInputStream;
 
 public final class MappingManager {
 
-    private static final String YARN = "https://maven.fabricmc.net/net/fabricmc/yarn/1.18.1+build.18/yarn-1.18.1+build.18-tiny.gz";
+    private static final String YARN = "https://maven.fabricmc.net/net/fabricmc/yarn/1.18.2+build.2/yarn-1.18.2+build.2-tiny.gz";
     private final File mappings = new File("ferret/mappings/mappings.tiny");
     private V1Parser parser;
 

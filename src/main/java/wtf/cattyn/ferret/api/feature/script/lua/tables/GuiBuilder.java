@@ -113,7 +113,7 @@ public class GuiBuilder implements Globals {
                 }
             }
 
-            @Override public boolean isPauseScreen() {
+            @Override public boolean shouldPause() {
                 return isPauseScreen;
             }
 

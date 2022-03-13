@@ -15,7 +15,7 @@ public class TablistToggle extends Module {
 
     @Subscribe
     public void onTick(TickEvent e) {
-        if (tablistToggled) mc.options.keyPlayerList.setPressed(true);
+        if (tablistToggled) mc.options.playerListKey.setPressed(true);
     }
 
 }
