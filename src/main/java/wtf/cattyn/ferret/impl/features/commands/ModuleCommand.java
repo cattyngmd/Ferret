@@ -33,7 +33,6 @@ public class ModuleCommand extends Command {
                                                         .then(
                                                                 argument("value", ValueArgumentType.value("module", "option"))
                                                                         .executes(context -> {
-                                                                            System.out.println("nigger");
                                                                             Option<?> option = OptionArgumentType.getOption(context, "module", "option");
                                                                             String rawValue = context.getArgument("value", String.class);
                                                                             try {
