@@ -36,7 +36,7 @@ Please note that Ferret requires [Fabric API](https://www.curseforge.com/minecra
   
 Download Ferret scripts from [here](https://github.com/cattyngmd/Ferret-Scripts) and put them into your `.minecraft/ferret/scripts` folder
 
-The default command prefix is `.` . You can change it by typing `.setprefix <prefix>`
+The default command prefix is `.` . You can change it by typing `.setprefix "<prefix>"`
   
 # Credits
 
