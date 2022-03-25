@@ -2,6 +2,7 @@ package wtf.cattyn.ferret.api.feature.script.lua.utils;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
+import fuck.you.yarnparser.entry.ClassEntry;
 import imgui.ImGui;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -114,6 +115,19 @@ public class LuaGlobals implements Globals {
             ints[j - 1] = table.get(j).tochar();
         }
         return ints;
+    }
+
+    public boolean instanceOf(Object o, String clazz) {
+        Class<?> oClazz = o.getClass();
+        if (ferret().isRemapped()) {
+            ClassEntry classEntry = ferret().getMappingManager().remapClass(clazz.replace(".", "/"), "NAMED", false);
+            if (classEntry != null) clazz = classEntry.intermediary.replace("/", ".");
+        }
+        while (oClazz != null) {
+            if (oClazz.getName().equals(clazz)) return true;
+            oClazz = oClazz.getSuperclass();
+        }
+        return false;
     }
 
     public <T> T[] customArray(LuaTable table, Class<T> type) {

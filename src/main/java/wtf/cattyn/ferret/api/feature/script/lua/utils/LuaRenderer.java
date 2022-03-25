@@ -7,15 +7,19 @@ import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.*;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3f;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.system.MemoryStack;
 import wtf.cattyn.ferret.common.Globals;
 import wtf.cattyn.ferret.common.impl.Vec2d;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.nio.FloatBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
@@ -54,8 +58,68 @@ public class LuaRenderer extends DrawableHelper implements Globals {
         DrawableHelper.fill(stack, ( int ) from.x(), ( int ) from.y(), ( int ) to.x(), ( int ) to.y(), color.hashCode());
     }
 
+    public void roundedRectFilled(MatrixStack stack, Vec2d from, Vec2d to, double radius, Color color) {
+        if (to.x() - from.x() <= radius * 2 || to.y() - from.y() <= radius * 2) return;
+        int col = color.hashCode();
+        fill(stack, ( int ) (from.x() + radius), ( int ) from.y(), ( int ) (to.x() - radius), ( int ) to.y(), col);
+        fill(stack, ( int ) from.x(), ( int ) (from.y() + radius), ( int ) (from.x() + radius), ( int ) (to.y() - radius), col);
+        fill(stack, ( int ) (to.x() - radius), ( int ) (from.y() + radius), ( int ) to.x(), ( int ) (to.y() - radius), col);
+
+        circleFilled(stack, new Vec2d(from.x() + radius, from.y() + radius), radius, 0, color);
+        circleFilled(stack, new Vec2d(from.x() + radius, to.y() - radius), radius, 1, color);
+        circleFilled(stack, new Vec2d(to.x() - radius, to.y() - radius), radius, 2, color);
+        circleFilled(stack, new Vec2d(to.x() - radius, from.y() + radius), radius, 3, color);
+    }
+
     public void rectFilledFade(MatrixStack stack, Vec2d from, Vec2d to, Color color1, Color color2) {
         this.fillGradient(stack, ( int ) from.x(), ( int ) from.y(), ( int ) to.x(), ( int ) to.y(), color1.hashCode(), color2.hashCode());
+    }
+
+    public void circleFilled(MatrixStack stack, Vec2d pos, double radius, int part, Color color) {
+        int col = color.hashCode();
+        float  a = (float)(col >> 24 & 255) / 255.0F,
+                r = (float)(col >> 16 & 255) / 255.0F,
+                g = (float)(col >> 8 & 255) / 255.0F,
+                b = (float)(col & 255) / 255.0F;
+        BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
+        RenderSystem.enableBlend();
+        RenderSystem.disableTexture();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        bufferBuilder.begin(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR);
+        bufferBuilder.vertex( stack.peek().getPositionMatrix(), ( float ) pos.x(), ( float ) pos.y(), 0 ).color( r, g, b, a ).next( );
+        double DOUBLE_PI = Math.PI * 2;
+        for ( int i = part == -1 ? 0 : part * 90; i <= (part == -1 ? 360 : part * 90 + 90); i++) {
+            double angle = ( DOUBLE_PI * i / 360 ) + Math.toRadians( 180 );
+            bufferBuilder.vertex( stack.peek().getPositionMatrix(), ( float ) (pos.x() + Math.sin( angle ) * radius), ( float ) (pos.y() + Math.cos( angle ) * radius), 0 ).color( r, g, b, a ).next( );
+        }
+        bufferBuilder.end();
+        BufferRenderer.draw(bufferBuilder);
+        RenderSystem.enableTexture();
+        RenderSystem.disableBlend();
+    }
+
+    public void circle(MatrixStack stack, Vec2d pos, double radius, int part, Color color) {
+        int col = color.hashCode();
+        float  a = (float)(col >> 24 & 255) / 255.0F,
+                r = (float)(col >> 16 & 255) / 255.0F,
+                g = (float)(col >> 8 & 255) / 255.0F,
+                b = (float)(col & 255) / 255.0F;
+        BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.enableBlend();
+        RenderSystem.disableTexture();
+        RenderSystem.defaultBlendFunc();
+        bufferBuilder.begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR);
+        double DOUBLE_PI = Math.PI * 2;
+        for ( int i = part == -1 ? 0 : part * 90; i <= (part == -1 ? 360 : part * 90 + 90); i++) {
+            double angle = ( DOUBLE_PI * i / 360 ) + Math.toRadians( 180 );
+            bufferBuilder.vertex( stack.peek().getPositionMatrix(), ( float ) (pos.x() + Math.sin( angle ) * radius), ( float ) (pos.y() + Math.cos( angle ) * radius), 0 ).color( r, g, b, a ).next( );
+        }
+        bufferBuilder.end();
+        BufferRenderer.draw(bufferBuilder);
+        RenderSystem.enableTexture();
+        RenderSystem.disableBlend();
     }
 
     public void line(MatrixStack stack, Vec2d from, Vec2d to, Color color) {

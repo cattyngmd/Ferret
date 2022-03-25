@@ -92,11 +92,12 @@ public class LuajavaLib extends VarArgFunction {
 	static final int CREATEPROXY	= 4;
 	static final int LOADLIB		= 5;
 
+	//Ferret
 	static final String[] NAMES = {
 		"bindClass", 
 		"newInstance", 
 		"new", 
-		"createProxy", 
+		"createProxy",
 		"loadLib",
 	};
 	
@@ -111,65 +112,62 @@ public class LuajavaLib extends VarArgFunction {
 
 	public Varargs invoke(Varargs args) {
 		try {
-			switch ( opcode ) {
-			case INIT: {
-				// LuaValue modname = args.arg1();
-				LuaValue env = args.arg(2);
-				LuaTable t = new LuaTable();
-				bind( t, this.getClass(), NAMES, BINDCLASS );
-				env.set("luajava", t);
-				env.get("package").get("loaded").set("luajava", t);
-				return t;
-			}
-			case BINDCLASS: {
-				String _name = args.checkjstring(1);
-				Class clazz = classForName(_name);
-				return JavaClass.forClass(clazz);
-			}
-			case NEWINSTANCE:
-			case NEW: {
-				// get constructor
-				final LuaValue c = args.checkvalue(1);
-				final Class clazz = (opcode==NEWINSTANCE? classForName(c.tojstring()): (Class) c.checkuserdata(Class.class));
-				final Varargs consargs = args.subargs(2);
-				return JavaClass.forClass(clazz).getConstructor().invoke(consargs);
-			}
-
-			case CREATEPROXY: {
-				final int niface = args.narg()-1;
-				if ( niface <= 0 )
-					throw new LuaError("no interfaces");
-				final LuaValue lobj = args.checktable(niface+1);
-
-				// get the interfaces
-				final Class[] ifaces = new Class[niface];
-				for ( int i=0; i<niface; i++ )
-					ifaces[i] = classForName(args.checkjstring(i+1));
-
-				// create the invocation handler
-				InvocationHandler handler = new ProxyInvocationHandler(lobj);
-
-				// create the proxy object
-				Object proxy = Proxy.newProxyInstance(getClass().getClassLoader(), ifaces, handler);
-
-				// return the proxy
-				return LuaValue.userdataOf( proxy );
-			}
-			case LOADLIB: {
-				// get constructor
-				String classname = args.checkjstring(1);
-				String methodname = args.checkjstring(2);
-				Class clazz = classForName(classname);
-				Method method = clazz.getMethod(methodname, new Class[] {});
-				Object result = method.invoke(clazz, new Object[] {});
-				if ( result instanceof LuaValue ) {
-					return (LuaValue) result;
-				} else {
-					return NIL;
+			switch (opcode) {
+				case INIT -> {
+					// LuaValue modname = args.arg1();
+					LuaValue env = args.arg(2);
+					LuaTable t = new LuaTable();
+					bind(t, this.getClass(), NAMES, BINDCLASS);
+					env.set("luajava", t);
+					env.get("package").get("loaded").set("luajava", t);
+					return t;
 				}
-			}
-			default:
-				throw new LuaError("not yet supported: "+this);
+				case BINDCLASS -> {
+					String _name = args.checkjstring(1);
+					Class clazz = classForName(_name);
+					return JavaClass.forClass(clazz);
+				}
+				case NEWINSTANCE, NEW -> {
+					// get constructor
+					final LuaValue c = args.checkvalue(1);
+					final Class clazz = (opcode == NEWINSTANCE ? classForName(c.tojstring()) : ( Class ) c.checkuserdata(Class.class));
+					final Varargs consargs = args.subargs(2);
+					return JavaClass.forClass(clazz).getConstructor().invoke(consargs);
+				}
+				case CREATEPROXY -> {
+					final int niface = args.narg() - 1;
+					if (niface <= 0)
+						throw new LuaError("no interfaces");
+					final LuaValue lobj = args.checktable(niface + 1);
+
+					// get the interfaces
+					final Class[] ifaces = new Class[ niface ];
+					for (int i = 0; i < niface; i++)
+						ifaces[ i ] = classForName(args.checkjstring(i + 1));
+
+					// create the invocation handler
+					InvocationHandler handler = new ProxyInvocationHandler(lobj);
+
+					// create the proxy object
+					Object proxy = Proxy.newProxyInstance(getClass().getClassLoader(), ifaces, handler);
+
+					// return the proxy
+					return LuaValue.userdataOf(proxy);
+				}
+				case LOADLIB -> {
+					// get constructor
+					String classname = args.checkjstring(1);
+					String methodname = args.checkjstring(2);
+					Class<?> clazz = classForName(classname);
+					Method method = clazz.getMethod(methodname);
+					Object result = method.invoke(clazz);
+					if (result instanceof LuaValue) {
+						return ( LuaValue ) result;
+					} else {
+						return NIL;
+					}
+				}
+				default -> throw new LuaError("not yet supported: " + this);
 			}
 		} catch (LuaError e) {
 			throw e;

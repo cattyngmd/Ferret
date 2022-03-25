@@ -4,6 +4,8 @@ import fuck.you.yarnparser.V1Parser;
 import fuck.you.yarnparser.entry.ClassEntry;
 import fuck.you.yarnparser.entry.FieldEntry;
 import fuck.you.yarnparser.entry.MethodEntry;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.item.BowItem;
 import org.apache.commons.io.FileUtils;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.ast.Str;
@@ -93,7 +95,7 @@ public final class MappingManager {
         return this;
     }
 
-    public ClassEntry remapClass(String name, String type) {
+    public ClassEntry remapClass(String name, String type, boolean debug) {
         if (classEntryCache.containsKey(name)) {
             return classEntryCache.get(name);
         }
@@ -107,7 +109,7 @@ public final class MappingManager {
         }
 
         if (entry != null) classEntryCache.put(name, entry);
-        else {
+        else if (debug) {
             MixinPlugin.LOGGER.warn(name + " class is not found.");
             ChatUtil.sendMessage(name + " class is not found.");
         }

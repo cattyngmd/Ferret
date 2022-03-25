@@ -1,5 +1,6 @@
 package wtf.cattyn.ferret.core;
 
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
 import net.minecraft.text.LiteralText;
@@ -33,12 +34,7 @@ public class Ferret {
     }
 
     public void init() {
-        try {
-           MinecraftClient.class.getDeclaredField("player");
-           remapped = false;
-        } catch (NoSuchFieldException e) {
-            remapped = true;
-        }
+        remapped = !FabricLoader.getInstance().isDevelopmentEnvironment();
         rotationManager = new RotationManager().load();
         commands = new CommandManager().load();
         tickManager = new TickManager().load();
