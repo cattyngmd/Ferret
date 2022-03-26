@@ -1,27 +1,18 @@
 package wtf.cattyn.ferret.api.feature.script.lua.utils;
 
-import com.google.common.io.Files;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
-import org.joml.Matrix4f;
-import org.joml.Vector3f;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.system.MemoryStack;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3f;
 import wtf.cattyn.ferret.common.Globals;
 import wtf.cattyn.ferret.common.impl.Vec2d;
 
-import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.nio.FloatBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
 public class LuaRenderer extends DrawableHelper implements Globals {
 
