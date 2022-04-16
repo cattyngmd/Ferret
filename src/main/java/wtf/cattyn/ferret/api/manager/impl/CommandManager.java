@@ -29,7 +29,8 @@ public final class CommandManager extends ArrayList<Command> implements Manager<
                 new BindCommand(),
                 new HelpCommand(),
                 new SendCoordsCommand(),
-                new GetScriptCommand()
+                new GetScriptCommand(),
+                new SaveConfigCommand()
         ));
         return this;
     }
