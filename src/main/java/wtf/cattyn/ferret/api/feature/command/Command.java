@@ -20,8 +20,12 @@ public abstract class Command extends Feature implements Globals {
 
     public Command(String name, String desc, String... alias) {
         super(name, desc);
-        this.alias = Arrays.copyOf(alias, alias.length + 1);
-        this.alias[alias.length] = name.toLowerCase(Locale.ROOT);
+        if (alias == null) {
+            this.alias = new String[] {name};
+        } else {
+            this.alias = Arrays.copyOf(alias, alias.length + 1);
+            this.alias[ alias.length ] = name.toLowerCase(Locale.ROOT);
+        }
     }
 
     public String[] getAlias() {

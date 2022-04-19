@@ -15,6 +15,7 @@ import wtf.cattyn.ferret.api.feature.option.impl.NumberOption;
 import wtf.cattyn.ferret.api.feature.option.impl.TextOption;
 import wtf.cattyn.ferret.api.feature.script.lua.LuaCallback;
 import wtf.cattyn.ferret.api.feature.script.lua.tables.ColorTable;
+import wtf.cattyn.ferret.api.feature.script.lua.tables.CommandLua;
 import wtf.cattyn.ferret.api.feature.script.lua.tables.GuiBuilder;
 import wtf.cattyn.ferret.api.feature.script.lua.tables.ModuleLua;
 import wtf.cattyn.ferret.api.feature.script.lua.functions.*;
@@ -51,6 +52,7 @@ public class Script extends Feature.ToggleableFeature implements Json<Script> {
     private boolean loaded;
     private transient final List<LuaCallback> callbacks = new ArrayList<>();
     private transient final List<ModuleLua> modules = new ArrayList<>();
+    private transient final List<CommandLua> commands = new ArrayList<>();
 
     public Script(String name, String desc) throws IOException {
         super(name, desc);
@@ -96,6 +98,8 @@ public class Script extends Feature.ToggleableFeature implements Json<Script> {
         }
         Ferret.getDefault().getModuleManager().removeAll(modules);
         modules.clear();
+        Ferret.getDefault().getCommandManager().removeAll(commands);
+        commands.clear();
         callbacks.clear();
     }
 
@@ -126,6 +130,7 @@ public class Script extends Feature.ToggleableFeature implements Json<Script> {
         engine.put("interactions", LuaInteractions.getDefault());
         engine.put("files", LuaFiles.getDefault());
         engine.put("Module", ModuleLua.getLua());
+        engine.put("Command", CommandLua.getLua());
         engine.put("GuiBuilder", GuiBuilder.getLua());
         engine.put("remapper", Ferret.getDefault().getMappingManager());
         engine.put("rotations", Ferret.getDefault().getRotationManager());
@@ -179,6 +184,11 @@ public class Script extends Feature.ToggleableFeature implements Json<Script> {
     public void addModule(ModuleLua lua) {
         modules.add(lua);
         Ferret.getDefault().getModuleManager().add(lua);
+    }
+
+    public void addCommand(CommandLua lua) {
+        commands.add(lua);
+        Ferret.getDefault().getCommandManager().add(lua);
     }
 
     public List<LuaCallback> getCallbacks() {
