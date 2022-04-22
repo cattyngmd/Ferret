@@ -14,15 +14,11 @@ import wtf.cattyn.ferret.api.feature.option.impl.ComboOption;
 import wtf.cattyn.ferret.api.feature.option.impl.NumberOption;
 import wtf.cattyn.ferret.api.feature.option.impl.TextOption;
 import wtf.cattyn.ferret.api.feature.script.lua.LuaCallback;
-import wtf.cattyn.ferret.api.feature.script.lua.tables.ColorTable;
-import wtf.cattyn.ferret.api.feature.script.lua.tables.CommandLua;
-import wtf.cattyn.ferret.api.feature.script.lua.tables.GuiBuilder;
-import wtf.cattyn.ferret.api.feature.script.lua.tables.ModuleLua;
+import wtf.cattyn.ferret.api.feature.script.lua.table.*;
+import wtf.cattyn.ferret.api.feature.script.lua.types.CommandLua;
+import wtf.cattyn.ferret.api.feature.script.lua.types.GuiBuilder;
+import wtf.cattyn.ferret.api.feature.script.lua.types.ModuleLua;
 import wtf.cattyn.ferret.api.feature.script.lua.functions.*;
-import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaFiles;
-import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaGlobals;
-import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaInteractions;
-import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaRenderer;
 import wtf.cattyn.ferret.api.manager.impl.ConfigManager;
 import wtf.cattyn.ferret.asm.ScriptMixin;
 import wtf.cattyn.ferret.common.impl.Pair;
@@ -37,7 +33,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -122,7 +117,7 @@ public class Script extends Feature.ToggleableFeature implements Json<Script> {
         engine.put("vec2d", new Vec2dFunction());
         engine.put("vec3d", new Vec3dFunction());
         engine.put("color", new ColorFunction());
-        engine.put("colorutil", ColorTable.getLua());
+        engine.put("colors", LuaColor.getLua());
         engine.put("StopWatch", new StopWatchFunction());
         engine.put("client", Ferret.getDefault());
         engine.put("renderer", LuaRenderer.getDefault());
@@ -134,6 +129,7 @@ public class Script extends Feature.ToggleableFeature implements Json<Script> {
         engine.put("GuiBuilder", GuiBuilder.getLua());
         engine.put("remapper", Ferret.getDefault().getMappingManager());
         engine.put("rotations", Ferret.getDefault().getRotationManager());
+        engine.put("inventory", new LuaInventory());
 
         engine.put("TextBuilder", new TextOption.LuaBuilder());
         engine.put("BooleanBuilder", new BooleanOption.LuaBuilder());

@@ -1,4 +1,4 @@
-package wtf.cattyn.ferret.api.feature.script.lua.utils;
+package wtf.cattyn.ferret.api.feature.script.lua.table;
 
 import com.google.common.collect.Lists;
 import fuck.you.yarnparser.entry.ClassEntry;

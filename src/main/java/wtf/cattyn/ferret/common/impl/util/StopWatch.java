@@ -3,7 +3,7 @@ package wtf.cattyn.ferret.common.impl.util;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
-public class StopWatch {
+public final class StopWatch {
 
     long time = -1L;
 

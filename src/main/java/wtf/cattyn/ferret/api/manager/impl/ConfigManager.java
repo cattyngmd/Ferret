@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import wtf.cattyn.ferret.api.feature.module.Module;
 import wtf.cattyn.ferret.api.feature.option.Option;
 import wtf.cattyn.ferret.api.feature.script.Script;
-import wtf.cattyn.ferret.api.feature.script.lua.tables.ModuleLua;
+import wtf.cattyn.ferret.api.feature.script.lua.types.ModuleLua;
 import wtf.cattyn.ferret.api.manager.Manager;
 import wtf.cattyn.ferret.common.Globals;
 import wtf.cattyn.ferret.core.Ferret;

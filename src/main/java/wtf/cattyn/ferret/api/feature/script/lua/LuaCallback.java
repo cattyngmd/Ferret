@@ -1,13 +1,9 @@
 package wtf.cattyn.ferret.api.feature.script.lua;
 
-import net.minecraft.client.MinecraftClient;
 import org.luaj.vm2.LuaClosure;
 import org.luaj.vm2.LuaValue;
 import wtf.cattyn.ferret.api.feature.Feature;
-import wtf.cattyn.ferret.api.feature.script.Script;
-import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaUtils;
-import wtf.cattyn.ferret.api.manager.impl.ScriptManager;
-import wtf.cattyn.ferret.common.impl.util.ChatUtil;
+import wtf.cattyn.ferret.api.feature.script.lua.table.LuaUtils;
 
 /**
  * @param name callbacks names

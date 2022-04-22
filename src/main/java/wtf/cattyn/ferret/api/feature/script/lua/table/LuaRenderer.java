@@ -1,7 +1,6 @@
-package wtf.cattyn.ferret.api.feature.script.lua.utils;
+package wtf.cattyn.ferret.api.feature.script.lua.table;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.Keyboard;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
@@ -10,7 +9,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3f;
-import org.lwjgl.glfw.GLFW;
 import wtf.cattyn.ferret.common.Globals;
 import wtf.cattyn.ferret.common.impl.Vec2d;
 

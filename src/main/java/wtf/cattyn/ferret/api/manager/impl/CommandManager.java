@@ -9,7 +9,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientCommandSource;
 import net.minecraft.command.CommandSource;
 import wtf.cattyn.ferret.api.feature.command.Command;
+import wtf.cattyn.ferret.api.feature.module.Module;
 import wtf.cattyn.ferret.api.manager.Manager;
+import wtf.cattyn.ferret.common.impl.trait.Enumerable;
 import wtf.cattyn.ferret.impl.features.commands.*;
 
 import java.lang.reflect.Field;
@@ -18,7 +20,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public final class CommandManager extends ArrayList<Command> implements Manager<CommandManager> {
+public final class CommandManager extends ArrayList<Command> implements Manager<CommandManager>, Enumerable<Command> {
 
     private static String prefix = "$";
     public static final CommandSource COMMAND_SOURCE = new FerretCommandSource(mc);

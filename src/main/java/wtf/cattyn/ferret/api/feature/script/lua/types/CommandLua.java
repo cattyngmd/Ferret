@@ -1,4 +1,4 @@
-package wtf.cattyn.ferret.api.feature.script.lua.tables;
+package wtf.cattyn.ferret.api.feature.script.lua.types;
 
 import com.mojang.brigadier.arguments.*;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -18,7 +18,7 @@ import wtf.cattyn.ferret.api.feature.command.args.PlayerArgumentType;
 import wtf.cattyn.ferret.api.feature.command.args.ScriptArgumentType;
 import wtf.cattyn.ferret.api.feature.module.Module;
 import wtf.cattyn.ferret.api.feature.script.Script;
-import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaUtils;
+import wtf.cattyn.ferret.api.feature.script.lua.table.LuaUtils;
 
 import java.util.function.Supplier;
 
@@ -83,6 +83,7 @@ public class CommandLua extends Command {
         EMPTY(null, null),
         STRING(StringArgumentType::string, String.class),
         GREEDYSTRING(StringArgumentType::greedyString, String.class),
+        BOOLEAN(BoolArgumentType::bool, Boolean.class),
         INTEGER(IntegerArgumentType::integer, Integer.class),
         DOUBLE(DoubleArgumentType::doubleArg, Double.class),
         FLOAT(FloatArgumentType::floatArg, Float.class),
@@ -98,8 +99,6 @@ public class CommandLua extends Command {
             this.argumentClass = argumentClass;
         }
 
-        public ArgumentType<?> get() { return supplier.get(); }
-
         public Object get(CommandContext<?> context, String name) {
             return context.getArgument(name, argumentClass);
         }
@@ -109,7 +108,7 @@ public class CommandLua extends Command {
         }
 
         public CommandContainer create(String name) {
-            return new CommandContainer(RequiredArgumentBuilder.argument(name, get()));
+            return new CommandContainer(RequiredArgumentBuilder.argument(name, supplier.get()));
         }
 
     }

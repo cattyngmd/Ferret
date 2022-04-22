@@ -1,6 +1,5 @@
-package wtf.cattyn.ferret.api.feature.script.lua.utils;
+package wtf.cattyn.ferret.api.feature.script.lua.table;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;

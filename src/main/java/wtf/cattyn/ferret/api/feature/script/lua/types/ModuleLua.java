@@ -1,4 +1,4 @@
-package wtf.cattyn.ferret.api.feature.script.lua.tables;
+package wtf.cattyn.ferret.api.feature.script.lua.types;
 
 import org.luaj.vm2.LuaClosure;
 import org.luaj.vm2.LuaString;
@@ -10,7 +10,7 @@ import org.luaj.vm2.lib.jse.CoerceLuaToJava;
 import wtf.cattyn.ferret.api.feature.module.Module;
 import wtf.cattyn.ferret.api.feature.script.Script;
 import wtf.cattyn.ferret.api.feature.script.lua.LuaCallback;
-import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaUtils;
+import wtf.cattyn.ferret.api.feature.script.lua.table.LuaUtils;
 import wtf.cattyn.ferret.asm.ScriptMixin;
 import wtf.cattyn.ferret.core.MixinPlugin;
 

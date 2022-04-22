@@ -1,9 +1,8 @@
-package wtf.cattyn.ferret.api.feature.script.lua.utils;
+package wtf.cattyn.ferret.api.feature.script.lua.table;
 
 import org.luaj.vm2.LuaClosure;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
-import wtf.cattyn.ferret.core.Ferret;
 
 import java.io.File;
 import java.io.IOException;

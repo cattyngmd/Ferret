@@ -1,13 +1,15 @@
 package wtf.cattyn.ferret.api.manager.impl;
 
 import org.luaj.vm2.LuaValue;
+import wtf.cattyn.ferret.api.feature.module.Module;
 import wtf.cattyn.ferret.api.feature.script.lua.LuaCallback;
 import wtf.cattyn.ferret.api.feature.script.Script;
 import wtf.cattyn.ferret.api.manager.Manager;
+import wtf.cattyn.ferret.common.impl.trait.Enumerable;
 
 import java.util.ArrayList;
 
-public final class ScriptManager extends ArrayList<Script> implements Manager<ScriptManager> {
+public final class ScriptManager extends ArrayList<Script> implements Manager<ScriptManager>, Enumerable<Script> {
 
     public static boolean strict = false;
 

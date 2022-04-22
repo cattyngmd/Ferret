@@ -1,4 +1,4 @@
-package wtf.cattyn.ferret.api.feature.script.lua.tables;
+package wtf.cattyn.ferret.api.feature.script.lua.table;
 
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
@@ -9,7 +9,7 @@ import org.luaj.vm2.lib.jse.CoerceLuaToJava;
 
 import java.awt.*;
 
-public class ColorTable {
+public class LuaColor {
 
     private static LuaValue table;
 

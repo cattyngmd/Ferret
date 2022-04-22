@@ -1,4 +1,4 @@
-package wtf.cattyn.ferret.api.feature.script.lua.tables;
+package wtf.cattyn.ferret.api.feature.script.lua.types;
 
 import imgui.ImGui;
 import imgui.gl3.ImGuiImplGl3;
@@ -11,7 +11,7 @@ import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
-import wtf.cattyn.ferret.api.feature.script.lua.utils.LuaUtils;
+import wtf.cattyn.ferret.api.feature.script.lua.table.LuaUtils;
 import wtf.cattyn.ferret.common.Globals;
 import wtf.cattyn.ferret.common.impl.Vec2d;
 

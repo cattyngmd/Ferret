@@ -1,4 +1,4 @@
-package wtf.cattyn.ferret.api.feature.script.lua.utils;
+package wtf.cattyn.ferret.api.feature.script.lua.table;
 
 import net.minecraft.client.MinecraftClient;
 import org.jetbrains.annotations.Nullable;
