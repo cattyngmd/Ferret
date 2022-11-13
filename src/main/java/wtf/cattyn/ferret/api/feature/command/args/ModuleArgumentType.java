@@ -7,7 +7,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import wtf.cattyn.ferret.api.feature.module.Module;
 import wtf.cattyn.ferret.common.Globals;
 
@@ -26,7 +26,7 @@ public class ModuleArgumentType implements ArgumentType<Module>, Globals {
     @Override public Module parse(StringReader reader) throws CommandSyntaxException {
         Module module = ferret().getModuleManager().get(reader.readString());
         if(module == null) throw  new DynamicCommandExceptionType(o ->
-                new LiteralText(o + " doesn't exist")).create(reader.readString());
+                Text.of(o + " doesn't exist")).create(reader.readString());
         return module;
     }
 

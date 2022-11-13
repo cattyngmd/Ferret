@@ -7,12 +7,14 @@ import fuck.you.yarnparser.V1Parser;
 import fuck.you.yarnparser.entry.ClassEntry;
 import fuck.you.yarnparser.entry.MethodEntry;
 import org.objectweb.asm.*;
+import org.spongepowered.asm.mixin.Mixin;
 import wtf.cattyn.ferret.api.manager.impl.MappingManager;
 import wtf.cattyn.ferret.core.MixinPlugin;
 
 public class ScriptMixinWriter
 {
     public static String REFMAP = "";
+
     public static Object[ ] createMixin( ScriptMixin mixin )
     {
         ClassEntry e = MappingManager.getInstance( ).getParser( ).findClass
@@ -53,7 +55,7 @@ public class ScriptMixinWriter
 
         // @Mixin( Class.class )
         // asm can be retarded sometimes
-        AnnotationVisitor v = writer.visitAnnotation( "Lorg/spongepowered/asm/mixin/Mixin;", false );
+        AnnotationVisitor v = writer.visitAnnotation( Type.getDescriptor(Mixin.class), false );
         AnnotationVisitor v2 = v.visitArray( "value" );
         v2.visit( null, Type.getObjectType( e.intermediary ) );
         v2.visitEnd( );
@@ -73,44 +75,24 @@ public class ScriptMixinWriter
             Type t = types[ i ];
             String str = t.getClassName( );
             // todo fix arrays if they are broken
-            switch( str )
-            {
-                case "void":
-                    strtypes[ i ] = "V";
-                    break;
-                case "boolean":
-                    strtypes[ i ] = "Z";
-                    break;
-                case "char":
-                    strtypes[ i ] = "C";
-                    break;
-                case "byte":
-                    strtypes[ i ] = "B";
-                    break;
-                case "short":
-                    strtypes[ i ] = "S";
-                    break;
-                case "int":
-                    strtypes[ i ] = "I";
-                    break;
-                case "float":
-                    strtypes[ i ] = "F";
-                    break;
-                case "long":
-                    strtypes[ i ] = "J";
-                    break;
-                case "double":
-                    strtypes[ i ] = "D";
-                    break;
-                default:
-                    ClassEntry e2 = MappingManager.getInstance( ).getParser( ).findClass(
-                            str, V1Parser.ClassFindType.OFFICIAL );
-                    if( e2 != null )
-                        strtypes[ i ] = e2.intermediary;
+            switch (str) {
+                case "void" -> strtypes[i] = "V";
+                case "boolean" -> strtypes[i] = "Z";
+                case "char" -> strtypes[i] = "C";
+                case "byte" -> strtypes[i] = "B";
+                case "short" -> strtypes[i] = "S";
+                case "int" -> strtypes[i] = "I";
+                case "float" -> strtypes[i] = "F";
+                case "long" -> strtypes[i] = "J";
+                case "double" -> strtypes[i] = "D";
+                default -> {
+                    ClassEntry e2 = MappingManager.getInstance().getParser().findClass(
+                            str, V1Parser.ClassFindType.OFFICIAL);
+                    if (e2 != null)
+                        strtypes[i] = e2.intermediary;
                     else
-                        strtypes[ i ] = str;
-
-                    break;
+                        strtypes[i] = str;
+                }
             }
         }
 
@@ -244,6 +226,7 @@ public class ScriptMixinWriter
         mv.visitTypeInsn( Opcodes.NEW, "wtf/cattyn/ferret/impl/events/MixinCallbackEvent" ); // create new MixinCallbackEvent
         mv.visitInsn( Opcodes.DUP ); // do this or die
         // initialize event object (call "public MixinCallbackEvent()")
+
         mv.visitMethodInsn( Opcodes.INVOKESPECIAL,
                 "wtf/cattyn/ferret/impl/events/MixinCallbackEvent",
                 "<init>", "()V" );
@@ -334,55 +317,53 @@ public class ScriptMixinWriter
         mv.visitFieldInsn( Opcodes.GETFIELD, classname, "args", "[Ljava/lang/Object;" ); // get args
 
         mv.visitIntInsn( Opcodes.BIPUSH, arrcount );
-        switch( type )
-        {
-            case "V":
-                MixinPlugin.LOGGER.error( "Are you retarded or something" );
-                mv.visitInsn( Opcodes.ACONST_NULL ); // store null
-                break;
-            case "I": // int
-                mv.visitVarInsn( Opcodes.ILOAD, count ); // get argument
-                mv.visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Integer", "valueOf",
-                        "(I)Ljava/lang/Integer;" ); // convert to literally what ?? i dont fucking know but java does this
-                break;
-            case "D": // double
-                mv.visitVarInsn( Opcodes.DLOAD, count );
-                mv.visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Double", "valueOf",
-                        "(D)Ljava/lang/Double;" );
-                break;
-            case "F": // float
-                mv.visitVarInsn( Opcodes.FLOAD, count );
-                mv.visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Float", "valueOf",
-                        "(F)Ljava/lang/Float;" );
-                break;
-            case "J": // long
-                mv.visitVarInsn( Opcodes.LLOAD, count );
-                mv.visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Long", "valueOf",
-                        "(J)Ljava/lang/Long;" );
-                break;
-            case "C": // char
-                mv.visitVarInsn( Opcodes.ILOAD, count );
-                mv.visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Character", "valueOf",
-                        "(C)Ljava/lang/Character;" );
-                break;
-            case "B": // byte
-                mv.visitVarInsn( Opcodes.ILOAD, count );
-                mv.visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Byte", "valueOf",
-                        "(B)Ljava/lang/Byte;" );
-                break;
-            case "S": // short
-                mv.visitVarInsn( Opcodes.ILOAD, count );
-                mv.visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Short", "valueOf",
-                        "(S)Ljava/lang/Short;" );
-                break;
-            case "Z":
-                mv.visitVarInsn( Opcodes.ILOAD, count );
-                mv.visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Boolean", "valueOf",
-                        "(Z)Ljava/lang/Boolean;" );
-                break;
-            default: // strings and everything else
-                mv.visitVarInsn( Opcodes.ALOAD, count );
-                break;
+        switch (type) {
+            case "V" -> {
+                MixinPlugin.LOGGER.error("Are you retarded or something");
+                mv.visitInsn(Opcodes.ACONST_NULL); // store null
+            }
+            case "I" -> { // int
+                mv.visitVarInsn(Opcodes.ILOAD, count); // get argument
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Integer", "valueOf",
+                        "(I)Ljava/lang/Integer;"); // convert to literally what ?? i dont fucking know but java does this
+            }
+            case "D" -> { // double
+                mv.visitVarInsn(Opcodes.DLOAD, count);
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Double", "valueOf",
+                        "(D)Ljava/lang/Double;");
+            }
+            case "F" -> { // float
+                mv.visitVarInsn(Opcodes.FLOAD, count);
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Float", "valueOf",
+                        "(F)Ljava/lang/Float;");
+            }
+            case "J" -> { // long
+                mv.visitVarInsn(Opcodes.LLOAD, count);
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Long", "valueOf",
+                        "(J)Ljava/lang/Long;");
+            }
+            case "C" -> { // char
+                mv.visitVarInsn(Opcodes.ILOAD, count);
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Character", "valueOf",
+                        "(C)Ljava/lang/Character;");
+            }
+            case "B" -> { // byte
+                mv.visitVarInsn(Opcodes.ILOAD, count);
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Byte", "valueOf",
+                        "(B)Ljava/lang/Byte;");
+            }
+            case "S" -> { // short
+                mv.visitVarInsn(Opcodes.ILOAD, count);
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Short", "valueOf",
+                        "(S)Ljava/lang/Short;");
+            }
+            case "Z" -> {
+                mv.visitVarInsn(Opcodes.ILOAD, count);
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Boolean", "valueOf",
+                        "(Z)Ljava/lang/Boolean;");
+            }
+            default -> // strings and everything else
+                    mv.visitVarInsn(Opcodes.ALOAD, count);
         }
         mv.visitInsn( Opcodes.AASTORE ); // store argument in args array
     }
@@ -399,56 +380,55 @@ public class ScriptMixinWriter
         mv.visitIntInsn( Opcodes.BIPUSH, arrcount );
         mv.visitInsn( Opcodes.AALOAD );
 
-        switch( type )
-        {
-            case "I": // int
-                mv.visitTypeInsn( Opcodes.CHECKCAST, "java/lang/Integer" ); // cast argument to (Integer)
-                mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/Integer", "intValue", "()I" ); // i DONT fucking know
-                mv.visitVarInsn( Opcodes.ISTORE, count ); // set argument
-                break;
-            case "C": // char
-                mv.visitTypeInsn( Opcodes.CHECKCAST, "java/lang/Character" );
-                mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/Character", "charValue", "()C" );
-                mv.visitVarInsn( Opcodes.ISTORE, count );
-                break;
-            case "B": // byte
-                mv.visitTypeInsn( Opcodes.CHECKCAST, "java/lang/Byte" );
-                mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/Byte", "byteValue", "()B" );
-                mv.visitVarInsn( Opcodes.ISTORE, count );
-                break;
-            case "S": // short
-                mv.visitTypeInsn( Opcodes.CHECKCAST, "java/lang/Short" );
-                mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/Short", "shortValue", "()S" );
-                mv.visitVarInsn( Opcodes.ISTORE, count );
-                break;
-            case "java.lang.String": // string (check if this is correct)
-                mv.visitTypeInsn( Opcodes.CHECKCAST, "java/lang/String" );
-                mv.visitVarInsn( Opcodes.ASTORE, count );
-                break;
-            case "Z": // boolean
-                mv.visitTypeInsn( Opcodes.CHECKCAST, "java/lang/Boolean" );
-                mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/Boolean", "booleanValue", "()Z" );
-                mv.visitVarInsn( Opcodes.ISTORE, count );
-                break;
-            case "F": // float
-                mv.visitTypeInsn( Opcodes.CHECKCAST, "java/lang/Float" );
-                mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/Float", "floatValue", "()F" );
-                mv.visitVarInsn( Opcodes.FSTORE, count );
-                break;
-            case "J": // long
-                mv.visitTypeInsn( Opcodes.CHECKCAST, "java/lang/Long" );
-                mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/Long", "longValue", "()J" );
-                mv.visitVarInsn( Opcodes.LSTORE, count );
-                break;
-            case "D": // double
-                mv.visitTypeInsn( Opcodes.CHECKCAST, "java/lang/Double" );
-                mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, "java/lang/Double", "doubleValue", "()D" );
-                mv.visitVarInsn( Opcodes.DSTORE, count );
-                break;
-            default: // everything else
-                mv.visitTypeInsn( Opcodes.CHECKCAST, type.replace( '.', '/' ) );
-                mv.visitVarInsn( Opcodes.ASTORE, count );
-                break;
+        switch (type) {
+            case "I" -> { // int
+                mv.visitTypeInsn(Opcodes.CHECKCAST, "java/lang/Integer"); // cast argument to (Integer)
+                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Integer", "intValue", "()I"); // i DONT fucking know
+                mv.visitVarInsn(Opcodes.ISTORE, count); // set argument
+            }
+            case "C" -> { // char
+                mv.visitTypeInsn(Opcodes.CHECKCAST, "java/lang/Character");
+                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Character", "charValue", "()C");
+                mv.visitVarInsn(Opcodes.ISTORE, count);
+            }
+            case "B" -> { // byte
+                mv.visitTypeInsn(Opcodes.CHECKCAST, "java/lang/Byte");
+                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Byte", "byteValue", "()B");
+                mv.visitVarInsn(Opcodes.ISTORE, count);
+            }
+            case "S" -> { // short
+                mv.visitTypeInsn(Opcodes.CHECKCAST, "java/lang/Short");
+                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Short", "shortValue", "()S");
+                mv.visitVarInsn(Opcodes.ISTORE, count);
+            }
+            case "java.lang.String" -> { // string (check if this is correct)
+                mv.visitTypeInsn(Opcodes.CHECKCAST, "java/lang/String");
+                mv.visitVarInsn(Opcodes.ASTORE, count);
+            }
+            case "Z" -> { // boolean
+                mv.visitTypeInsn(Opcodes.CHECKCAST, "java/lang/Boolean");
+                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Boolean", "booleanValue", "()Z");
+                mv.visitVarInsn(Opcodes.ISTORE, count);
+            }
+            case "F" -> { // float
+                mv.visitTypeInsn(Opcodes.CHECKCAST, "java/lang/Float");
+                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Float", "floatValue", "()F");
+                mv.visitVarInsn(Opcodes.FSTORE, count);
+            }
+            case "J" -> { // long
+                mv.visitTypeInsn(Opcodes.CHECKCAST, "java/lang/Long");
+                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Long", "longValue", "()J");
+                mv.visitVarInsn(Opcodes.LSTORE, count);
+            }
+            case "D" -> { // double
+                mv.visitTypeInsn(Opcodes.CHECKCAST, "java/lang/Double");
+                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Double", "doubleValue", "()D");
+                mv.visitVarInsn(Opcodes.DSTORE, count);
+            }
+            default -> { // everything else
+                mv.visitTypeInsn(Opcodes.CHECKCAST, type.replace('.', '/'));
+                mv.visitVarInsn(Opcodes.ASTORE, count);
+            }
         }
     }
 
@@ -459,29 +439,18 @@ public class ScriptMixinWriter
         else if( in.startsWith( "java/lang/" ) ) // just to be sure
             return "L" + in + ";";
 
-        switch( in )
-        {
-            case "int":
-                return "I";
-            case "long":
-                return "J";
-            case "boolean":
-                return "Z";
-            case "char":
-                return "C";
-            case "byte":
-                return "B";
-            case "short":
-                return "S";
-            case "float":
-                return "F";
-            case "double":
-                return "D";
-            case "void":
-                return "V";
-            default:
-                return "L" + in.replace( '.', '/' ) + ";";
-        }
+        return switch (in) {
+            case "int" -> "I";
+            case "long" -> "J";
+            case "boolean" -> "Z";
+            case "char" -> "C";
+            case "byte" -> "B";
+            case "short" -> "S";
+            case "float" -> "F";
+            case "double" -> "D";
+            case "void" -> "V";
+            default -> "L" + in.replace('.', '/') + ";";
+        };
     }
 
     public static String getCIReturnableClass( String in )
@@ -491,37 +460,27 @@ public class ScriptMixinWriter
         else if( in.startsWith( "java/lang/" ) ) // just to be sure
             return "L" + in + ";";
 
-        switch( in )
-        {
-            case "int":
-                return "Ljava/lang/Integer;";
-            case "long":
-                return "Ljava/lang/Long;";
-            case "boolean":
-                return "Ljava/lang/Boolean;";
-            case "char":
-                return "Ljava/lang/Character;";
-            case "byte":
-                return "Ljava/lang/Byte;";
-            case "short":
-                return "Ljava/lang/Short;";
-            case "float":
-                return "Ljava/lang/Float;";
-            case "double":
-                return "Ljava/lang/Double;";
-            default:
-                return "L" + in.replace( '.', '/' ) + ";";
-        }
+        return switch (in) {
+            case "int" -> "Ljava/lang/Integer;";
+            case "long" -> "Ljava/lang/Long;";
+            case "boolean" -> "Ljava/lang/Boolean;";
+            case "char" -> "Ljava/lang/Character;";
+            case "byte" -> "Ljava/lang/Byte;";
+            case "short" -> "Ljava/lang/Short;";
+            case "float" -> "Ljava/lang/Float;";
+            case "double" -> "Ljava/lang/Double;";
+            default -> "L" + in.replace('.', '/') + ";";
+        };
     }
 
     // 0$ cattyn code
     public static void addReference(String a, String b, String c) {
         JsonObject object = JsonParser.parseString(REFMAP).getAsJsonObject();
-        JsonObject niggerMapping = new JsonObject(), niggerData = new JsonObject();
-        niggerMapping.addProperty(b, c);
-        niggerData.addProperty(b, c);
-        object.get("mappings").getAsJsonObject().add(a, niggerMapping);
-        object.get("data").getAsJsonObject().get("named:intermediary").getAsJsonObject().add(a, niggerData);
+        JsonObject mapping = new JsonObject(), data = new JsonObject();
+        mapping.addProperty(b, c);
+        data.addProperty(b, c);
+        object.get("mappings").getAsJsonObject().add(a, mapping);
+        object.get("data").getAsJsonObject().get("named:intermediary").getAsJsonObject().add(a, data);
         REFMAP = new GsonBuilder().setPrettyPrinting().create().toJson(object);
     }
 }

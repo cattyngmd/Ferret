@@ -1,9 +1,6 @@
 package wtf.cattyn.ferret.core;
 
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
-import net.minecraft.text.LiteralText;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import wtf.cattyn.ferret.api.event.FerretEventBus;
@@ -11,7 +8,6 @@ import wtf.cattyn.ferret.api.feature.option.Option;
 import wtf.cattyn.ferret.api.manager.impl.*;
 import wtf.cattyn.ferret.common.impl.util.thread.FileWatcher;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Ferret {

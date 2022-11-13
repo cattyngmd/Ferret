@@ -5,7 +5,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import wtf.cattyn.ferret.common.impl.util.ScriptUtil;
 import wtf.cattyn.ferret.impl.ui.scriptmarket.widget.impl.ScriptComponent;
@@ -13,7 +12,6 @@ import wtf.cattyn.ferret.impl.ui.scriptmarket.widget.impl.ScriptComponent;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Objects;
 
 import static wtf.cattyn.ferret.common.Globals.mc;
 
@@ -25,7 +23,7 @@ public class ScriptMarket extends Screen {
     private boolean loaded;
 
     public ScriptMarket() {
-        super(new LiteralText("ScriptMarket"));
+        super(Text.of("ScriptMarket"));
         new Thread(this::fromGitHub).start();
     }
 

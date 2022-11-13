@@ -7,12 +7,10 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import net.minecraft.text.LiteralText;
-import wtf.cattyn.ferret.api.feature.module.Module;
+import net.minecraft.text.Text;
 import wtf.cattyn.ferret.api.feature.script.Script;
 import wtf.cattyn.ferret.common.Globals;
 
-import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 
 public class ScriptArgumentType implements ArgumentType<Script>, Globals {
@@ -20,7 +18,7 @@ public class ScriptArgumentType implements ArgumentType<Script>, Globals {
     @Override public Script parse(StringReader reader) throws CommandSyntaxException {
         Script script = ferret().getScripts().get(reader.readString());
         if(script == null) throw  new DynamicCommandExceptionType(o ->
-                new LiteralText(o + " doesn't exists")).create(reader.readString());
+                Text.of(o + " doesn't exists")).create(reader.readString());
         return script;
     }
 

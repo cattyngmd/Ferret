@@ -1,5 +1,6 @@
 package wtf.cattyn.ferret.impl.features.modules;
 
+import net.minecraft.entity.decoration.EndCrystalEntity;
 import wtf.cattyn.ferret.api.feature.module.Module;
 
 public class ExtraTab extends Module {

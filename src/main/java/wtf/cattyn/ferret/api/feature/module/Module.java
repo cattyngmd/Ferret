@@ -2,21 +2,10 @@ package wtf.cattyn.ferret.api.feature.module;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.annotations.Expose;
-import net.minecraft.text.HoverEvent;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Style;
-import net.minecraft.util.Formatting;
-import org.luaj.vm2.LuaValue;
-import org.lwjgl.glfw.GLFW;
-import wtf.cattyn.ferret.api.event.FerretEventBus;
 import wtf.cattyn.ferret.api.feature.Feature;
 import wtf.cattyn.ferret.api.feature.option.Option;
 import wtf.cattyn.ferret.common.impl.Pair;
 import wtf.cattyn.ferret.common.impl.trait.Json;
-import wtf.cattyn.ferret.common.impl.trait.Toggleable;
-import wtf.cattyn.ferret.common.impl.util.ChatUtil;
 import wtf.cattyn.ferret.core.Ferret;
 import wtf.cattyn.ferret.impl.events.ModuleEvent;
 

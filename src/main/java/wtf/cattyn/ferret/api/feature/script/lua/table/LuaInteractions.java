@@ -71,7 +71,7 @@ public class LuaInteractions implements Globals {
     public void useItem(BlockPos pos, Hand hand) {
         if (mc.world == null || mc.player == null || mc.interactionManager == null) return;
         Direction direction = mc.crosshairTarget != null ? (( BlockHitResult ) mc.crosshairTarget).getSide() : Direction.DOWN;
-        ActionResult result = mc.interactionManager.interactBlock(mc.player, mc.world, hand, new BlockHitResult(
+        ActionResult result = mc.interactionManager.interactBlock(mc.player, hand, new BlockHitResult(
                 Vec3d.ofCenter(pos),  direction, pos, false
         ));
         if (result.shouldSwingHand()) {
@@ -92,7 +92,7 @@ public class LuaInteractions implements Globals {
             else return false;
         }
         BlockPos bp = airPlace ? pos : pos.offset(direction);
-        ActionResult result = mc.interactionManager.interactBlock(mc.player, mc.world, hand, new BlockHitResult(
+        ActionResult result = mc.interactionManager.interactBlock(mc.player, hand, new BlockHitResult(
                 Vec3d.ofCenter(pos),  airPlace ? direction : direction.getOpposite(), bp, false
         ));
         if (result.shouldSwingHand()) {

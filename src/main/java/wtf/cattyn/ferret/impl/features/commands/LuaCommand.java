@@ -6,12 +6,11 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.command.CommandSource;
 import net.minecraft.text.ClickEvent;
 import net.minecraft.text.HoverEvent;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Style;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.lib.jse.JsePlatform;
@@ -20,9 +19,6 @@ import wtf.cattyn.ferret.api.feature.command.args.ScriptArgumentType;
 import wtf.cattyn.ferret.api.feature.script.Script;
 import wtf.cattyn.ferret.common.impl.util.ChatUtil;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
@@ -39,7 +35,7 @@ public class LuaCommand extends Command {
                 literal("info")
                         .executes(context -> {
                             ChatUtil.sendMessage(
-                                    new LiteralText("Documentation: https://cattyn.gitbook.io/ferret-lua-api/reference/readme. ")
+                                    Text.literal("Documentation: https://cattyn.gitbook.io/ferret-lua-api/reference/readme. ")
                                             .setStyle(Style.EMPTY.withClickEvent(
                                                     new ClickEvent(
                                                             ClickEvent.Action.OPEN_URL, "https://cattyn.gitbook.io/ferret-lua-api/reference/readme"
@@ -64,13 +60,13 @@ public class LuaCommand extends Command {
                                                 ferret().getScripts().add(new Script(name, ""));
                                             } catch (IOException exception) {
                                                 ChatUtil.sendMessage(
-                                                        new LiteralText(
+                                                        Text.literal(
                                                                 "invalid script path!"
                                                         ).setStyle(
                                                                 Style.EMPTY.withColor(Formatting.RED)
                                                                         .withHoverEvent(
                                                                                 new HoverEvent(
-                                                                                        HoverEvent.Action.SHOW_TEXT, new LiteralText(exception.getMessage()).formatted(Formatting.DARK_RED)
+                                                                                        HoverEvent.Action.SHOW_TEXT, Text.literal(exception.getMessage()).formatted(Formatting.DARK_RED)
                                                                                 )
                                                                         )
                                                         )

@@ -45,7 +45,7 @@ public class PlayerUtil implements Globals {
         int oldSlot = mc.player.getInventory().selectedSlot;
 
         mc.player.getInventory().selectedSlot = slot;
-        mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
+        mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND, new BlockHitResult(
                 vec, Direction.DOWN, pos, true
         ));
         mc.player.getInventory().selectedSlot = oldSlot;

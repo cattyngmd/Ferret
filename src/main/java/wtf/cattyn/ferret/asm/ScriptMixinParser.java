@@ -87,30 +87,23 @@ public class ScriptMixinParser
                                     }
 
                                     String whitelist = whitelistChars( sb.toString( ) );
-                                    switch( i )
-                                    {
-                                        case 0: // classname
-                                            mixin.classname = whitelist;
-                                            break;
-                                        case 1: // method
-                                            mixin.method = whitelist;
-                                            break;
-                                        case 2: // at
-                                            mixin.at = whitelist;
-                                            break;
-                                        case 3: // arg count
-                                            mixin.args = Integer.parseInt( whitelist );
-                                            break;
-                                        case 4: // (optional) @At target
-                                            mixin.attarget = whitelist;
-                                            break;
-                                        case 5: // (optional) @At remap
-                                            mixin.atremap = Boolean.parseBoolean( whitelist );
-                                            break;
-                                        case 6: // (optional) @At ordinal
-                                            mixin.atordinal = Integer.parseInt( whitelist );
-                                            break;
-                                        default: break;
+                                    switch (i) {
+                                        case 0 -> // classname
+                                                mixin.classname = whitelist;
+                                        case 1 -> // method
+                                                mixin.method = whitelist;
+                                        case 2 -> // at
+                                                mixin.at = whitelist;
+                                        case 3 -> // arg count
+                                                mixin.args = Integer.parseInt(whitelist);
+                                        case 4 -> // (optional) @At target
+                                                mixin.attarget = whitelist;
+                                        case 5 -> // (optional) @At remap
+                                                mixin.atremap = Boolean.parseBoolean(whitelist);
+                                        case 6 -> // (optional) @At ordinal
+                                                mixin.atordinal = Integer.parseInt(whitelist);
+                                        default -> {
+                                        }
                                     }
                                 }
                             }

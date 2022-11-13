@@ -8,7 +8,7 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.command.CommandSource;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import wtf.cattyn.ferret.api.feature.Feature;
 import wtf.cattyn.ferret.api.feature.module.Module;
 import wtf.cattyn.ferret.api.feature.option.Option;
@@ -43,7 +43,7 @@ public class OptionArgumentType implements ArgumentType<String>, Globals {
 
         Optional<Option<?>> option = Option.getForTarget(module).stream().filter(o -> o.getName().equalsIgnoreCase(optionLabel)).findFirst();
         if (option.isEmpty())
-            throw new DynamicCommandExceptionType(o -> new LiteralText("Option Not Found " + o)).create(optionLabel);
+            throw new DynamicCommandExceptionType(o -> Text.of("Option Not Found " + o)).create(optionLabel);
 
         return option.get();
     }

@@ -84,8 +84,7 @@ public class LuaRenderer extends DrawableHelper implements Globals {
             double angle = ( DOUBLE_PI * i / 360 ) + Math.toRadians( 180 );
             bufferBuilder.vertex( stack.peek().getPositionMatrix(), ( float ) (pos.x() + Math.sin( angle ) * radius), ( float ) (pos.y() + Math.cos( angle ) * radius), 0 ).color( r, g, b, a ).next( );
         }
-        bufferBuilder.end();
-        BufferRenderer.draw(bufferBuilder);
+        BufferRenderer.drawWithShader(bufferBuilder.end());
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
     }
@@ -107,8 +106,7 @@ public class LuaRenderer extends DrawableHelper implements Globals {
             double angle = ( DOUBLE_PI * i / 360 ) + Math.toRadians( 180 );
             bufferBuilder.vertex( stack.peek().getPositionMatrix(), ( float ) (pos.x() + Math.sin( angle ) * radius), ( float ) (pos.y() + Math.cos( angle ) * radius), 0 ).color( r, g, b, a ).next( );
         }
-        bufferBuilder.end();
-        BufferRenderer.draw(bufferBuilder);
+        BufferRenderer.drawWithShader(bufferBuilder.end());
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
     }
@@ -126,8 +124,7 @@ public class LuaRenderer extends DrawableHelper implements Globals {
         bufferBuilder.begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR);
         bufferBuilder.vertex(stack.peek().getPositionMatrix(), ( float ) from.x(), ( float ) from.y(), 0.0f).color(f, g, h, i2).next();
         bufferBuilder.vertex(stack.peek().getPositionMatrix(), ( float ) to.x(), ( float ) to.y(), 0.0f).color(f, g, h, i2).next();
-        bufferBuilder.end();
-        BufferRenderer.draw(bufferBuilder);
+        BufferRenderer.drawWithShader(bufferBuilder.end());
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
     }

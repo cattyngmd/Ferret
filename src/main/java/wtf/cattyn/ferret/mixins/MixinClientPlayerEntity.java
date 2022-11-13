@@ -6,9 +6,11 @@ import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.MovementType;
+import net.minecraft.network.encryption.PlayerPublicKey;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.Vec3d;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,11 +26,11 @@ import wtf.cattyn.ferret.mixins.ducks.DuckClientPlayerEntity;
 @Mixin( ClientPlayerEntity.class )
 public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity implements Globals{
 
-    @Shadow protected abstract void autoJump(float dx, float dz);
-
-    public MixinClientPlayerEntity(ClientWorld world, GameProfile profile) {
-        super(world, profile);
+    public MixinClientPlayerEntity(ClientWorld world, GameProfile profile, @Nullable PlayerPublicKey publicKey) {
+        super(world, profile, publicKey);
     }
+
+    @Shadow protected abstract void autoJump(float dx, float dz);
 
     @Inject(method = "tick", at = @At("RETURN"))
     public void tick(CallbackInfo info) {
@@ -101,7 +103,7 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
                     ((DuckClientPlayerEntity)mc.player).lastPitch(rotations().getPitch());
                 }
                 ((DuckClientPlayerEntity)mc.player).lastOnGround(this.onGround);
-                ((DuckClientPlayerEntity)mc.player).autoJumpEnabled(mc.options.autoJump);
+                ((DuckClientPlayerEntity)mc.player).autoJumpEnabled(mc.options.getAutoJump().getValue());
             }
             rotations().setValid(false);
         }

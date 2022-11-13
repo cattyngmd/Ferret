@@ -20,7 +20,7 @@ public class SendCoordsCommand extends Command {
                             mc.player.sendChatMessage("/msg " + context.getArgument("name", String.class) +
                                     " x: " + mc.player.getBlockX() +
                                     ", y: " + mc.player.getBlockY() +
-                                    ", z: " + mc.player.getBlockZ());
+                                    ", z: " + mc.player.getBlockZ(), null);
                             return 1;
                         })
         );

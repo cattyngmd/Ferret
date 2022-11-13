@@ -6,6 +6,7 @@ import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.NetworkSide;
 import net.minecraft.network.Packet;
+import net.minecraft.network.PacketCallbacks;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -37,7 +38,7 @@ public class MixinClientConnection {
     }
 
     @Inject(method = "sendImmediately", at = @At("HEAD"), cancellable = true)
-    private void sendImmediately(Packet<?> packet, GenericFutureListener<? extends Future<? super Void>> listener, CallbackInfo ci) {
+    private void sendImmediately(Packet<?> packet, PacketCallbacks callbacks, CallbackInfo ci) {
         if (this.side != NetworkSide.CLIENTBOUND) return;
         try {
             PacketEvent.Send event = new PacketEvent.Send(packet);

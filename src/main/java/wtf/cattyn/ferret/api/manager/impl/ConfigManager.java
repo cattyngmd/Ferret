@@ -27,6 +27,7 @@ public final class ConfigManager extends Thread implements Manager<ConfigManager
     public static final Path SCRIPTS = Path.of(MAIN_FOLDER.getAbsolutePath(), "scripts.json");
 
     @Override public ConfigManager load() {
+        if (!SCRIPT_FOLDER.exists()) SCRIPT_FOLDER.mkdirs();
         String rawModules = "", rawScripts = "";
         try {
             if(MODULES.toFile().exists()) rawModules = new String(Files.readAllBytes(MODULES));
