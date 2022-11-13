@@ -7,15 +7,17 @@ import wtf.cattyn.ferret.common.impl.util.ScriptUtil;
 import wtf.cattyn.ferret.impl.ui.scriptmarket.widget.Component;
 
 import java.awt.*;
+import java.util.function.Consumer;
 
 public class ScriptComponent extends Component {
     private final JsonObject scriptObject;
-    private final String luaContent, scriptName;
+    private String luaContent;
+    private final String scriptName;
     private final InstallScriptButton installScriptButton;
     private final DeleteScriptButton deleteScriptButton;
+    private final Thread downloadThread;
     private boolean hovered, isModule;
     private int offset;
-
 
     public ScriptComponent(JsonObject object) {
         this.scriptObject = object;
@@ -26,11 +28,14 @@ public class ScriptComponent extends Component {
         } else {
             statement = InstallScriptButton.Action.INSTALL;
         }
+        this.luaContent = "Loading";
+        this.downloadThread = new DownloadThread(this.scriptObject, (t) -> {
+            this.luaContent = t.content;
+            this.isModule = t.isModule;
+        });
+        this.downloadThread.start();
         this.installScriptButton = new InstallScriptButton(this, statement);
         this.deleteScriptButton = new DeleteScriptButton(this);
-        this.luaContent = ScriptUtil.getUrlContent(
-                "https://raw.githubusercontent.com/cattyngmd/Ferret-Scripts/main/" + ScriptUtil.getScriptName(object).substring(1, ScriptUtil.getScriptName(object).length() - 1));
-        this.isModule = ScriptUtil.isModule(luaContent);
     }
 
     @Override
@@ -72,4 +77,24 @@ public class ScriptComponent extends Component {
     public String getScriptName() {
         return scriptName;
     }
+
+    private static class DownloadThread extends Thread {
+        private final Consumer<DownloadThread> callback;
+        private final JsonObject object;
+        private String content;
+        private boolean isModule;
+
+        private DownloadThread(JsonObject object, Consumer<DownloadThread> callback) {
+            this.callback = callback;
+            this.object = object;
+        }
+
+        @Override public void run() {
+            super.run();
+            this.content = ScriptUtil.getUrlContent("https://raw.githubusercontent.com/cattyngmd/Ferret-Scripts/main/" + ScriptUtil.getScriptName(object).substring(1, ScriptUtil.getScriptName(object).length() - 1));
+            this.isModule = ScriptUtil.isModule(content);
+            callback.accept(this);
+        }
+    }
+
 }
