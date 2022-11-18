@@ -19,6 +19,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
+import static org.luaj.vm2.lib.PackageLib.DEFAULT_LUA_PATH;
+
 public final class ConfigManager extends Thread implements Manager<ConfigManager>, Globals {
 
     public static final File MAIN_FOLDER = new File("ferret");
@@ -28,6 +30,7 @@ public final class ConfigManager extends Thread implements Manager<ConfigManager
 
     @Override public ConfigManager load() {
         if (!SCRIPT_FOLDER.exists()) SCRIPT_FOLDER.mkdirs();
+        DEFAULT_LUA_PATH = SCRIPT_FOLDER.getAbsolutePath() + File.separator + "?.lua";
         String rawModules = "", rawScripts = "";
         try {
             if(MODULES.toFile().exists()) rawModules = new String(Files.readAllBytes(MODULES));

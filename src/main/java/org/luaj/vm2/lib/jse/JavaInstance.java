@@ -22,6 +22,7 @@
 package org.luaj.vm2.lib.jse;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaUserdata;
@@ -52,7 +53,7 @@ class JavaInstance extends LuaUserdata {
 		Field f = jclass.getField(key);
 		if ( f != null )
 			try {
-				return CoerceJavaToLua.coerce(f.get(m_instance));
+				return CoerceJavaToLua.coerce(f.get(Modifier.isStatic(f.getModifiers()) ? null : m_instance));
 			} catch (Exception e) {
 				throw new LuaError(e);
 			}
@@ -71,7 +72,7 @@ class JavaInstance extends LuaUserdata {
 		Field f = jclass.getField(key);
 		if ( f != null )
 			try {
-				f.set(m_instance, CoerceLuaToJava.coerce(value, f.getType()));
+				f.set(Modifier.isStatic(f.getModifiers()) ? null : m_instance, CoerceLuaToJava.coerce(value, f.getType()));
 				return;
 			} catch (Exception e) {
 				throw new LuaError(e);
