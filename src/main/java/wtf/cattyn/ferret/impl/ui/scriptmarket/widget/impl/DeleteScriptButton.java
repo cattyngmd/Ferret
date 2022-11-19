@@ -8,7 +8,7 @@ import wtf.cattyn.ferret.impl.ui.scriptmarket.widget.Component;
 import java.awt.*;
 
 public class DeleteScriptButton extends Component {
-    private boolean shouldRender = false, hovered;
+    private boolean shouldRender, hovered;
     private final ScriptComponent SCRIPT;
 
     public DeleteScriptButton(ScriptComponent script) {
@@ -34,6 +34,6 @@ public class DeleteScriptButton extends Component {
     }
 
     private boolean hovered(double mouseX, double mouseY) {
-        return mouseX >= mc.getWindow().getScaledWidth() - 260 && mouseX <= mc.getWindow().getScaledWidth() - 170 && mouseY >= SCRIPT.getOffset() + 10 && mouseY <= SCRIPT.getOffset() + 30 && shouldRender;
+        return mouseX >= mc.getWindow().getScaledWidth() - 260 && mouseX <= mc.getWindow().getScaledWidth() - 190 && mouseY >= SCRIPT.getOffset() + 10 && mouseY <= SCRIPT.getOffset() + 30 && shouldRender;
     }
 }

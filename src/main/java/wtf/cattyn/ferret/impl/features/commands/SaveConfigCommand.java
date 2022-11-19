@@ -16,7 +16,7 @@ public class SaveConfigCommand extends Command {
             try {
                 Ferret.getDefault().getConfigManager().start();
             } catch (Exception ignored) { }
-            return 0;
+            return 1;
         });
     }
 

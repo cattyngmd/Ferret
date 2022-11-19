@@ -14,13 +14,15 @@
     "MixinMinecraft",
     "MixinPlayerListHud",
     "MixinRenderTickCounter",
+    "MixinSimpleOption",
     "MixinTitleScreen",
     "MixinWorldRenderer",
+    "ducks.DuckClientPlayerEntity",
     "ducks.DuckGameMessageS2CPacket",
-    "ducks.DuckMinecraft",
-    "ducks.DuckClientPlayerEntity"
+    "ducks.DuckMinecraft"
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "mixins": []
 }

@@ -7,8 +7,8 @@ import java.awt.*;
 
 public abstract class Component implements Globals {
 
-    protected final Color BLACK = new Color(0, 0, 0, 100);
-    protected final Color GRAY = new Color(30, 30, 30, 100);
+    public static final Color BLACK = new Color(0, 0, 0, 100);
+    public static final Color GRAY = new Color(30, 30, 30, 100);
 
     public abstract void render(MatrixStack matrix);
 

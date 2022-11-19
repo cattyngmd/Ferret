@@ -6,16 +6,22 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
+import org.lwjgl.glfw.GLFW;
 import wtf.cattyn.ferret.common.impl.util.ScriptUtil;
 import wtf.cattyn.ferret.impl.ui.scriptmarket.widget.impl.ScriptComponent;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static wtf.cattyn.ferret.common.Globals.mc;
 
 public class ScriptMarket extends Screen {
+    public static final ExecutorService downloadService = Executors.newFixedThreadPool(4);
+
     private final ArrayList<ScriptComponent> components = new ArrayList<>();
     private String search = "";
     private TextFieldWidget searchWidget;
@@ -32,6 +38,7 @@ public class ScriptMarket extends Screen {
         searchWidget = new TextFieldWidget(mc.textRenderer, 7, 10, 150, 15, Text.of(""));
         searchWidget.setSuggestion("Search...");
         searchWidget.setMaxLength(100);
+        searchWidget.setChangedListener(this::setSearch);
         searchWidget.setEditable(true);
         addDrawableChild(searchWidget);
         addDrawableChild(new ButtonWidget(163, 8, 50, 17, Text.of("Search"), (button) -> setSearch(searchWidget.getText())));
@@ -53,7 +60,11 @@ public class ScriptMarket extends Screen {
                 mc.getWindow().getScaledWidth() / 2f - mc.textRenderer.getWidth("Script Market") / 2f, 10, Color.WHITE.getRGB());
         int offset = 30;
         if (!loaded) {
-            mc.textRenderer.drawWithShadow(matrices,"Loading...", mc.getWindow().getScaledWidth() / 2f - mc.textRenderer.getWidth("Loading...") / 2f, mc.getWindow().getScaledHeight() / 2f, Color.WHITE.getRGB());
+            StringBuilder text = new StringBuilder("Loading");
+            for (int i = 0; i < (System.currentTimeMillis() / 200) % 4; i++) {
+                text.append(".");
+            }
+            mc.textRenderer.drawWithShadow(matrices, text.toString(), mc.getWindow().getScaledWidth() / 2f - mc.textRenderer.getWidth(text.toString()) / 2f, mc.getWindow().getScaledHeight() / 2f, Color.WHITE.getRGB());
             return;
         }
         if (getMaxElements() >= components.size()) {
@@ -97,6 +108,9 @@ public class ScriptMarket extends Screen {
     }
 
     @Override public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (searchWidget.isFocused() && keyCode == GLFW.GLFW_KEY_ENTER) {
+            searchWidget.setTextFieldFocused(false);
+        }
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 

@@ -1,5 +1,6 @@
 package wtf.cattyn.ferret.api.feature.script.lua.table;
 
+import com.github.kevinsawicki.http.HttpRequest;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -32,6 +33,10 @@ public final class LuaInventory extends LuaTable implements Globals, Enumerable<
             }
         });
         this.set("OFFHAND", LuaValue.valueOf(45));
+        this.set("HELMET", LuaValue.valueOf(39));
+        this.set("CHESTPLATE", LuaValue.valueOf(38));
+        this.set("LEGGINGS", LuaValue.valueOf(37));
+        this.set("BOOTS", LuaValue.valueOf(36));
     }
 
     @NotNull @Override public Iterator<ItemData> iterator() {
