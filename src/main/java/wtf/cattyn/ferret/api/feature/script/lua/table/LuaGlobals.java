@@ -24,11 +24,11 @@ public class LuaGlobals implements Globals {
     }
 
     public int getFps() {
-        return ((DuckMinecraft) mc).getCurrentFps();
+        return DuckMinecraft.getCurrentFps();
     }
 
     public double getFrametime() {
-        return 1.0 / ((DuckMinecraft) mc).getCurrentFps();
+        return 1.0 / DuckMinecraft.getCurrentFps();
     }
 
     public Vec3d getPosition() {

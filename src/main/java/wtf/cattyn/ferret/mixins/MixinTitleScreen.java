@@ -20,8 +20,8 @@ public abstract class MixinTitleScreen extends Screen {
 
     @Inject(at = @At("RETURN"), method = "initWidgetsNormal")
     private void addCustomButton(int y, int spacingY, CallbackInfo ci) {
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - 100 + 205, y, 80, 20, Text.of("Scripts"), (button) -> {
+        addDrawableChild(ButtonWidget.builder(Text.of("Scripts"), (button) -> {
             MinecraftClient.getInstance().setScreen(new ScriptMarket());
-        }));
+        }).dimensions(this.width / 2 - 100 + 205, y, 80, 20).build());
     }
 }

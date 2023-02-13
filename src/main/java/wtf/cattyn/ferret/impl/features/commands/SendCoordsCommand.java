@@ -17,10 +17,10 @@ public class SendCoordsCommand extends Command {
         builder.then(
                 argument("name", PlayerArgumentType.player())
                         .executes(context -> {
-                            mc.player.sendCommand("msg " + context.getArgument("name", String.class) +
+                            mc.player.networkHandler.sendChatCommand("msg " + context.getArgument("name", String.class) +
                                     " x: " + mc.player.getBlockX() +
                                     ", y: " + mc.player.getBlockY() +
-                                    ", z: " + mc.player.getBlockZ(), null);
+                                    ", z: " + mc.player.getBlockZ());
                             return 1;
                         })
         );

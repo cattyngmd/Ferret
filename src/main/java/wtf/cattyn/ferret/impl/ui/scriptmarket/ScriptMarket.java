@@ -41,8 +41,8 @@ public class ScriptMarket extends Screen {
         searchWidget.setChangedListener(this::setSearch);
         searchWidget.setEditable(true);
         addDrawableChild(searchWidget);
-        addDrawableChild(new ButtonWidget(163, 8, 50, 17, Text.of("Search"), (button) -> setSearch(searchWidget.getText())));
-        addDrawableChild(new ButtonWidget(216, 8, 40, 17, Text.of("Clear"), (button -> setSearch(""))));
+        addDrawableChild(ButtonWidget.builder(Text.of("Search"), (button) -> setSearch(searchWidget.getText())).dimensions(163, 8, 50, 17).build());
+        addDrawableChild(ButtonWidget.builder(Text.of("Clear"), (button -> setSearch(""))).dimensions(216, 8, 40, 17).build());
     }
 
     private void fromGitHub() {

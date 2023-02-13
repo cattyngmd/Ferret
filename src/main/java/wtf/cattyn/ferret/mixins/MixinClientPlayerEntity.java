@@ -26,8 +26,8 @@ import wtf.cattyn.ferret.mixins.ducks.DuckClientPlayerEntity;
 @Mixin( ClientPlayerEntity.class )
 public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity implements Globals{
 
-    public MixinClientPlayerEntity(ClientWorld world, GameProfile profile, @Nullable PlayerPublicKey publicKey) {
-        super(world, profile, publicKey);
+    public MixinClientPlayerEntity(ClientWorld world, GameProfile profile) {
+        super(world, profile);
     }
 
     @Shadow protected abstract void autoJump(float dx, float dz);

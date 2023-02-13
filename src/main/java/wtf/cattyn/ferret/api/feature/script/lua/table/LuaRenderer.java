@@ -7,8 +7,9 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3f;
+import org.joml.Vector3f;
 import wtf.cattyn.ferret.common.Globals;
 import wtf.cattyn.ferret.common.impl.Vec2d;
 
@@ -76,7 +77,7 @@ public class LuaRenderer extends DrawableHelper implements Globals {
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
         bufferBuilder.begin(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR);
         bufferBuilder.vertex( stack.peek().getPositionMatrix(), ( float ) pos.x(), ( float ) pos.y(), 0 ).color( r, g, b, a ).next( );
         double DOUBLE_PI = Math.PI * 2;
@@ -84,7 +85,7 @@ public class LuaRenderer extends DrawableHelper implements Globals {
             double angle = ( DOUBLE_PI * i / 360 ) + Math.toRadians( 180 );
             bufferBuilder.vertex( stack.peek().getPositionMatrix(), ( float ) (pos.x() + Math.sin( angle ) * radius), ( float ) (pos.y() + Math.cos( angle ) * radius), 0 ).color( r, g, b, a ).next( );
         }
-        BufferRenderer.drawWithShader(bufferBuilder.end());
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
     }
@@ -96,7 +97,7 @@ public class LuaRenderer extends DrawableHelper implements Globals {
                 g = (float)(col >> 8 & 255) / 255.0F,
                 b = (float)(col & 255) / 255.0F;
         BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();
         RenderSystem.defaultBlendFunc();
@@ -106,7 +107,7 @@ public class LuaRenderer extends DrawableHelper implements Globals {
             double angle = ( DOUBLE_PI * i / 360 ) + Math.toRadians( 180 );
             bufferBuilder.vertex( stack.peek().getPositionMatrix(), ( float ) (pos.x() + Math.sin( angle ) * radius), ( float ) (pos.y() + Math.cos( angle ) * radius), 0 ).color( r, g, b, a ).next( );
         }
-        BufferRenderer.drawWithShader(bufferBuilder.end());
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
     }
@@ -120,11 +121,11 @@ public class LuaRenderer extends DrawableHelper implements Globals {
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
         bufferBuilder.begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR);
         bufferBuilder.vertex(stack.peek().getPositionMatrix(), ( float ) from.x(), ( float ) from.y(), 0.0f).color(f, g, h, i2).next();
         bufferBuilder.vertex(stack.peek().getPositionMatrix(), ( float ) to.x(), ( float ) to.y(), 0.0f).color(f, g, h, i2).next();
-        BufferRenderer.drawWithShader(bufferBuilder.end());
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
     }
@@ -159,7 +160,7 @@ public class LuaRenderer extends DrawableHelper implements Globals {
         BufferBuilder bufferBuilder = tessellator.getBuffer();
 
         setup3D();
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
         bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
 
         bufferBuilder.vertex(stack.peek().getPositionMatrix(), minX, minY, minZ).color(c.getRGB()).next();
@@ -216,7 +217,7 @@ public class LuaRenderer extends DrawableHelper implements Globals {
         BufferBuilder bufferBuilder = tessellator.getBuffer();
         setup3D();
         RenderSystem.lineWidth(( float ) lineWidth);
-        RenderSystem.setShader(GameRenderer::getRenderTypeLinesShader);
+        RenderSystem.setShader(GameRenderer::getRenderTypeLinesProgram);
 
         RenderSystem.defaultBlendFunc();
 
@@ -239,8 +240,8 @@ public class LuaRenderer extends DrawableHelper implements Globals {
     public void drawSemi2dRect(Vec3d pos, Vec2d offset, Vec2d offset2, double scale, Color color) {
         MatrixStack matrices = matrixFrom(pos);
         Camera camera = mc.gameRenderer.getCamera();
-        matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-camera.getYaw()));
-        matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(camera.getPitch()));
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-camera.getYaw()));
+        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         matrices.translate(offset.x(), offset.y(), 0);
@@ -253,8 +254,8 @@ public class LuaRenderer extends DrawableHelper implements Globals {
     public void drawSemi2dText(String text, Vec3d pos, Vec2d offset, Vec2d offset2, double scale, Color color, boolean shadow) {
         MatrixStack matrices = matrixFrom(pos);
         Camera camera = mc.gameRenderer.getCamera();
-        matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-camera.getYaw()));
-        matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(camera.getPitch()));
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-camera.getYaw()));
+        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         matrices.translate(offset.x(), offset.y(), 0);
@@ -272,8 +273,8 @@ public class LuaRenderer extends DrawableHelper implements Globals {
     public static MatrixStack matrixFrom(Vec3d pos) {
         MatrixStack matrices = new MatrixStack();
         Camera camera = mc.gameRenderer.getCamera();
-        matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(camera.getPitch()));
-        matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(camera.getYaw() + 180.0F));
+        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180.0F));
         matrices.translate(pos.getX() - camera.getPos().x, pos.getY() - camera.getPos().y, pos.getZ() - camera.getPos().z);
         return matrices;
     }

@@ -37,10 +37,11 @@ public final class PacketUtil {
         this.put("RecipeCategoryOptionsC2SPacket", net.minecraft.network.packet.c2s.play.RecipeCategoryOptionsC2SPacket.class);
         this.put("PlayerMoveC2SPacket", net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket.class);
         this.put("PickFromInventoryC2SPacket", net.minecraft.network.packet.c2s.play.PickFromInventoryC2SPacket.class);
+        this.put("PlayerSessionC2SPacket", net.minecraft.network.packet.c2s.play.PlayerSessionC2SPacket.class);
         this.put("CloseHandledScreenC2SPacket", net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket.class);
         this.put("BoatPaddleStateC2SPacket", net.minecraft.network.packet.c2s.play.BoatPaddleStateC2SPacket.class);
-        this.put("ChatMessageC2SPacket", net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket.class);
         this.put("ButtonClickC2SPacket", net.minecraft.network.packet.c2s.play.ButtonClickC2SPacket.class);
+        this.put("ChatMessageC2SPacket", net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket.class);
         this.put("UpdateBeaconC2SPacket", net.minecraft.network.packet.c2s.play.UpdateBeaconC2SPacket.class);
         this.put("UpdateSignC2SPacket", net.minecraft.network.packet.c2s.play.UpdateSignC2SPacket.class);
         this.put("TeleportConfirmC2SPacket", net.minecraft.network.packet.c2s.play.TeleportConfirmC2SPacket.class);
@@ -51,12 +52,12 @@ public final class PacketUtil {
         this.put("ClientCommandC2SPacket", net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket.class);
         this.put("UpdateJigsawC2SPacket", net.minecraft.network.packet.c2s.play.UpdateJigsawC2SPacket.class);
         this.put("QueryPingC2SPacket", net.minecraft.network.packet.c2s.query.QueryPingC2SPacket.class);
-        this.put("ResourcePackStatusC2SPacket", net.minecraft.network.packet.c2s.play.ResourcePackStatusC2SPacket.class);
         this.put("PlayPongC2SPacket", net.minecraft.network.packet.c2s.play.PlayPongC2SPacket.class);
+        this.put("ResourcePackStatusC2SPacket", net.minecraft.network.packet.c2s.play.ResourcePackStatusC2SPacket.class);
+        this.put("MessageAcknowledgmentC2SPacket", net.minecraft.network.packet.c2s.play.MessageAcknowledgmentC2SPacket.class);
         this.put("CreativeInventoryActionC2SPacket", net.minecraft.network.packet.c2s.play.CreativeInventoryActionC2SPacket.class);
         this.put("VehicleMoveC2SPacket", net.minecraft.network.packet.c2s.play.VehicleMoveC2SPacket.class);
         this.put("BookUpdateC2SPacket", net.minecraft.network.packet.c2s.play.BookUpdateC2SPacket.class);
-        this.put("RequestChatPreviewC2SPacket", net.minecraft.network.packet.c2s.play.RequestChatPreviewC2SPacket.class);
         this.put("RecipeBookDataC2SPacket", net.minecraft.network.packet.c2s.play.RecipeBookDataC2SPacket.class);
         this.put("LoginQueryResponseC2SPacket", net.minecraft.network.packet.c2s.login.LoginQueryResponseC2SPacket.class);
         this.put("HandshakeC2SPacket", net.minecraft.network.packet.c2s.handshake.HandshakeC2SPacket.class);
@@ -68,6 +69,7 @@ public final class PacketUtil {
         this.put("PlayerMoveC2SPacket.Full", net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket.Full.class);
         this.put("WorldBorderSizeChangedS2CPacket", net.minecraft.network.packet.s2c.play.WorldBorderSizeChangedS2CPacket.class);
         this.put("AdvancementUpdateS2CPacket", net.minecraft.network.packet.s2c.play.AdvancementUpdateS2CPacket.class);
+        this.put("FeaturesS2CPacket", net.minecraft.network.packet.s2c.play.FeaturesS2CPacket.class);
         this.put("CustomPayloadS2CPacket", net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket.class);
         this.put("WorldBorderInterpolateSizeS2CPacket", net.minecraft.network.packet.s2c.play.WorldBorderInterpolateSizeS2CPacket.class);
         this.put("ChunkLoadDistanceS2CPacket", net.minecraft.network.packet.s2c.play.ChunkLoadDistanceS2CPacket.class);
@@ -75,6 +77,7 @@ public final class PacketUtil {
         this.put("PlayerRespawnS2CPacket", net.minecraft.network.packet.s2c.play.PlayerRespawnS2CPacket.class);
         this.put("PlayerListHeaderS2CPacket", net.minecraft.network.packet.s2c.play.PlayerListHeaderS2CPacket.class);
         this.put("EntitySpawnS2CPacket", net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket.class);
+        this.put("RemoveMessageS2CPacket", net.minecraft.network.packet.s2c.play.RemoveMessageS2CPacket.class);
         this.put("SetCameraEntityS2CPacket", net.minecraft.network.packet.s2c.play.SetCameraEntityS2CPacket.class);
         this.put("CraftFailedResponseS2CPacket", net.minecraft.network.packet.s2c.play.CraftFailedResponseS2CPacket.class);
         this.put("StatisticsS2CPacket", net.minecraft.network.packet.s2c.play.StatisticsS2CPacket.class);
@@ -100,11 +103,12 @@ public final class PacketUtil {
         this.put("TeamS2CPacket", net.minecraft.network.packet.s2c.play.TeamS2CPacket.class);
         this.put("CooldownUpdateS2CPacket", net.minecraft.network.packet.s2c.play.CooldownUpdateS2CPacket.class);
         this.put("OpenScreenS2CPacket", net.minecraft.network.packet.s2c.play.OpenScreenS2CPacket.class);
-        this.put("ExperienceOrbSpawnS2CPacket", net.minecraft.network.packet.s2c.play.ExperienceOrbSpawnS2CPacket.class);
         this.put("EntityAnimationS2CPacket", net.minecraft.network.packet.s2c.play.EntityAnimationS2CPacket.class);
+        this.put("ExperienceOrbSpawnS2CPacket", net.minecraft.network.packet.s2c.play.ExperienceOrbSpawnS2CPacket.class);
         this.put("PlayerAbilitiesS2CPacket", net.minecraft.network.packet.s2c.play.PlayerAbilitiesS2CPacket.class);
         this.put("WorldBorderWarningBlocksChangedS2CPacket", net.minecraft.network.packet.s2c.play.WorldBorderWarningBlocksChangedS2CPacket.class);
         this.put("EntitiesDestroyS2CPacket", net.minecraft.network.packet.s2c.play.EntitiesDestroyS2CPacket.class);
+        this.put("PlayerRemoveS2CPacket", net.minecraft.network.packet.s2c.play.PlayerRemoveS2CPacket.class);
         this.put("UnlockRecipesS2CPacket", net.minecraft.network.packet.s2c.play.UnlockRecipesS2CPacket.class);
         this.put("LightUpdateS2CPacket", net.minecraft.network.packet.s2c.play.LightUpdateS2CPacket.class);
         this.put("OverlayMessageS2CPacket", net.minecraft.network.packet.s2c.play.OverlayMessageS2CPacket.class);
@@ -117,8 +121,10 @@ public final class PacketUtil {
         this.put("OpenHorseScreenS2CPacket", net.minecraft.network.packet.s2c.play.OpenHorseScreenS2CPacket.class);
         this.put("ScreenHandlerPropertyUpdateS2CPacket", net.minecraft.network.packet.s2c.play.ScreenHandlerPropertyUpdateS2CPacket.class);
         this.put("SimulationDistanceS2CPacket", net.minecraft.network.packet.s2c.play.SimulationDistanceS2CPacket.class);
+        this.put("ChatSuggestionsS2CPacket", net.minecraft.network.packet.s2c.play.ChatSuggestionsS2CPacket.class);
         this.put("EnterCombatS2CPacket", net.minecraft.network.packet.s2c.play.EnterCombatS2CPacket.class);
         this.put("DeathMessageS2CPacket", net.minecraft.network.packet.s2c.play.DeathMessageS2CPacket.class);
+        this.put("ProfilelessChatMessageS2CPacket", net.minecraft.network.packet.s2c.play.ProfilelessChatMessageS2CPacket.class);
         this.put("MapUpdateS2CPacket", net.minecraft.network.packet.s2c.play.MapUpdateS2CPacket.class);
         this.put("ScreenHandlerSlotUpdateS2CPacket", net.minecraft.network.packet.s2c.play.ScreenHandlerSlotUpdateS2CPacket.class);
         this.put("BlockEntityUpdateS2CPacket", net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket.class);
@@ -129,7 +135,6 @@ public final class PacketUtil {
         this.put("CommandTreeS2CPacket", net.minecraft.network.packet.s2c.play.CommandTreeS2CPacket.class);
         this.put("ClearTitleS2CPacket", net.minecraft.network.packet.s2c.play.ClearTitleS2CPacket.class);
         this.put("TitleFadeS2CPacket", net.minecraft.network.packet.s2c.play.TitleFadeS2CPacket.class);
-        this.put("ChatPreviewS2CPacket", net.minecraft.network.packet.s2c.play.ChatPreviewS2CPacket.class);
         this.put("PlayerSpawnS2CPacket", net.minecraft.network.packet.s2c.play.PlayerSpawnS2CPacket.class);
         this.put("InventoryS2CPacket", net.minecraft.network.packet.s2c.play.InventoryS2CPacket.class);
         this.put("PlayerActionResponseS2CPacket", net.minecraft.network.packet.s2c.play.PlayerActionResponseS2CPacket.class);
@@ -137,7 +142,6 @@ public final class PacketUtil {
         this.put("WorldBorderWarningTimeChangedS2CPacket", net.minecraft.network.packet.s2c.play.WorldBorderWarningTimeChangedS2CPacket.class);
         this.put("ScoreboardPlayerUpdateS2CPacket", net.minecraft.network.packet.s2c.play.ScoreboardPlayerUpdateS2CPacket.class);
         this.put("QueryPongS2CPacket", net.minecraft.network.packet.s2c.query.QueryPongS2CPacket.class);
-        this.put("ChatPreviewStateChangeS2CPacket", net.minecraft.network.packet.s2c.play.ChatPreviewStateChangeS2CPacket.class);
         this.put("ChatMessageS2CPacket", net.minecraft.network.packet.s2c.play.ChatMessageS2CPacket.class);
         this.put("OpenWrittenBookS2CPacket", net.minecraft.network.packet.s2c.play.OpenWrittenBookS2CPacket.class);
         this.put("PlaySoundFromEntityS2CPacket", net.minecraft.network.packet.s2c.play.PlaySoundFromEntityS2CPacket.class);
@@ -156,7 +160,6 @@ public final class PacketUtil {
         this.put("ParticleS2CPacket", net.minecraft.network.packet.s2c.play.ParticleS2CPacket.class);
         this.put("CloseScreenS2CPacket", net.minecraft.network.packet.s2c.play.CloseScreenS2CPacket.class);
         this.put("ScoreboardDisplayS2CPacket", net.minecraft.network.packet.s2c.play.ScoreboardDisplayS2CPacket.class);
-        this.put("PlaySoundIdS2CPacket", net.minecraft.network.packet.s2c.play.PlaySoundIdS2CPacket.class);
         this.put("LoginSuccessS2CPacket", net.minecraft.network.packet.s2c.login.LoginSuccessS2CPacket.class);
         this.put("GameMessageS2CPacket", net.minecraft.network.packet.s2c.play.GameMessageS2CPacket.class);
         this.put("BlockBreakingProgressS2CPacket", net.minecraft.network.packet.s2c.play.BlockBreakingProgressS2CPacket.class);

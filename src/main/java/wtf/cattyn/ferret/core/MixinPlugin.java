@@ -38,13 +38,13 @@ public class MixinPlugin implements IMixinConfigPlugin
         if( called ) return;
         called = true;
 
-        if( !FabricLoader.getInstance( ).isDevelopmentEnvironment( ) )
-        {
-            LOGGER.info( "Initializing remapper" );
-            long start = System.currentTimeMillis( );
-            MappingManager.getInstance( ).load( );
-            LOGGER.info( "Initialized remapper in " + ( System.currentTimeMillis( ) - start ) + "ms" );
-        }
+        LOGGER.info( "Initializing remapper" );
+        long start = System.currentTimeMillis( );
+        MappingManager.getInstance( ).load( );
+        LOGGER.info( "Initialized remapper in " + ( System.currentTimeMillis( ) - start ) + "ms" );
+
+        if (FabricLoader.getInstance().isDevelopmentEnvironment())
+            return;
 
         MIXINS = ScriptMixinParser.getMixins( );
         if( MIXINS != null && MIXINS.size( ) > 0 )
@@ -85,7 +85,7 @@ public class MixinPlugin implements IMixinConfigPlugin
                 zos.close( );
 
                 ClassLoader cl = Thread.currentThread( ).getContextClassLoader( );
-                Method m = cl.getClass( ).getDeclaredMethod( "addURL", URL.class );
+                Method m = cl.getClass( ).getDeclaredMethod( "addUrlFwd", URL.class );
                 m.setAccessible( true );
                 m.invoke( cl, mixinfile.toURI( ).toURL( ) );
             }
