@@ -66,7 +66,7 @@ public class LuaGlobals implements Globals {
 
     public Block getBlock(double x, double y, double z) {
         if(mc.world == null) return Blocks.AIR;
-        return mc.world.getBlockState(new BlockPos(x, y, z)).getBlock();
+        return mc.world.getBlockState(BlockPos.ofFloored(x, y, z)).getBlock();
     }
 
     public List<Entity> getEntities() {

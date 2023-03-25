@@ -75,7 +75,6 @@ public class LuaRenderer extends DrawableHelper implements Globals {
                 b = (float)(col & 255) / 255.0F;
         BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
         RenderSystem.enableBlend();
-        RenderSystem.disableTexture();
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShader(GameRenderer::getPositionColorProgram);
         bufferBuilder.begin(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR);
@@ -86,7 +85,6 @@ public class LuaRenderer extends DrawableHelper implements Globals {
             bufferBuilder.vertex( stack.peek().getPositionMatrix(), ( float ) (pos.x() + Math.sin( angle ) * radius), ( float ) (pos.y() + Math.cos( angle ) * radius), 0 ).color( r, g, b, a ).next( );
         }
         BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-        RenderSystem.enableTexture();
         RenderSystem.disableBlend();
     }
 
@@ -99,7 +97,6 @@ public class LuaRenderer extends DrawableHelper implements Globals {
         BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
         RenderSystem.setShader(GameRenderer::getPositionColorProgram);
         RenderSystem.enableBlend();
-        RenderSystem.disableTexture();
         RenderSystem.defaultBlendFunc();
         bufferBuilder.begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR);
         double DOUBLE_PI = Math.PI * 2;
@@ -108,7 +105,6 @@ public class LuaRenderer extends DrawableHelper implements Globals {
             bufferBuilder.vertex( stack.peek().getPositionMatrix(), ( float ) (pos.x() + Math.sin( angle ) * radius), ( float ) (pos.y() + Math.cos( angle ) * radius), 0 ).color( r, g, b, a ).next( );
         }
         BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-        RenderSystem.enableTexture();
         RenderSystem.disableBlend();
     }
 
@@ -119,14 +115,12 @@ public class LuaRenderer extends DrawableHelper implements Globals {
         float h = (float)(color.hashCode() & 0xFF) / 255.0f;
         BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
         RenderSystem.enableBlend();
-        RenderSystem.disableTexture();
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShader(GameRenderer::getPositionColorProgram);
         bufferBuilder.begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR);
         bufferBuilder.vertex(stack.peek().getPositionMatrix(), ( float ) from.x(), ( float ) from.y(), 0.0f).color(f, g, h, i2).next();
         bufferBuilder.vertex(stack.peek().getPositionMatrix(), ( float ) to.x(), ( float ) to.y(), 0.0f).color(f, g, h, i2).next();
         BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-        RenderSystem.enableTexture();
         RenderSystem.disableBlend();
     }
 
@@ -280,7 +274,6 @@ public class LuaRenderer extends DrawableHelper implements Globals {
     }
 
     public void setup() {
-        RenderSystem.disableTexture();
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
     }
@@ -294,7 +287,6 @@ public class LuaRenderer extends DrawableHelper implements Globals {
 
     public void clean() {
         RenderSystem.disableBlend();
-        RenderSystem.enableTexture();
     }
 
     public void clean3D() {
