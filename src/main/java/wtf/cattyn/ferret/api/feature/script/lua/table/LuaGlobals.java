@@ -126,6 +126,10 @@ public class LuaGlobals implements Globals {
         }
         return ( T[] ) ints;
     }
+    public void sendMsg(String message) {
+        mc.inGameHud.getChatHud().addToMessageHistory(message);
+        mc.player.networkHandler.sendChatMessage(message);
+    }
 
     public static LuaGlobals getDefault() {
         if(instance == null) instance = new LuaGlobals();
