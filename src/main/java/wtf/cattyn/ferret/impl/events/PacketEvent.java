@@ -1,9 +1,18 @@
 package wtf.cattyn.ferret.impl.events;
 
-import net.minecraft.network.packet.Packet;
+import fuck.you.yarnparser.V1Parser;
+import fuck.you.yarnparser.entry.ClassEntry;
+import net.minecraft.network.Packet;
+import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
+import net.minecraft.util.math.BlockPos;
 import wtf.cattyn.ferret.api.event.Event;
 import wtf.cattyn.ferret.common.impl.util.PacketUtil;
 import wtf.cattyn.ferret.core.Ferret;
+
+import java.lang.reflect.Method;
+import java.util.HashMap;
 
 public abstract class PacketEvent extends Event {
 

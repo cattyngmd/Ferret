@@ -28,12 +28,14 @@ public class MixinInGameHud {
         RenderSystem.disableCull();
         GL11.glEnable(GL11.GL_LINE_SMOOTH);
 
+        RenderSystem.disableTexture();
 
         Render2DEvent event = new Render2DEvent(matrixStack, float_1);
         Ferret.getDefault().getScripts().runCallback("hud", CoerceJavaToLua.coerce(event));
         Ferret.EVENT_BUS.post(event);
 
         RenderSystem.enableDepthTest();
+        RenderSystem.enableTexture();
         GL11.glDisable(GL11.GL_LINE_SMOOTH);
 
     }
