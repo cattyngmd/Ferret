@@ -21,19 +21,4 @@ public final class EventHandler implements Globals {
         ferret().getScripts().runCallback("tick");
     }
 
-    @Subscribe public void onPacketSend(PacketEvent.Send event) {
-        if(event.getPacket() instanceof ChatMessageC2SPacket) {
-            ChatMessageC2SPacket packet = ( ChatMessageC2SPacket ) event.getPacket();
-            if(packet.chatMessage().startsWith(CommandManager.getPrefix())) {
-                try {
-                    CommandManager.DISPATCHER.execute(CommandManager.DISPATCHER.parse(packet.chatMessage().substring(CommandManager.getPrefix().length()), CommandManager.COMMAND_SOURCE));
-                } catch (CommandSyntaxException e) {
-                    e.printStackTrace();
-                } finally {
-                    event.cancel();
-                }
-            }
-        }
-    }
-
 }
