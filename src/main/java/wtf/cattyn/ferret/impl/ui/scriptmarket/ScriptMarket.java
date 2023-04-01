@@ -109,7 +109,7 @@ public class ScriptMarket extends Screen {
 
     @Override public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (searchWidget.isFocused() && keyCode == GLFW.GLFW_KEY_ENTER) {
-            searchWidget.setFocused(false);
+            searchWidget.setTextFieldFocused(false);
         }
         return super.keyPressed(keyCode, scanCode, modifiers);
     }

@@ -1,6 +1,6 @@
 package wtf.cattyn.ferret.common.impl.util;
 
-import net.minecraft.network.packet.Packet;
+import net.minecraft.network.Packet;
 
 import java.util.HashMap;
 import java.util.Map;
