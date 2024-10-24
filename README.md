@@ -2,7 +2,7 @@
 
 # Ferret
 
-![](https://img.shields.io/github/downloads/cattyngmd/ferret/total) ![](https://img.shields.io/github/commit-activity/w/cattyngmd/ferret) ![](https://img.shields.io/tokei/lines/github/cattyngmd/ferret) <a href="https://discord.gg/dbH47Pg4Mf"><img src="https://img.shields.io/discord/928792065649819698" /></a> ![](https://img.shields.io/github/workflow/status/cattyngmd/ferret/Gradle%20Build)
+![](https://img.shields.io/github/downloads/cattyngmd/ferret/total) ![](https://img.shields.io/github/commit-activity/w/cattyngmd/ferret) <a href="https://discord.gg/dbH47Pg4Mf"><img src="https://img.shields.io/discord/928792065649819698" /></a>
 
 Free and open source Minecraft mod with [Lua](https://en.wikipedia.org/wiki/Lua_(programming_language)) scripting API
 
