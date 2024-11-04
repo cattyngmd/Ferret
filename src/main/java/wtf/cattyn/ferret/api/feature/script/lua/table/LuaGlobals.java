@@ -66,7 +66,7 @@ public class LuaGlobals implements Globals {
 
     public Block getBlock(double x, double y, double z) {
         if(mc.world == null) return Blocks.AIR;
-        return mc.world.getBlockState(BlockPos.ofFloored(x, y, z)).getBlock();
+        return mc.world.getBlockState(new BlockPos(x, y, z)).getBlock();
     }
 
     public List<Entity> getEntities() {
@@ -125,6 +125,10 @@ public class LuaGlobals implements Globals {
             ints[j - 1] = CoerceLuaToJava.coerce(table.get(j), type);
         }
         return ( T[] ) ints;
+    }
+    public void sendMsg(String message) {
+        mc.inGameHud.getChatHud().addToMessageHistory(message);
+        mc.player.networkHandler.sendChatMessage(message);
     }
 
     public static LuaGlobals getDefault() {

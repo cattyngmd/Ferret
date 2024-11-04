@@ -12,7 +12,6 @@ public class TablistToggle extends Module {
     public TablistToggle() {
         super("TablistToggle", "Toggle tablist using tab key", Category.VISUAL);
     }
-
     @Subscribe
     public void onTick(TickEvent e) {
         if (tablistToggled) mc.options.playerListKey.setPressed(true);
